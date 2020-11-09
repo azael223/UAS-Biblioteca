@@ -1,6 +1,6 @@
-export interface Cuibuclo {
+export interface EquipoComputo {
   id?: number;
-  nombre: string;
+  status: string;
   creadoEn?: string;
   actualizadoEn?: string;
 }
