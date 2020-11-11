@@ -1,4 +1,4 @@
-export interface registro {
+export interface Registro {
   id?: number;
   ur: string;
   area: string;

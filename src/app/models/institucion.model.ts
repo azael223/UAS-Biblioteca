@@ -1,6 +1,7 @@
 export interface Institucion {
   id?: number;
-  status: string;
+  nombre: string;
+  abrev: string;
   creadoEn?: string;
   actualizadoEn?: string;
 }

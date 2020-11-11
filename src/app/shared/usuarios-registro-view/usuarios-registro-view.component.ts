@@ -1,0 +1,46 @@
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { Registro } from '@models/registro.model';
+import { UsuarioRegistro } from '@models/usuarioRegistro.model';
+import { Institucion } from '@models/institucion.model';
+import { BibliotecaApiService } from '@services/biblioteca-api.service';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
+@Component({
+  selector: 'app-usuarios-registro-view',
+  templateUrl: './usuarios-registro-view.component.html',
+  styleUrls: ['./usuarios-registro-view.component.scss'],
+})
+export class UsuariosRegistroViewComponent
+  implements OnInit, AfterViewInit, OnDestroy {
+  private onDestroy = new Subject<any>();
+
+  constructor(private _api: BibliotecaApiService) {}
+
+  /* REQUESTS */
+  getUsuariosRegistro() {
+    return this._api.getObjects('RegUsuarios', { idRegistro: 1 });
+  }
+
+  getInstituciones() {
+    return this._api.getObjects('Instituciones');
+  }
+
+  ngOnInit(): void {}
+
+  ngAfterViewInit() {
+    this.getUsuariosRegistro();
+  }
+
+  ngOnDestroy() {
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
+  }
+}

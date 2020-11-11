@@ -1,5 +1,5 @@
-export interface usuarioRegistro {
-  idRegistroCubiculo: number;
+export interface UsuarioRegistro {
+  idRegistro: number;
   id?: number;
   idInstitucion: number;
   idCubiculo: number;

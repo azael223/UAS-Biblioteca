@@ -1,4 +1,4 @@
-export interface usuarioRegRecElec {
+export interface UsuarioRegRecElec {
   idRegRecElec: number;
   id?: number;
   idInstitucion: number;

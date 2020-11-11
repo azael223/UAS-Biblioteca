@@ -4,29 +4,29 @@ import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root',
 })
-  export class BibliotecaApiService {
+export class BibliotecaApiService {
+  private apiURL = 'http://localhost:8000/api';
 
-    private apiURL = 'http://localhost:8000/api'
+  constructor(private _http: HttpClient) {}
 
-    constructor(private _http: HttpClient) {}
-
-  public getObject = (id: string,model:string) => {
-    return this._http.get(`${this.apiURL}/${model}/${id}`)
+  public getObject = (id: number, model: string) => {
+    return this._http.get(`${this.apiURL}/${model}/${id}`);
   };
 
-  public createObject = (object: any,model:string) => {
-    return this._http.post(`${this.apiURL}/${model}/Create`,object)
+  public createObject = (object: any, model: string) => {
+    return this._http.post(`${this.apiURL}/${model}/Create`, object);
   };
 
-  public getObjects = (model:string) => {
-    return this._http.get(`${this.apiURL}/${model}/`)
+  public getObjects = (model: string,whereObject?:any) => {
+    const whereObjectStr = whereObject ? `?where=${JSON.stringify(whereObject)}` : ""
+    return this._http.get(`${this.apiURL}/${model}/${whereObjectStr}`,);
   };
 
-  public updateObject = (object: any,model:string) => {
-    return this._http.post(`${this.apiURL}/${model}/`,object)
+  public updateObject = (object: any, model: string) => {
+    return this._http.post(`${this.apiURL}/${model}/Update`, object);
   };
 
-  public deleteObject = (id: string,model:string) => {
-    return this._http.delete(`${this.apiURL}/${model}/${id}`)
+  public deleteObject = (id: number, model: string) => {
+    return this._http.delete(`${this.apiURL}/${model}/Delete/${id}`);
   };
 }
