@@ -1,17 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { SharedRoutingModule } from './shared-routing.module';
 
-import { UserRegistryViewComponent } from './templates/user-registry-view/user-registry-view.component';
-import { UsuariosRegistroViewComponent } from './usuarios-registro-view/usuarios-registro-view.component';
-
-
+import { NavbarComponent } from './navbar/navbar.component';
+import { SharedComponent } from './shared.component';
+import { UsuariosRegistroViewModule } from './components/usuarios-registro-view/usuarios-registro-view.module';
 
 @NgModule({
-  declarations: [UsuariosRegistroViewComponent],
-  imports: [
-    CommonModule
-  ]
+  declarations: [NavbarComponent, SharedComponent],
+  imports: [CommonModule, SharedRoutingModule, UsuariosRegistroViewModule],
 })
-export class SharedModule { }
+export class SharedModule {}

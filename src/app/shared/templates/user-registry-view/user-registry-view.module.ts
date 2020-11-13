@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { UserRegistryViewRoutingModule } from './user-registry-view-routing.module';
+import { UserRegistryViewComponent } from './user-registry-view.component';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [UserRegistryViewComponent],
   imports: [
-    CommonModule,
-    UserRegistryViewRoutingModule
-  ]
+    CommonModule
+  ],
+  exports:[UserRegistryViewComponent]
 })
 export class UserRegistryViewModule { }
