@@ -12,6 +12,12 @@ import { Institucion } from '@models/institucion.model';
 import { BibliotecaApiService } from '@services/biblioteca-api.service';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import {
+  MatDialog,
+  MAT_DIALOG_DATA,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import { UsuariosRegistroComponent } from './usuarios-registro/usuarios-registro.component';
 
 @Component({
   selector: 'app-usuarios-registro-view',
@@ -22,21 +28,31 @@ export class UsuariosRegistroViewComponent
   implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<any>();
 
-  constructor(private _api: BibliotecaApiService) {}
+  constructor(private _api: BibliotecaApiService, private _dialog: MatDialog) {}
 
   /* REQUESTS */
-  getUsuariosRegistro() {
-    return this._api.getObjects('RegUsuarios', { idRegistro: 1 });
-  }
+  // getUsuariosRegistro() {
+  //   return this._api.getObjects('RegUsuarios', { idRegistro: 1 });
+  // }
 
-  getInstituciones() {
-    return this._api.getObjects('Instituciones');
+  // getInstituciones() {
+  //   return this._api.getObjects('Instituciones');
+  // }
+
+  openUserReg() {
+    const dialogRef = this._dialog.open(UsuariosRegistroComponent, {
+
+      data:{id:1}
+    });
+    dialogRef.afterClosed().pipe(takeUntil(this.onDestroy)).subscribe(result=>{
+
+    })
   }
 
   ngOnInit(): void {}
 
   ngAfterViewInit() {
-    this.getUsuariosRegistro();
+    // this.getUsuariosRegistro();
   }
 
   ngOnDestroy() {

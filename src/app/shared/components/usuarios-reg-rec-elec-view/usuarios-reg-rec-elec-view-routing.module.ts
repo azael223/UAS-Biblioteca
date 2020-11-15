@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { UsuariosRegCubiculosViewComponent } from '../usuarios-reg-cubiculos-view/usuarios-reg-cubiculos-view.component';
+import { UsuariosRegRecElecViewComponent } from './usuarios-reg-rec-elec-view.component';
 
 const routes: Routes = [
-  { path: '', component: UsuariosRegCubiculosViewComponent },
+  { path: '', component: UsuariosRegRecElecViewComponent },
 ];
 
 @NgModule({

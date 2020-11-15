@@ -28,6 +28,7 @@ const routes: Routes = [
             './components/usuarios-reg-rec-elec-view/usuarios-reg-rec-elec-view.module'
           ).then((m) => m.UsuariosRegRecElecViewModule),
       },
+      { path: '', redirectTo: 'biblioteca' },
     ],
   },
 ];

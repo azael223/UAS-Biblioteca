@@ -7,7 +7,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('./shared/shared.module').then((m) => m.SharedModule),
   },
-  { path: '', pathMatch: 'full', redirectTo: 'shared' },
+  { path: '**', pathMatch: 'full', redirectTo: 'shared' },
 
 ];
 

@@ -1,10 +1,10 @@
-<div class="container-fluid">
+<div class="container">
   <!--  -->
   <form action="">
     <div class="row">
       <!-- NAME -->
-      <div class="form-group">
-        <label for=""></label>
+      <div class="form-group col-12">
+        <label for="">Nombre</label>
         <input type="text" class="form-control" formControlName="name" />
         <small class="form-text text-danger"
           >Ingrese un nombre valido, solo letras y al menos 2 letras</small
@@ -12,7 +12,7 @@
       </div>
 
       <!-- GENRE -->
-      <div>
+      <div class="col-12">
         <div class="form-check form-check-inline">
           <input
             class="form-check-input"
@@ -21,6 +21,7 @@
             id="male_radio"
             formControlName="genre"
             value="M"
+            checked
           />
           <label class="form-check-label" for="male_radio"> Masculino </label>
         </div>
@@ -38,7 +39,8 @@
       </div>
 
       <!-- USER TYPE -->
-      <div>
+      <div class="form-group col-12">
+        <label for="">Tipo de usuario</label>
         <div class="form-check form-check-inline">
           <input
             class="form-check-input"
@@ -47,6 +49,7 @@
             id="intern_radio"
             formControlName="userType"
             value="I"
+            checked
           />
           <label class="form-check-label" for="intern_radio"> Interno </label>
         </div>
@@ -63,8 +66,8 @@
         </div>
       </div>
       <!-- INSTITUTION -->
-      <div class="form-group">
-        <input type="text" matInput formControl="institution" [matAutocomplete]="auto">
+      <div class="form-group col-12">
+        <input type="text" matInput formControl="institution" class="form-control" [matAutocomplete]="auto" placeholder="Seleccione la institución a la que pertenece">
         <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
           <mat-option *ngFor="let institucion of filteredInstituciones | async" [value]="institucion">
             {{institucion.nombre}}

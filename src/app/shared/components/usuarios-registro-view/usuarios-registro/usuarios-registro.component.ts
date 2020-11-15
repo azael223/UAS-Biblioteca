@@ -1,6 +1,7 @@
 import {
   AfterViewInit,
   Component,
+  Inject,
   Input,
   OnDestroy,
   OnInit,
@@ -12,6 +13,11 @@ import { Institucion } from '@models/institucion.model';
 import { BibliotecaApiService } from '@services/biblioteca-api.service';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith, takeUntil } from 'rxjs/operators';
+import {
+  MatDialog,
+  MatDialogRef,
+  MAT_DIALOG_DATA,
+} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-usuarios-registro',
@@ -25,7 +31,12 @@ export class UsuariosRegistroComponent
   private instituciones: Institucion[];
   public filteredInstituciones: Observable<Institucion[]>;
 
-  constructor(private _api: BibliotecaApiService, private _fb: FormBuilder) {}
+  constructor(
+    private _api: BibliotecaApiService,
+    private _fb: FormBuilder,
+    private _dialogRef: MatDialogRef<UsuariosRegistroComponent>,
+    @Inject(MAT_DIALOG_DATA) private data: any
+  ) {}
 
   public form = this._fb.group({
     name: new FormControl('', [Validators.required]),
@@ -61,6 +72,10 @@ export class UsuariosRegistroComponent
     return this.instituciones.filter((institucion: Institucion) =>
       institucion.nombre.toLowerCase().includes(filterValue)
     );
+  }
+
+  onNoClick(){
+    this._dialogRef.close()
   }
 
   ngOnInit(): void {}
