@@ -1,4 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+
+export interface user{
+  id:number
+  name:string
+}
 
 @Component({
   selector: 'app-user-registry-view',
@@ -7,11 +12,15 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class UserRegistryViewComponent implements OnInit {
 
-  @Input('users') users
+  @Input('users') users : user[]
+  @Output() onChecked = new EventEmitter<number>()
 
   public displayedColumns = ["pos","name","check"]
 
   constructor() { }
+
+  checkUser(){
+  }
 
   ngOnInit(): void {
   }

@@ -7,8 +7,12 @@ const routes: Routes = [
     loadChildren: () =>
       import('./shared/shared.module').then((m) => m.SharedModule),
   },
+  {
+    path: 'admin',
+    loadChildren: () =>
+      import('./admin/admin.module').then((m) => m.AdminModule),
+  },
   { path: '**', pathMatch: 'full', redirectTo: 'shared' },
-
 ];
 
 @NgModule({

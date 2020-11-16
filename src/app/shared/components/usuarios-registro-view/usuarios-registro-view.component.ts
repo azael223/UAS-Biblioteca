@@ -18,6 +18,7 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { UsuariosRegistroComponent } from './usuarios-registro/usuarios-registro.component';
+import { user } from '../../templates/user-registry-view/user-registry-view.component'
 
 @Component({
   selector: 'app-usuarios-registro-view',
@@ -27,6 +28,7 @@ import { UsuariosRegistroComponent } from './usuarios-registro/usuarios-registro
 export class UsuariosRegistroViewComponent
   implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<any>();
+  public users:user[]
 
   constructor(private _api: BibliotecaApiService, private _dialog: MatDialog) {}
 
@@ -49,7 +51,9 @@ export class UsuariosRegistroViewComponent
     })
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.users=[{id:123,name:"sd"}]
+  }
 
   ngAfterViewInit() {
     // this.getUsuariosRegistro();
