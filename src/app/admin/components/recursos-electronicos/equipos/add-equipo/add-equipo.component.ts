@@ -8,9 +8,10 @@ import {
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { EquipoComputo ,STATUS_EQUIPO} from '@models/equipoComputo.model';
+import { EquipoComputo, STATUS_EQUIPO } from '@models/equipoComputo.model';
 import { MODELS } from '@models/Models';
 import { BibliotecaApiService } from '@services/biblioteca-api.service';
+import * as moment from 'moment';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -20,7 +21,7 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./add-equipo.component.scss'],
 })
 export class AddEquipoComponent implements OnInit, AfterViewInit, OnDestroy {
-  public equipoStatus = STATUS_EQUIPO
+  public equipoStatus = STATUS_EQUIPO;
 
   public form = this._fb.group({
     name: new FormControl('', [Validators.required, Validators.minLength(2)]),
@@ -43,15 +44,22 @@ export class AddEquipoComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.form.get('status').value;
   }
 
-  performRequest(request: string) {
+  openRequest() {
     if (this.form.valid) {
-      const equipo: EquipoComputo = {
+      const newEquipo: EquipoComputo = {
         nombre: this.name,
         status: this.status,
       };
-      if (request.toUpperCase() === 'CREATE') {
-        this.createEquipo(equipo);
-      } else if (request.toUpperCase() === 'EDIT') {
+      if (this.data) {
+        const editEquipo:EquipoComputo = {
+          ...this.data,
+          ...newEquipo,
+          actualizadoEn:moment().format('YYYY-MM-DD HH:mm:ss')
+        }
+        delete editEquipo.creadoEn
+        this.editEquipo(editEquipo);
+      } else {
+        this.createEquipo(newEquipo);
       }
     }
   }
@@ -62,15 +70,31 @@ export class AddEquipoComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy))
       .subscribe(
         (data) => {
-          console.log(data)
-          this.openSnackBar(`Equipo "${this.name}" creado`);
-          this.onNoClick();
+          if (data) {
+            this.openSnackBar(`Equipo "${this.name} creado"`);
+            this.onNoClick();
+          }
         },
         () => {
-          this.openSnackBar(`Error al crear "${this.name}"`);
+          this.openSnackBar(`Error al crear el equipo "${this.name}"`);
         }
       );
   }
+
+editEquipo(equipo:EquipoComputo){
+  this._api
+  .updateObject(equipo, MODELS.EQUIPOS_COMPUTO)
+  .pipe(takeUntil(this.onDestroy))
+  .subscribe((data) => {
+    if (data) {
+      this.onNoClick()
+      this.openSnackBar(`Equipo "${this.name}" actualizado`);
+    }
+  },()=>{
+    this.openSnackBar(`Error al actualizar equipo "${this.name}"`)
+  });
+}
+
 
   onNoClick() {
     this._dialogRef.close();
@@ -84,7 +108,14 @@ export class AddEquipoComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {}
 
-  ngAfterViewInit(): void {}
+  ngAfterViewInit(): void {
+    if (this.data) {
+      this.form.patchValue({
+        name: this.data.nombre,
+        status: this.data.status,
+      });
+    }
+  }
 
   ngOnDestroy(): void {
     this.onDestroy.next();

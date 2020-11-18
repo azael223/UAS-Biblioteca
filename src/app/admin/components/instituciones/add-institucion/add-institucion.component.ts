@@ -11,6 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Institucion } from '@models/institucion.model';
 import { MODELS } from '@models/Models';
 import { BibliotecaApiService } from '@services/biblioteca-api.service';
+import * as moment from 'moment';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -32,7 +33,7 @@ export class AddInstitucionComponent
     private _fb: FormBuilder,
     private _snackBar: MatSnackBar,
     private _dialogRef: MatDialogRef<AddInstitucionComponent>,
-    @Inject(MAT_DIALOG_DATA) data?: Institucion
+    @Inject(MAT_DIALOG_DATA) public data?: Institucion
   ) {}
 
   get name() {
@@ -43,15 +44,22 @@ export class AddInstitucionComponent
     return this.form.get('abbrv').value;
   }
 
-  openRequest(request: string) {
+  openRequest() {
     if (this.form.valid) {
       const newInstitucion: Institucion = {
         nombre: this.name,
         abrev: this.abbrv,
       };
-      if (request.toUpperCase() === 'CREATE') {
+      if (this.data) {
+        const editInstitucion:Institucion = {
+          ...this.data,
+          ...newInstitucion,
+          actualizadoEn:moment().format('YYYY-MM-DD HH:mm:ss')
+        }
+        delete editInstitucion.creadoEn
+        this.editInstitucion(editInstitucion);
+      } else {
         this.createInstitucion(newInstitucion);
-      } else if (request.toUpperCase() === 'EDIT') {
       }
     }
   }
@@ -63,15 +71,29 @@ export class AddInstitucionComponent
       .subscribe(
         (data) => {
           if (data) {
-            this.openSnackBar(`Institucion "${this.name} creada"`);
+            this.openSnackBar(`Institución "${this.name} creada"`);
             this.onNoClick();
           }
         },
         () => {
-          this.openSnackBar(`Error al crear la institucion "${this.name}"`);
+          this.openSnackBar(`Error al crear la institución "${this.name}"`);
         }
       );
   }
+
+editInstitucion(institucion:Institucion){
+  this._api
+  .updateObject(institucion, MODELS.INSTITUCIONES)
+  .pipe(takeUntil(this.onDestroy))
+  .subscribe((data) => {
+    if (data) {
+      this.onNoClick()
+      this.openSnackBar(`Institución "${this.name}" actualizada`);
+    }
+  },()=>{
+    this.openSnackBar(`Error al actualizar institución "${this.name}"`)
+  });
+}
 
   openSnackBar(message: string) {
     this._snackBar.open(message, 'X', {
@@ -85,7 +107,15 @@ export class AddInstitucionComponent
 
   ngOnInit(): void {}
 
-  ngAfterViewInit(): void {}
+  ngAfterViewInit(): void {
+    if(this.data){
+      console.log(this.data)
+      this.form.patchValue({
+        name:this.data.nombre,
+        abbrv:this.data.abrev
+      })
+    }
+  }
 
   ngOnDestroy(): void {
     this.onDestroy.next();

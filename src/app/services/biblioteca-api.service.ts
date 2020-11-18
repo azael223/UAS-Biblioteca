@@ -26,7 +26,7 @@ export class BibliotecaApiService {
     return this._http.post(`${this.apiURL}/${model}/Update`, object);
   };
 
-  public deleteObject = (id: number, model: string) => {
-    return this._http.delete(`${this.apiURL}/${model}/Delete/${id}`);
+  public deleteObject = (object: any, model: string) => {
+    return this._http.delete(`${this.apiURL}/${model}/Delete`,object);
   };
 }

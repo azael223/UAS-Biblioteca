@@ -16,6 +16,7 @@ import { MODELS } from '@models/Models';
 import { BibliotecaApiService } from '@services/biblioteca-api.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import * as moment from 'moment'
 
 @Component({
   selector: 'app-add-cubiculo',
@@ -44,15 +45,21 @@ export class AddCubiculoComponent implements OnInit, OnDestroy, AfterViewInit {
     return this.form.get('name').value;
   }
 
-  openRequest(request: string) {
-    console.log(this.form)
+  openRequest() {
     if (this.form.valid) {
       const cubiculo: Cubiculo = {
         nombre: this.name,
       };
-      if (request.toUpperCase() == 'CREATE') {
+      if (this.data) {
+        const editCubiculo:Cubiculo={
+          ...this.data,
+          ...cubiculo,
+          actualizadoEn:moment().format('YYYY-MM-DD HH:mm:ss')
+        }
+        delete editCubiculo.creadoEn
+        this.editCubiculo(editCubiculo)
+      } else{
         this.createCubiculo(cubiculo);
-      } else if (request.toUpperCase() === 'EDIT') {
       }
     }
   }
@@ -70,6 +77,19 @@ export class AddCubiculoComponent implements OnInit, OnDestroy, AfterViewInit {
         this.openSnackBar(`Error en crear cubiculo "${this.name}"`)
       });
   }
+  editCubiculo(cubiculo:Cubiculo){
+    this._api
+    .updateObject(cubiculo, MODELS.CUBICULO)
+    .pipe(takeUntil(this.onDestroy))
+    .subscribe((data) => {
+      if (data) {
+        this.onNoClick()
+        this.openSnackBar(`Cubiculo "${this.name}" actualizado`);
+      }
+    },()=>{
+      this.openSnackBar(`Error al actualizar cubiculo "${this.name}"`)
+    });
+  }
 
   onNoClick() {
     this._dialogRef.close();
@@ -83,7 +103,13 @@ export class AddCubiculoComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {}
 
-  ngAfterViewInit(): void {}
+  ngAfterViewInit(): void {
+    if(this.data){
+      this.form.patchValue({
+        name:this.data.nombre
+      })
+    }
+  }
 
   ngOnDestroy(): void {
     this.onDestroy.next();

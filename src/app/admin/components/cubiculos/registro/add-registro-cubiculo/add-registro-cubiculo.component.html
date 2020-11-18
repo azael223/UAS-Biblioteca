@@ -2,21 +2,40 @@
   <form [formGroup]="form">
     <div class="row">
       <div class="col-12">
-        <h1>Nuevo Cubiculo</h1>
+        <h1>Nuevo Registro Cubiculo</h1>
       </div>
       <div class="col-12">
         <div class="form-group">
-          <label for="name">Nombre *</label>
+          <label for="name">Biblioteca *</label>
           <input
             type="text"
             class="form-control"
-            formControlName="name"
-            id="name"
-            aria-describedby="nameError"
+            formControlName="biblioteca"
+            id="biblioteca"
+            aria-describedby="bibliotecaError"
           />
           <small
-            *ngIf="form.get('name').invalid && form.get('name').touched"
-            id="nameError"
+            *ngIf="form.get('biblioteca').invalid && form.get('biblioteca').touched"
+            id="bibliotecaError"
+            class="form-text text-danger"
+            >Debe tener almenos 2 letras</small
+          >
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="form-group">
+          <label for="name">UR *</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="ur"
+            id="ur"
+            aria-describedby="urError"
+          />
+          <small
+            *ngIf="form.get('ur').invalid && form.get('ur').touched"
+            id="urError"
             class="form-text text-danger"
             >Debe tener almenos 2 letras</small
           >

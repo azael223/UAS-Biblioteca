@@ -9,3 +9,9 @@ export const MODELS = {
   REG_USUARIOS: 'RegUsuarios',
   REGISTROS: 'Registros',
 };
+
+export const TURNOS = {
+  M:'Matutino',
+  V:'Vespertino',
+  N:'Nocturno'
+}

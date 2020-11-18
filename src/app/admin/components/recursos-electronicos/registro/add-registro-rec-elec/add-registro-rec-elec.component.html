@@ -2,30 +2,32 @@
   <form [formGroup]="form">
     <div class="row">
       <div class="col-12">
-        <h1>Nuevo Equipo</h1>
+        <h1>Nuevo Registro Recursos Electrónicos</h1>
       </div>
+
       <div class="col-12">
         <div class="form-group">
-          <label for="name">Nombre *</label>
+          <label for="area">Area *</label>
           <input
-            formControlName="name"
+            formControlName="area"
             type="text"
             class="form-control"
-            id="name"
-            aria-describedby="nameError"
+            id="area"
+            aria-describedby="areaError"
           />
           <small
-            *ngIf="form.get('name').invalid && form.get('name').touched"
-            id="nameError"
+            *ngIf="form.get('area').invalid && form.get('area').touched"
+            id="areaError"
             class="form-text text-danger"
             >Debe tener al menos 2 letras</small
           >
         </div>
       </div>
+
       <div class="form-group col-12">
-        <label for="status">Status</label>
-        <select class="form-control" id="status" formControlName="status">
-          <option *ngFor="let status of equipoStatus | keyvalue" [value]="status.key">{{status.value}}</option>
+        <label for="turno">Status</label>
+        <select class="form-control" id="turno" formControlName="turno">
+          <option *ngFor="let turno of turnos | keyvalue" [value]="turno.key">{{turno.value}}</option>
         </select>
       </div>
       <div class="col-6">

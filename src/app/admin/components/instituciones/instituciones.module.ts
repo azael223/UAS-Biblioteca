@@ -6,6 +6,8 @@ import { InstitucionesComponent } from './instituciones.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatDialogModule } from '@angular/material/dialog';
 import { AddInstitucionModule } from './add-institucion/add-institucion.module';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ConfirmDialogModule } from 'app/templates/dialogs/confirm-dialog/confirm-dialog.module';
 
 @NgModule({
   declarations: [InstitucionesComponent],
@@ -14,7 +16,9 @@ import { AddInstitucionModule } from './add-institucion/add-institucion.module';
     InstitucionesRoutingModule,
     MatTableModule,
     MatDialogModule,
-    AddInstitucionModule
+    AddInstitucionModule,
+    MatSnackBarModule,
+    ConfirmDialogModule
   ],
 })
 export class InstitucionesModule {}

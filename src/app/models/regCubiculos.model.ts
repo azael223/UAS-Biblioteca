@@ -3,4 +3,5 @@ export interface RegCubiculos {
   ur: string;
   biblioteca: string;
   creadoEn?: string;
+  actualizadoEn?: string;
 }

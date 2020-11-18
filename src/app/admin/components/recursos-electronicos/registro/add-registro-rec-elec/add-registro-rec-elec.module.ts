@@ -1,19 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AddCubiculoComponent } from './add-cubiculo.component';
+import { AddRegistroRecElecComponent } from './add-registro-rec-elec.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 
 @NgModule({
-  declarations: [AddCubiculoComponent],
+  declarations: [AddRegistroRecElecComponent],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    MatSnackBarModule,
+    MatDialogModule,
+    MatSnackBarModule
   ],
-  exports:[AddCubiculoComponent]
+  exports:[AddRegistroRecElecComponent]
 })
-export class AddCubiculoModule { }
+export class AddRegistroRecElecModule { }
