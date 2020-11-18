@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTable } from '@angular/material/table';
-import { MODELS } from '@models/Models';
+import { MODELS, TURNOS } from '@models/Models';
 import { Registro } from '@models/registro.model';
 import { BibliotecaApiService } from '@services/biblioteca-api.service';
 import { ConfirmDialogComponent } from 'app/templates/dialogs/confirm-dialog/confirm-dialog.component';
@@ -21,6 +21,7 @@ export class RegistrosComponent implements OnInit,AfterViewInit,OnDestroy {
   public objects: Registro[];
   public displayedColumns = ['pos', 'ur', 'area','turno', 'date', 'options'];
   private onDestroy = new Subject<any>();
+  public turnos = TURNOS
 
   constructor(
     private _api: BibliotecaApiService,
