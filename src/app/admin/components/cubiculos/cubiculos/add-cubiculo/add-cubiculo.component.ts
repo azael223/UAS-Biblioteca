@@ -70,7 +70,7 @@ export class AddCubiculoComponent implements OnInit, OnDestroy, AfterViewInit {
       .pipe(takeUntil(this.onDestroy))
       .subscribe((data) => {
         if (data) {
-          this.onNoClick()
+          this.onNoClick(true)
           this.openSnackBar(`Cubiculo "${this.name}" creado`);
         }
       },()=>{
@@ -83,7 +83,7 @@ export class AddCubiculoComponent implements OnInit, OnDestroy, AfterViewInit {
     .pipe(takeUntil(this.onDestroy))
     .subscribe((data) => {
       if (data) {
-        this.onNoClick()
+        this.onNoClick(true)
         this.openSnackBar(`Cubiculo "${this.name}" actualizado`);
       }
     },()=>{
@@ -91,8 +91,8 @@ export class AddCubiculoComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  onNoClick() {
-    this._dialogRef.close();
+  onNoClick(hasChanges?:boolean) {
+    this._dialogRef.close(hasChanges);
   }
 
   openSnackBar(message: string) {
