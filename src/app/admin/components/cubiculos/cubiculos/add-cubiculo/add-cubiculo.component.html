@@ -1,0 +1,46 @@
+<div class="container">
+  <form [formGroup]="form">
+    <div class="row">
+      <div class="col-12">
+        <h1>Nuevo Cubiculo</h1>
+      </div>
+      <div class="col-12">
+        <div class="form-group">
+          <label for="name">Nombre *</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="name"
+            id="name"
+            aria-describedby="nameError"
+          />
+          <small
+            *ngIf="form.get('name').invalid && form.get('name').touched"
+            id="nameError"
+            class="form-text text-danger"
+            >Debe tener almenos 2 letras</small
+          >
+        </div>
+      </div>
+
+      <div class="col-6">
+        <button
+          type="button"
+          class="btn btn-primary btn-block"
+          (click)="openRequest()"
+        >
+          <i class="fas fa-save fa-lg"></i>
+        </button>
+      </div>
+      <div class="col-6">
+        <button
+          type="button"
+          class="btn btn-secondary btn-block"
+          (click)="onNoClick()"
+        >
+          <i class="fas fa-times fa-lg"></i>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

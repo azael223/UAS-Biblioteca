@@ -1,4 +1,4 @@
-export interface Cuibuclo {
+export interface Cubiculo {
   id?: number;
   nombre: string;
   creadoEn?: string;

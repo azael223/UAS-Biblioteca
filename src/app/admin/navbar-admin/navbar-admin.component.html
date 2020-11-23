@@ -1,0 +1,59 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand">Biblioteca</a>
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarNav"
+    aria-controls="navbarNav"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="biblioteca">Biblioteca</a>
+      </li>
+      <li class="nav-item dropdown" routerLinkActive="active">
+        <a
+          class="nav-link dropdown-toggle"
+          id="cubiculosDropdown"
+          role="button"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+          >Cubiculos</a
+        >
+        <div class="dropdown-menu" aria-labelledby="cubiculosDropdown">
+          <a class="dropdown-item" routerLink="cubiculos/registros">Registros</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" routerLink="cubiculos/cubiculos">Cubiculos</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown" routerLinkActive="active">
+        <a
+          class="nav-link dropdown-toggle"
+          id="reDropdown"
+          role="button"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+          >Recursos electrónicos</a
+        >
+        <div class="dropdown-menu" aria-labelledby="reDropdown">
+          <a class="dropdown-item" routerLink="recursos-electronicos/registros">Registros</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" routerLink="recursos-electronicos/equipos">Equipos</a>
+        </div>
+      </li>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="instituciones">Instituciones</a>
+      </li>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="reportes">Reportes</a>
+      </li>
+    </ul>
+  </div>
+</nav>

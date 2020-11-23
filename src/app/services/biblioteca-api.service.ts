@@ -17,8 +17,8 @@ export class BibliotecaApiService {
     return this._http.post(`${this.apiURL}/${model}/Create`, object);
   };
 
-  public getObjects = (model: string,whereObject?:any) => {
-    const whereObjectStr = whereObject ? `?where=${JSON.stringify(whereObject)}` : ""
+  public getObjects = (model: string,filterObject?:any) => {
+    const whereObjectStr = filterObject ? `?filters=${JSON.stringify(filterObject)}` : ""
     return this._http.get(`${this.apiURL}/${model}/${whereObjectStr}`,);
   };
 
@@ -26,7 +26,7 @@ export class BibliotecaApiService {
     return this._http.post(`${this.apiURL}/${model}/Update`, object);
   };
 
-  public deleteObject = (id: number, model: string) => {
-    return this._http.delete(`${this.apiURL}/${model}/Delete/${id}`);
+  public deleteObject = (object: any, model: string) => {
+    return this._http.delete(`${this.apiURL}/${model}/Delete`,object);
   };
 }

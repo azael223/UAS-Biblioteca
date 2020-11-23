@@ -1,0 +1,49 @@
+<div class="container">
+  <form [formGroup]="form">
+    <div class="row">
+      <div class="col-12">
+        <h1>Nuevo Registro Recursos Electrónicos</h1>
+      </div>
+
+      <div class="col-12">
+        <div class="form-group">
+          <label for="area">Area *</label>
+          <input
+            formControlName="area"
+            type="text"
+            class="form-control"
+            id="area"
+            aria-describedby="areaError"
+          />
+          <small
+            *ngIf="form.get('area').invalid && form.get('area').touched"
+            id="areaError"
+            class="form-text text-danger"
+            >Debe tener al menos 2 letras</small
+          >
+        </div>
+      </div>
+
+      <div class="form-group col-12">
+        <label for="turno">Status</label>
+        <select class="form-control" id="turno" formControlName="turno">
+          <option *ngFor="let turno of turnos | keyvalue" [value]="turno.key">{{turno.value}}</option>
+        </select>
+      </div>
+      <div class="col-6">
+        <button type="button" class="btn btn-primary btn-block" (click)="openRequest()">
+          <i class="fas fa-save"></i>
+        </button>
+      </div>
+      <div class="col-6">
+        <button
+          type="button"
+          class="btn btn-secondary btn-block"
+          (click)="onNoClick()"
+        >
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,79 @@
+<div class="container">
+  <!--  -->
+  <form [formGroup]="form">
+    <div class="row">
+      <!-- NAME -->
+      <div class="form-group col-12">
+        <label for="">Nombre</label>
+        <input type="text" class="form-control" formControlName="name" />
+        <small class="form-text text-danger"
+          >Ingrese un nombre valido, solo letras y al menos 2 letras</small
+        >
+      </div>
+
+      <!-- GENRE -->
+      <div class="col-12">
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="genre"
+            id="male_radio"
+            formControlName="genre"
+            value="M"
+            checked
+          />
+          <label class="form-check-label" for="male_radio"> Masculino </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="genre"
+            id="female_radio"
+            formControlName="genre"
+            value="F"
+          />
+          <label class="form-check-label" for="female_radio"> Femenino </label>
+        </div>
+      </div>
+
+      <!-- USER TYPE -->
+      <div class="form-group col-12">
+        <label for="">Tipo de usuario</label>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="userType"
+            id="intern_radio"
+            formControlName="userType"
+            value="I"
+            checked
+          />
+          <label class="form-check-label" for="intern_radio"> Interno </label>
+        </div>
+        <div class="form-check form-check-inline">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="userType"
+            id="extern_radio"
+            formControlName="userType"
+            value="E"
+          />
+          <label class="form-check-label" for="externRadio"> Externo </label>
+        </div>
+      </div>
+      <!-- INSTITUTION -->
+      <div class="form-group col-12">
+        <input type="text" matInput formControl="institution" class="form-control" [matAutocomplete]="auto" placeholder="Seleccione la institución a la que pertenece">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+          <mat-option *ngFor="let institucion of filteredInstituciones | async" [value]="institucion">
+            {{institucion.nombre}}
+          </mat-option>
+        </mat-autocomplete>
+      </div>
+    </div>
+  </form>
+</div>

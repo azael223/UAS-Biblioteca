@@ -1,14 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatTableModule } from '@angular/material/table'
 
-import { UserRegistryViewRoutingModule } from './user-registry-view-routing.module';
+import { UserRegistryViewComponent } from './user-registry-view.component';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [UserRegistryViewComponent],
   imports: [
     CommonModule,
-    UserRegistryViewRoutingModule
-  ]
+    MatTableModule
+  ],
+  exports:[UserRegistryViewComponent]
 })
 export class UserRegistryViewModule { }
