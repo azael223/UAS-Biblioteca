@@ -65,6 +65,7 @@ export class CubiculosComponent implements OnInit, OnDestroy, AfterViewInit {
             .subscribe(
               (data) => {
                 if (data) {
+                  console.log(cubiculo)
                   this.openSnack(`Cubiculo "${cubiculo.nombre}" eliminado`);
                   this.renderRows();
                 }

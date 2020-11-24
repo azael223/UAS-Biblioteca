@@ -19,7 +19,7 @@ export class BibliotecaApiService {
 
   public getObjects = (model: string,filterObject?:any) => {
     const whereObjectStr = filterObject ? `?filters=${JSON.stringify(filterObject)}` : ""
-    return this._http.get(`${this.apiURL}/${model}/${whereObjectStr}`,);
+    return this._http.get(`${this.apiURL}/${model}/${whereObjectStr}`);
   };
 
   public updateObject = (object: any, model: string) => {
@@ -27,6 +27,7 @@ export class BibliotecaApiService {
   };
 
   public deleteObject = (object: any, model: string) => {
+    console.log(object)
     return this._http.delete(`${this.apiURL}/${model}/Delete`,object);
   };
 }

@@ -40,7 +40,7 @@ export class RegistrosComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   getRegistro() {
     this._api
-      .getObjects(MODELS.REGISTROS,{where:{id:1}})
+      .getObjects(MODELS.REGISTROS,{where:{id:2}})
       .pipe(takeUntil(this.onDestroy))
       .subscribe((data: Registro[]) => {
         console.log(data)
