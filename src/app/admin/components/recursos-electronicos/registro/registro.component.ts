@@ -14,14 +14,14 @@ import { AddRegistroRecElecComponent } from './add-registro-rec-elec/add-registr
 @Component({
   selector: 'app-registro',
   templateUrl: './registro.component.html',
-  styleUrls: ['./registro.component.scss']
+  styleUrls: ['./registro.component.scss'],
 })
 export class RegistroComponent implements OnInit {
   @ViewChild('table') table: MatTable<any>;
   public objects: RegRecElec[];
-  public displayedColumns = ['pos', 'area','turno', 'date', 'options'];
+  public displayedColumns = ['pos', 'area', 'turno', 'date', 'options'];
   private onDestroy = new Subject<any>();
-  public turnos=TURNOS
+  public turnos = TURNOS;
 
   constructor(
     private _api: BibliotecaApiService,
@@ -58,7 +58,7 @@ export class RegistroComponent implements OnInit {
       .subscribe((result) => {
         if (result) {
           this._api
-            .deleteObject(object, MODELS.REG_REC_ELEC)
+            .deleteObject(MODELS.REG_REC_ELEC, object.id)
             .pipe(takeUntil(this.onDestroy))
             .subscribe(
               (data) => {
@@ -115,5 +115,4 @@ export class RegistroComponent implements OnInit {
     this.onDestroy.next();
     this.onDestroy.unsubscribe();
   }
-
 }

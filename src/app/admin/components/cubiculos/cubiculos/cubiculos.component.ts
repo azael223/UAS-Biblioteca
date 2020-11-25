@@ -60,11 +60,12 @@ export class CubiculosComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe((result) => {
         if (result) {
           this._api
-            .deleteObject(cubiculo, MODELS.CUBICULO)
+            .deleteObject(MODELS.CUBICULO, cubiculo.id)
             .pipe(takeUntil(this.onDestroy))
             .subscribe(
               (data) => {
                 if (data) {
+                  console.log(cubiculo);
                   this.openSnack(`Cubiculo "${cubiculo.nombre}" eliminado`);
                   this.renderRows();
                 }

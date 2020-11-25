@@ -14,5 +14,6 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatAutocompleteModule,
     MatDialogModule,
   ],
+  exports:[UsuariosRegistroComponent]
 })
 export class UsuariosRegistroModule {}

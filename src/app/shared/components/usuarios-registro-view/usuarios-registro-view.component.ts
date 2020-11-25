@@ -18,7 +18,8 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { UsuariosRegistroComponent } from './usuarios-registro/usuarios-registro.component';
-import { user } from '../../templates/user-registry-view/user-registry-view.component'
+import { user } from '../../templates/user-registry-view/user-registry-view.component';
+import { MODELS } from '@models/Models';
 
 @Component({
   selector: 'app-usuarios-registro-view',
@@ -28,35 +29,55 @@ import { user } from '../../templates/user-registry-view/user-registry-view.comp
 export class UsuariosRegistroViewComponent
   implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<any>();
-  public users:user[]
+  public users: user[];
+  private model = MODELS.REGISTROS;
+  private usuariosModel = MODELS.REG_USUARIOS;
+  private idRegistro = 'idRegistro';
+  public registro: Registro;
+  public usuarios: UsuarioRegistro[];
 
   constructor(private _api: BibliotecaApiService, private _dialog: MatDialog) {}
 
   /* REQUESTS */
-  // getUsuariosRegistro() {
-  //   return this._api.getObjects('RegUsuarios', { idRegistro: 1 });
-  // }
+  getRegistro() {
+    return this._api.getObjects(this.model, {
+      order: { creadoEn: 'DESC'},
+      take:1
+    });
+  }
 
-  // getInstituciones() {
-  //   return this._api.getObjects('Instituciones');
-  // }
+  getUsuarios(idRegistro: number) {
+    return this._api.getObjects(this.usuariosModel, {
+      where: { [this.idRegistro]: idRegistro },
+    });
+  }
 
   openUserReg() {
     const dialogRef = this._dialog.open(UsuariosRegistroComponent, {
-
-      data:{id:1}
+      data: this.registro,
     });
-    dialogRef.afterClosed().pipe(takeUntil(this.onDestroy)).subscribe(result=>{
-
-    })
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.onDestroy))
+      .subscribe((result) => {});
   }
 
-  ngOnInit(): void {
-    this.users=[{id:123,name:"sd"}]
-  }
+  ngOnInit(): void {}
 
   ngAfterViewInit() {
-    // this.getUsuariosRegistro();
+    this.getRegistro()
+      .pipe(takeUntil(this.onDestroy))
+      .subscribe((regs: Registro[]) => {
+        this.registro = regs[0];
+        if (this.registro) {
+          this.getUsuarios(this.registro.id)
+            .pipe(takeUntil(this.onDestroy))
+            .subscribe((usuarios: UsuarioRegistro[]) => {
+              this.usuarios = usuarios;
+
+            });
+        }
+      });
   }
 
   ngOnDestroy() {

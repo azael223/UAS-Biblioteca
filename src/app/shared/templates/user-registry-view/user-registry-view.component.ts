@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 export interface user{
   id:number
-  name:string
+  nombre:string
 }
 
 @Component({

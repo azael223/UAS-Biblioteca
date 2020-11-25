@@ -1,4 +1,10 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTable } from '@angular/material/table';
@@ -14,13 +20,12 @@ import { AddRegistroCubiculoComponent } from './add-registro-cubiculo/add-regist
 @Component({
   selector: 'app-registro',
   templateUrl: './registro.component.html',
-  styleUrls: ['./registro.component.scss']
+  styleUrls: ['./registro.component.scss'],
 })
-export class RegistroComponent implements OnInit,AfterViewInit,OnDestroy {
-
+export class RegistroComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('table') table: MatTable<any>;
   public objects: RegCubiculos[];
-  public displayedColumns = ['pos', 'ur', 'biblioteca', 'date','options'];
+  public displayedColumns = ['pos', 'ur', 'biblioteca', 'date', 'options'];
   private onDestroy = new Subject<any>();
 
   constructor(
@@ -47,7 +52,9 @@ export class RegistroComponent implements OnInit,AfterViewInit,OnDestroy {
       width: '500px',
       data: {
         title: `¡Cuidado!`,
-        message: `¿Desea eliminar el registro ${moment(object.creadoEn).format('YYYY/MM/DD')}?`,
+        message: `¿Desea eliminar el registro ${moment(object.creadoEn).format(
+          'YYYY/MM/DD'
+        )}?`,
       },
     });
     dialogRefd
@@ -56,18 +63,24 @@ export class RegistroComponent implements OnInit,AfterViewInit,OnDestroy {
       .subscribe((result) => {
         if (result) {
           this._api
-            .deleteObject(object, MODELS.REG_CUBICULOS)
+            .deleteObject(MODELS.REG_CUBICULOS, object.id)
             .pipe(takeUntil(this.onDestroy))
             .subscribe(
               (data) => {
                 if (data) {
-                  this.openSnack(`Registro "${moment(object.creadoEn).format('YYYY/MM/DD')}" eliminado`);
+                  this.openSnack(
+                    `Registro "${moment(object.creadoEn).format(
+                      'YYYY/MM/DD'
+                    )}" eliminado`
+                  );
                   this.renderRows();
                 }
               },
               () => {
                 this.openSnack(
-                  `Error al eliminar registro "${moment(object.creadoEn).format('YYYY/MM/DD')}"`
+                  `Error al eliminar registro "${moment(object.creadoEn).format(
+                    'YYYY/MM/DD'
+                  )}"`
                 );
               }
             );

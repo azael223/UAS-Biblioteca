@@ -2,8 +2,9 @@ export interface UsuarioRegistro {
   idRegistro: number;
   id?: number;
   idInstitucion: number;
-  idCubiculo: number;
   nombre: string;
+  sexo: string;
+  tipo: string;
   creadoEn?: string;
   terminadoEn?: string;
 }

@@ -73,7 +73,7 @@ export class EquiposComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((result) => {
         if (result) {
           this._api
-            .deleteObject(object, MODELS.EQUIPOS_COMPUTO)
+            .deleteObject(MODELS.EQUIPOS_COMPUTO, object.id)
             .pipe(takeUntil(this.onDestroy))
             .subscribe(
               (data) => {

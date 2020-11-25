@@ -48,17 +48,17 @@ export class InstitucionesComponent
       .afterClosed()
       .pipe(takeUntil(this.onDestroy))
       .subscribe((data) => {
-        this.renderRows()
+        this.renderRows();
       });
   }
 
-  renderRows(){
+  renderRows() {
     this.getInstituciones()
-    .pipe(takeUntil(this.onDestroy))
-    .subscribe((instituciones: Institucion[]) => {
-      this.instituciones = instituciones;
-      this.table.renderRows();
-    });
+      .pipe(takeUntil(this.onDestroy))
+      .subscribe((instituciones: Institucion[]) => {
+        this.instituciones = instituciones;
+        this.table.renderRows();
+      });
   }
 
   deleteObject(object: Institucion) {
@@ -75,13 +75,13 @@ export class InstitucionesComponent
       .subscribe((result) => {
         if (result) {
           this._api
-            .deleteObject(object, MODELS.INSTITUCIONES)
+            .deleteObject(MODELS.INSTITUCIONES, object.id)
             .pipe(takeUntil(this.onDestroy))
             .subscribe(
               (data) => {
                 if (data) {
                   this.openSnack(`Institución "${object.nombre}" eliminada`);
-                  this.renderRows()
+                  this.renderRows();
                 }
               },
               () => {

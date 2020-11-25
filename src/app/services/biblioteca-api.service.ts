@@ -17,16 +17,16 @@ export class BibliotecaApiService {
     return this._http.post(`${this.apiURL}/${model}/Create`, object);
   };
 
-  public getObjects = (model: string,whereObject?:any) => {
-    const whereObjectStr = whereObject ? `?where=${JSON.stringify(whereObject)}` : ""
-    return this._http.get(`${this.apiURL}/${model}/${whereObjectStr}`,);
+  public getObjects = (model: string,filterObject?:any) => {
+    const whereObjectStr = filterObject ? `?filters=${JSON.stringify(filterObject)}` : ""
+    return this._http.get(`${this.apiURL}/${model}/${whereObjectStr}`);
   };
 
   public updateObject = (object: any, model: string) => {
     return this._http.post(`${this.apiURL}/${model}/Update`, object);
   };
 
-  public deleteObject = (object: any, model: string) => {
-    return this._http.delete(`${this.apiURL}/${model}/Delete`,object);
+  public deleteObject = (model: string,id:number) => {
+    return this._http.delete(`${this.apiURL}/${model}/Delete/${id}`);
   };
 }
