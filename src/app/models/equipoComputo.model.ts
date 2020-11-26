@@ -1,7 +1,7 @@
 export interface EquipoComputo {
   id?: number;
-  nombre: string;
-  status: string;
+  nombre?: string;
+  status?: string;
   creadoEn?: string;
   actualizadoEn?: string;
 }

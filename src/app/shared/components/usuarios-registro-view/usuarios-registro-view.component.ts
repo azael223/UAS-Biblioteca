@@ -4,6 +4,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Registro } from '@models/registro.model';
@@ -18,9 +19,9 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { UsuariosRegistroComponent } from './usuarios-registro/usuarios-registro.component';
-import { user } from '../../templates/user-registry-view/user-registry-view.component';
+import { User } from '../../templates/user-registry-view/user-registry-view.component';
 import { MODELS } from '@models/Models';
-
+import * as moment from 'moment';
 @Component({
   selector: 'app-usuarios-registro-view',
   templateUrl: './usuarios-registro-view.component.html',
@@ -29,7 +30,7 @@ import { MODELS } from '@models/Models';
 export class UsuariosRegistroViewComponent
   implements OnInit, AfterViewInit, OnDestroy {
   private onDestroy = new Subject<any>();
-  public users: user[];
+  public users: User[];
   private model = MODELS.REGISTROS;
   private usuariosModel = MODELS.REG_USUARIOS;
   private idRegistro = 'idRegistro';
@@ -41,8 +42,8 @@ export class UsuariosRegistroViewComponent
   /* REQUESTS */
   getRegistro() {
     return this._api.getObjects(this.model, {
-      order: { creadoEn: 'DESC'},
-      take:1
+      order: { creadoEn: 'DESC' },
+      take: 1,
     });
   }
 
@@ -59,24 +60,52 @@ export class UsuariosRegistroViewComponent
     dialogRef
       .afterClosed()
       .pipe(takeUntil(this.onDestroy))
-      .subscribe((result) => {});
+      .subscribe((result) => {
+        if (result) {
+          this.loadUsers();
+        }
+      });
   }
 
   ngOnInit(): void {}
 
   ngAfterViewInit() {
+    this.loadData();
+  }
+
+  loadData() {
     this.getRegistro()
       .pipe(takeUntil(this.onDestroy))
       .subscribe((regs: Registro[]) => {
         this.registro = regs[0];
         if (this.registro) {
-          this.getUsuarios(this.registro.id)
-            .pipe(takeUntil(this.onDestroy))
-            .subscribe((usuarios: UsuarioRegistro[]) => {
-              this.usuarios = usuarios;
-
-            });
+          this.loadUsers();
         }
+      });
+  }
+
+  updateUser(user: UsuarioRegistro) {
+    const updateUser: UsuarioRegistro = {
+      id:user.id,
+      idRegistro:user.idRegistro,
+      terminadoEn: moment().format('YYYY-MM-DD HH:mm:ss'),
+    };
+    console.log(updateUser)
+    this._api
+      .updateObject(updateUser, this.usuariosModel)
+      .pipe(takeUntil(this.onDestroy))
+      .subscribe((data) => {
+        if (data) {
+          console.log(data);
+        }
+      });
+  }
+
+  loadUsers() {
+    this.getUsuarios(this.registro.id)
+      .pipe(takeUntil(this.onDestroy))
+      .subscribe((usuarios: UsuarioRegistro[]) => {
+        this.usuarios = usuarios;
       });
   }
 

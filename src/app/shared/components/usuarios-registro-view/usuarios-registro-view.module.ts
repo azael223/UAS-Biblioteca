@@ -6,6 +6,7 @@ import { UsuariosRegistroViewComponent } from './usuarios-registro-view.componen
 import { MatDialogModule } from '@angular/material/dialog';
 import { UsuariosRegistroModule } from './usuarios-registro/usuarios-registro.module';
 import { UserRegistryViewModule } from 'app/shared/templates/user-registry-view/user-registry-view.module';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [UsuariosRegistroViewComponent],
@@ -15,6 +16,7 @@ import { UserRegistryViewModule } from 'app/shared/templates/user-registry-view/
     MatDialogModule,
     UsuariosRegistroModule,
     UserRegistryViewModule,
+    MatButtonModule
   ],
 })
 export class UsuariosRegistroViewModule {}

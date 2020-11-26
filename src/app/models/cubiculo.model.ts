@@ -1,6 +1,6 @@
 export interface Cubiculo {
   id?: number;
-  nombre: string;
+  nombre?: string;
   creadoEn?: string;
   actualizadoEn?: string;
 }
