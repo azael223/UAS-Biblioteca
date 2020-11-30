@@ -53,10 +53,10 @@ export class UsuariosRegistroViewComponent
     });
   }
 
-  openUserReg() {
+  openDialog() {
     const dialogRef = this._dialog.open(UsuariosRegistroComponent, {
       data: this.registro,
-    });
+    });+
     dialogRef
       .afterClosed()
       .pipe(takeUntil(this.onDestroy))
@@ -87,7 +87,6 @@ export class UsuariosRegistroViewComponent
   updateUser(user: UsuarioRegistro) {
     const updateUser: UsuarioRegistro = {
       id:user.id,
-      idRegistro:user.idRegistro,
       terminadoEn: moment().format('YYYY-MM-DD HH:mm:ss'),
     };
     console.log(updateUser)

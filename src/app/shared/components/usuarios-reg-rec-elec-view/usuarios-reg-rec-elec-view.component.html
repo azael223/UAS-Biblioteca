@@ -1,1 +1,23 @@
-<p>usuarios-reg-rec-elec-view works!</p>
+<div class="container-fluid p-5">
+  <div class="row">
+    <div class="col-8">
+      <h1>Recursos Electrónicos</h1>
+    </div>
+    <div class="col-4">
+      <button
+        type="button"
+        class="btn btn-primary btn-block"
+        (click)="openDialog()"
+      >
+        Registrarse
+      </button>
+    </div>
+    <div *ngIf="users" class="col-12 card">
+      <app-user-registry-view
+        #table
+        [users]="usuarios"
+        (getSelected)="updateUser($event)"
+      ></app-user-registry-view>
+    </div>
+  </div>
+</div>

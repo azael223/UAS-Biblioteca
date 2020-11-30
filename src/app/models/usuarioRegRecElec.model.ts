@@ -1,5 +1,5 @@
 export interface UsuarioRegRecElec {
-  idRegRecElec: number;
+  idRegRecElec?: number;
   id?: number;
   idInstitucion?: number;
   idEquipoComputo?: number;
