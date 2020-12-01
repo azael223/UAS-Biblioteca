@@ -20,6 +20,7 @@ import { MODELS } from '@models/Models';
 import { RegRecElec } from '@models/regRecElec.model';
 import { UsuarioRegRecElec } from '@models/usuarioRegRecElec.model';
 import { BibliotecaApiService } from '@services/biblioteca-api.service';
+import { FormLib } from 'app/libs/Form.lib';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith, takeUntil } from 'rxjs/operators';
 
@@ -106,7 +107,7 @@ export class UsuariosRegRecElecComponent
 
   /* */
   performRequest() {
-    this.markFormGroupTouched(this.form);
+    FormLib.markFormGroupTouched(this.form);
     if (this.form.valid) {
       const newObject: UsuarioRegRecElec = {
         idInstitucion: (<Institucion>this.form.get('institucion').value).id,
@@ -162,14 +163,5 @@ export class UsuariosRegRecElecComponent
   ngOnDestroy() {
     this.onDestroy.next();
     this.onDestroy.unsubscribe();
-  }
-  private markFormGroupTouched(formGroup: FormGroup) {
-    (<any>Object).values(formGroup.controls).forEach((control) => {
-      control.markAsTouched();
-
-      if (control.controls) {
-        this.markFormGroupTouched(control);
-      }
-    });
   }
 }

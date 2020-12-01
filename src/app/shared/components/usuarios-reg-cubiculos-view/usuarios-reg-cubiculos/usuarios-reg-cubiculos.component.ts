@@ -7,6 +7,7 @@ import { MODELS } from '@models/Models';
 import { RegCubiculos } from '@models/regCubiculos.model';
 import { UsuarioRegCubiculo } from '@models/usuarioRegCubiculo.model';
 import { BibliotecaApiService } from '@services/biblioteca-api.service';
+import { FormLib } from 'app/libs/Form.lib';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith, takeUntil } from 'rxjs/operators';
 
@@ -91,7 +92,7 @@ export class UsuariosRegCubiculosComponent
 
   /* */
   performRequest() {
-    this.markFormGroupTouched(this.form);
+    FormLib.markFormGroupTouched(this.form);
     if (this.form.valid) {
       const newObject: UsuarioRegCubiculo = {
         idInstitucion: (<Institucion>this.form.get('institucion').value).id,
@@ -145,14 +146,5 @@ export class UsuariosRegCubiculosComponent
   ngOnDestroy() {
     this.onDestroy.next();
     this.onDestroy.unsubscribe();
-  }
-  private markFormGroupTouched(formGroup: FormGroup) {
-    (<any>Object).values(formGroup.controls).forEach((control) => {
-      control.markAsTouched();
-
-      if (control.controls) {
-        this.markFormGroupTouched(control);
-      }
-    });
   }
 }

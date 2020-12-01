@@ -27,6 +27,7 @@ import {
   MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import { MODELS } from '@models/Models';
+import { FormLib } from 'app/libs/Form.lib';
 
 @Component({
   selector: 'app-usuarios-registro',
@@ -103,7 +104,7 @@ export class UsuariosRegistroComponent
 
   /* */
   performRequest() {
-    this.markFormGroupTouched(this.form);
+    FormLib.markFormGroupTouched(this.form);
     if (this.form.valid) {
       const newObject: UsuarioRegistro = {
         idInstitucion: (<Institucion>this.form.get('institucion').value).id,
@@ -154,14 +155,5 @@ export class UsuariosRegistroComponent
   ngOnDestroy() {
     this.onDestroy.next();
     this.onDestroy.unsubscribe();
-  }
-  private markFormGroupTouched(formGroup: FormGroup) {
-    (<any>Object).values(formGroup.controls).forEach((control) => {
-      control.markAsTouched();
-
-      if (control.controls) {
-        this.markFormGroupTouched(control);
-      }
-    });
   }
 }

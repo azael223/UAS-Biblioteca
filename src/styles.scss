@@ -1,8 +1,27 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
-.title{
+.title {
   font-size: 2rem !important;
 }
+
+@mixin translate($x, $y, $tx, $ty) {
+  position: absolute;
+  top: $x;
+  left: $y;
+  transform: translate($tx, $ty);
+}
+
+.translate-center {
+  @include translate(50%, 50%, -50%, -50%);
+}
+
+@import "~animate.css/animate.min.css"
