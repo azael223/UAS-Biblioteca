@@ -1,5 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AdminGuard } from 'app/guards/admin.guard';
+import { BibliotecaGuard } from 'app/guards/biblioteca.guard';
+import { CubiculosGuard } from 'app/guards/cubiculos.guard';
+import { RecursosElectronicosGuard } from 'app/guards/recursos-electronicos.guard';
 import { AdminComponent } from './admin.component';
 
 const routes: Routes = [
@@ -13,6 +17,7 @@ const routes: Routes = [
           import('./components/registros/registros.module').then(
             (m) => m.RegistrosModule
           ),
+        canActivate: [BibliotecaGuard, AdminGuard],
       },
       {
         path: 'cubiculos',
@@ -20,6 +25,7 @@ const routes: Routes = [
           import('./components/cubiculos/cubiculos.module').then(
             (m) => m.CubiculosModule
           ),
+        canActivate: [CubiculosGuard, AdminGuard],
       },
       {
         path: 'recursos-electronicos',
@@ -27,6 +33,7 @@ const routes: Routes = [
           import(
             './components/recursos-electronicos/recursos-electronicos.module'
           ).then((m) => m.RecursosElectronicosModule),
+        canActivate: [RecursosElectronicosGuard, AdminGuard],
       },
       {
         path: 'instituciones',
@@ -34,6 +41,7 @@ const routes: Routes = [
           import('./components/instituciones/instituciones.module').then(
             (m) => m.InstitucionesModule
           ),
+        canActivate: [AdminGuard],
       },
       {
         path: 'reportes',
@@ -41,6 +49,7 @@ const routes: Routes = [
           import('./components/reportes/reportes.module').then(
             (m) => m.ReportesModule
           ),
+        canActivate: [AdminGuard],
       },
       { path: '', redirectTo: 'biblioteca' },
     ],

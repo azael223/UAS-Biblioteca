@@ -32,9 +32,12 @@
             Iniciar Sesión
           </button>
         </div>
-        <div *ngIf="isLoginInvalid" class="col-12 pt-5 animate__animated animate__slideInDown">
+        <div
+          *ngIf="isLoginInvalid"
+          class="col-12 pt-5 animate__animated animate__slideInDown"
+        >
           <div class="alert alert-danger" role="alert">
-            Usuario o contraseña incorrectos.
+            {{ loginError }}
           </div>
         </div>
       </div>

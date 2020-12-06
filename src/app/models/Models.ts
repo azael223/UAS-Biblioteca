@@ -8,10 +8,11 @@ export const MODELS = {
   REG_REC_ELEC_USUARIOS: 'RegRecElecUsuarios',
   REG_USUARIOS: 'RegUsuarios',
   REGISTROS: 'Registros',
+  USUARIOS: 'Usuarios',
 };
 
 export const TURNOS = {
-  M:'Matutino',
-  V:'Vespertino',
-  N:'Nocturno'
-}
+  M: 'Matutino',
+  V: 'Vespertino',
+  N: 'Nocturno',
+};
