@@ -1,12 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthService } from '@services/auth.service';
 import { AdminGuard } from 'app/guards/admin.guard';
 import { BibliotecaGuard } from 'app/guards/biblioteca.guard';
 import { CubiculosGuard } from 'app/guards/cubiculos.guard';
 import { RecursosElectronicosGuard } from 'app/guards/recursos-electronicos.guard';
+import { RoutesGuard } from 'app/guards/routes.guard';
 import { AdminComponent } from './admin.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: '',
     component: AdminComponent,
@@ -14,31 +16,27 @@ const routes: Routes = [
       {
         path: 'biblioteca',
         loadChildren: () =>
-          import('./components/registros/registros.module').then(
-            (m) => m.RegistrosModule
-          ),
-        canActivate: [BibliotecaGuard, AdminGuard],
+          import('./registros/registros.module').then((m) => m.RegistrosModule),
+        canActivate: [BibliotecaGuard],
       },
       {
         path: 'cubiculos',
         loadChildren: () =>
-          import('./components/cubiculos/cubiculos.module').then(
-            (m) => m.CubiculosModule
-          ),
-        canActivate: [CubiculosGuard, AdminGuard],
+          import('./cubiculos/cubiculos.module').then((m) => m.CubiculosModule),
+        canActivate: [CubiculosGuard],
       },
       {
         path: 'recursos-electronicos',
         loadChildren: () =>
-          import(
-            './components/recursos-electronicos/recursos-electronicos.module'
-          ).then((m) => m.RecursosElectronicosModule),
-        canActivate: [RecursosElectronicosGuard, AdminGuard],
+          import('./recursos-electronicos/recursos-electronicos.module').then(
+            (m) => m.RecursosElectronicosModule
+          ),
+        canActivate: [RecursosElectronicosGuard],
       },
       {
         path: 'instituciones',
         loadChildren: () =>
-          import('./components/instituciones/instituciones.module').then(
+          import('./instituciones/instituciones.module').then(
             (m) => m.InstitucionesModule
           ),
         canActivate: [AdminGuard],
@@ -46,12 +44,13 @@ const routes: Routes = [
       {
         path: 'reportes',
         loadChildren: () =>
-          import('./components/reportes/reportes.module').then(
-            (m) => m.ReportesModule
-          ),
+          import('./reportes/reportes.module').then((m) => m.ReportesModule),
         canActivate: [AdminGuard],
       },
-      { path: '', redirectTo: 'biblioteca' },
+      {
+        path: '',
+        canActivate: [RoutesGuard],
+      },
     ],
   },
 ];

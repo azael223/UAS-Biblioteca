@@ -26,7 +26,8 @@ export class CubiculosGuard implements CanActivate {
     if (
       this._auth.getAuth() &&
       this._auth.getAuth().usuario &&
-      this._auth.getAuth().usuario.rol == ROLES.CUBICULOS
+      (this._auth.getAuth().usuario.rol == ROLES.CUBICULOS ||
+        this._auth.getAuth().usuario.rol == ROLES.ADMIN)
     ) {
       return true;
     } else {

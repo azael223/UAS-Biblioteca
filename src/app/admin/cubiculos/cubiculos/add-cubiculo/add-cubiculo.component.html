@@ -1,0 +1,42 @@
+<div class="container">
+  <form [formGroup]="form" (ngSubmit)="openRequest()">
+    <div class="row">
+      <div class="col-12 d-flex">
+        <h1>Nuevo Cubiculo</h1>
+        <button
+          class="ml-auto"
+          mat-icon-button
+          type="button"
+          (click)="onNoClick()"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      <div class="col-12 mt-2 mb-3">
+        <mat-form-field class="w-100">
+          <mat-label for="name">Nombre</mat-label>
+          <input
+            matInput
+            placeholder="Nombre"
+            type="text"
+            formControlName="name"
+            id="name"
+            aria-describedby="nameError"
+          />
+          <mat-error
+            *ngIf="form.get('name').invalid && form.get('name').touched"
+            id="nameError"
+            >Debe tener almenos 2 letras</mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <div class="col-12">
+        <button mat-flat-button color="primary" type="submit" class="btn-block">
+          <mat-icon>save</mat-icon>
+          Guardar
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

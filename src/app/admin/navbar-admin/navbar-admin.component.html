@@ -1,6 +1,7 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-2">
   <a class="navbar-brand">Biblioteca</a>
   <button
+    mat-flat-button
     class="navbar-toggler"
     type="button"
     data-toggle="collapse"
@@ -11,49 +12,90 @@
   >
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav">
-      <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" routerLink="biblioteca">Biblioteca</a>
-      </li>
-      <li class="nav-item dropdown" routerLinkActive="active">
-        <a
-          class="nav-link dropdown-toggle"
-          id="cubiculosDropdown"
-          role="button"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
-          >Cubiculos</a
-        >
-        <div class="dropdown-menu" aria-labelledby="cubiculosDropdown">
-          <a class="dropdown-item" routerLink="cubiculos/registros">Registros</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" routerLink="cubiculos/cubiculos">Cubiculos</a>
-        </div>
-      </li>
-      <li class="nav-item dropdown" routerLinkActive="active">
-        <a
-          class="nav-link dropdown-toggle"
-          id="reDropdown"
-          role="button"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
-          >Recursos electrónicos</a
-        >
-        <div class="dropdown-menu" aria-labelledby="reDropdown">
-          <a class="dropdown-item" routerLink="recursos-electronicos/registros">Registros</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" routerLink="recursos-electronicos/equipos">Equipos</a>
-        </div>
-      </li>
-      <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" routerLink="instituciones">Instituciones</a>
-      </li>
-      <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" routerLink="reportes">Reportes</a>
-      </li>
-    </ul>
+
+  <!-- Nav -->
+  <div
+    class="collapse navbar-collapse justify-content-center h-100"
+    id="navbarNav"
+  >
+    <button
+    *ngIf="role === roles.ADMIN"
+      mat-flat-button
+      [matMenuTriggerFor]="menu"
+      class="h-100 w-25 btn-nav"
+    >
+      <mat-icon>{{ route.icon }}</mat-icon>
+      {{ route.title }}
+    </button>
+    <button
+    *ngIf="role !== roles.ADMIN"
+      mat-flat-button
+      class="h-100 w-25 btn-nav"
+    >
+      <mat-icon>{{ route.icon }}</mat-icon>
+      {{ route.title }}
+    </button>
+    <!-- <ul class="navbar-nav">
+      <ng-container *ngFor="let route of routes">
+        <ng-container *ngIf="verifyRol(route.rol)">
+          <li
+            *ngIf="!route.childs || route.childs.length <= 0"
+            class="nav-item"
+            routerLinkActive="active"
+          >
+            <a class="nav-link" [routerLink]="route.path">{{ route.title }}</a>
+          </li>
+          <ng-container *ngIf="route.childs && route.childs.length > 0">
+            <li class="nav-item dropdown" routerLinkActive="active">
+              <a
+                class="nav-link dropdown-toggle"
+                id="Rdropdown"
+                role="button"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+                >{{ route.title }}</a
+              >
+              <div class="dropdown-menu" aria-labelledby="Rdropdown">
+                <ng-container *ngFor="let child of route.childs">
+                  <a
+                    *ngIf="verifyRol(child.rol)"
+                    class="dropdown-item"
+                    [routerLink]="route.path + '/' + child.path"
+                    >{{ child.title }}</a
+                  >
+                </ng-container>
+              </div>
+            </li>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+
+    </ul> -->
   </div>
+  <button mat-flat-button (click)="goToShared()">
+    <mat-icon>assignment_ind</mat-icon> Registros
+  </button>
+  <button mat-flat-button (click)="logOut()">
+    <mat-icon>exit_to_app</mat-icon> Salir
+  </button>
+  <!--  -->
 </nav>
+
+  <mat-menu #menu="matMenu" >
+    <ng-container *ngFor="let route of routes">
+      <button
+        class="h-100 btn-nav"
+        *ngIf="verifyRol(route.rol)"
+        [routerLink]="route.path"
+        mat-menu-item
+        (click)="changeRoute(route)"
+      >
+        <mat-icon>{{ route.icon }}</mat-icon>
+        <span>{{ route.title }}</span>
+      </button>
+    </ng-container>
+  </mat-menu> 
+
+
+

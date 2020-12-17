@@ -26,7 +26,8 @@ export class BibliotecaGuard implements CanActivate {
     if (
       this._auth.getAuth() &&
       this._auth.getAuth().usuario &&
-      this._auth.getAuth().usuario.rol == ROLES.BIBLIOTECA
+      (this._auth.getAuth().usuario.rol == ROLES.BIBLIOTECA ||
+        this._auth.getAuth().usuario.rol == ROLES.ADMIN)
     ) {
       return true;
     } else {

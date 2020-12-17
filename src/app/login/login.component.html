@@ -1,34 +1,49 @@
-<div class="container">
-  <div class="container card p-5 login">
+<div class="container-fluid p-0">
+  <div class="header">
+    <h1 class="main-title">Biblioteca</h1>
+  </div>
+
+  <div class="container shadow card p-5 login">
     <form [formGroup]="form" (ngSubmit)="login()">
       <div class="row">
         <div class="col-12">
           <h1>Ingresar</h1>
         </div>
         <!-- USUARIO -->
-        <div class="col-12 form-group">
-          <label for="" [class.text-danger]="isUserInvalid">Usuario</label>
-          <input
-            type="text"
-            class="form-control"
-            formControlName="username"
-            [class.is-invalid]="isUserInvalid"
-          />
+        <div class="col-12 mt-2">
+          <mat-form-field class="w-100">
+            <mat-label for="">Usuario</mat-label>
+            <input
+              matInput
+              placeholder="Usuario"
+              type="text"
+              formControlName="username"
+            />
+            <mat-error *ngIf="isUserInvalid"> Ingrese usuario </mat-error>
+          </mat-form-field>
         </div>
         <!-- CONTRASEÑA -->
-        <div class="col-12 form-group">
-          <label for="" [class.text-danger]="isPasswordInvalid"
-            >Contraseña</label
-          >
-          <input
-            type="password"
-            class="form-control"
-            formControlName="password"
-            [class.is-invalid]="isPasswordInvalid"
-          />
+        <div class="col-12 mt-3 mb-3">
+          <mat-form-field class="w-100">
+            <mat-label for="">Contraseña</mat-label>
+            <input
+              matInput
+              placeholder="Contraseña"
+              type="password"
+              formControlName="password"
+            />
+            <mat-error *ngIf="isPasswordInvalid">
+              Ingrese contraseña
+            </mat-error>
+          </mat-form-field>
         </div>
         <div class="col-12">
-          <button class="btn btn-primary btn-block" type="submit">
+          <button
+            mat-raised-button
+            color="primary"
+            class="btn-block"
+            type="submit"
+          >
             Iniciar Sesión
           </button>
         </div>

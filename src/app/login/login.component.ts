@@ -15,7 +15,11 @@ export class LoginComponent implements OnInit {
     private _fb: FormBuilder,
     private _auth: AuthService,
     private _router: Router
-  ) {}
+  ) {
+    if (_auth.getAuth() && _auth.getAuth().usuario) {
+      this._router.navigateByUrl('admin');
+    }
+  }
 
   public form = this._fb.group({
     username: new FormControl('', [Validators.required]),

@@ -1,0 +1,89 @@
+<div class="container">
+  <!--  -->
+  <form [formGroup]="form" (ngSubmit)="performRequest()">
+    <div class="row">
+      <!-- NAME -->
+      <div class="col-12 d-flex">
+        <h2>Registro Recursos Electrónicos</h2>
+        <button
+          class="ml-auto"
+          mat-icon-button
+          type="button"
+          (click)="onNoClick()"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      <div class="col-12 mt-2">
+        <mat-form-field class="w-100">
+          <mat-label for="">Nombre</mat-label>
+          <input
+            matInput
+            placeholder="Nombre"
+            type="text"
+            formControlName="nombre"
+          />
+          <mat-error *ngIf="isNameInvalid"
+            >Ingrese un nombre valido, solo letras y al menos 2
+            letras</mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <!-- INSTITUTION -->
+      <div class="col-12 mt-3">
+        <mat-form-field class="w-100">
+          <mat-label for="">Institución</mat-label>
+          <input
+            formControlName="institucion"
+            type="text"
+            matInput
+            [matAutocomplete]="auto"
+            placeholder="Seleccione la institución a la que pertenece"
+          />
+          <mat-error *ngIf="isInstitucionInvalid"
+            >Seleccione una institución</mat-error
+          >
+        </mat-form-field>
+
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+          <mat-option
+            *ngFor="let institucion of filteredInstituciones | async"
+            [value]="institucion"
+          >
+            {{ institucion.nombre }}
+          </mat-option>
+        </mat-autocomplete>
+      </div>
+
+      <!-- CUBICULOS -->
+      <div class="col-12 mt-3 mb-3">
+        <mat-form-field class="w-100">
+          <mat-label>Cubiculo</mat-label>
+          <mat-select
+            placeholder="Seleccione Cubiculo"
+            formControlName="cubiculo"
+          >
+            <mat-option
+              *ngFor="let cubiculo of cubiculos"
+              [value]="cubiculo.id"
+              >{{ cubiculo.nombre }}</mat-option
+            >
+          </mat-select>
+          <mat-error *ngIf="isCubiculoInvalid" class="form-text text-danger"
+            >Seleccione un cubiculo</mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <!-- BUTTONS -->
+
+      <div class="col-12">
+        <button mat-flat-button color="primary" type="submit" class="btn-block">
+          <mat-icon class="mr-3">check_circle_outline </mat-icon>
+          Registrarse
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

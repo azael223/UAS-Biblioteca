@@ -1,0 +1,33 @@
+<table #table mat-table [dataSource]="users" class="w-100 overflow-auto">
+  <ng-container matColumnDef="pos">
+    <th mat-header-cell *matHeaderCellDef>Num.</th>
+    <td mat-cell *matCellDef="let user; let i = index">{{ i + 1 }}</td>
+  </ng-container>
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef>Nombre</th>
+    <td mat-cell *matCellDef="let user">{{ user.nombre }}</td>
+  </ng-container>
+  <ng-container matColumnDef="check">
+    <th mat-header-cell *matHeaderCellDef>Terminado</th>
+    <td mat-cell *matCellDef="let user; let i = index">
+      <section *ngIf="!user.terminadoEn">
+        <mat-checkbox
+          color="primary"
+          #check
+          (click)="user.terminadoEn ? false : selected(user)"
+        >
+        </mat-checkbox>
+      </section>
+      <section *ngIf="user.terminadoEn">
+        <mat-checkbox
+          #check
+          color="primary"
+          (click)="(false)"
+          [checked]="true"
+        ></mat-checkbox>
+      </section>
+    </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+</table>

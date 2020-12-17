@@ -23,10 +23,12 @@ export class RecursosElectronicosGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
+    console.log(this._auth.getAuth());
     if (
       this._auth.getAuth() &&
       this._auth.getAuth().usuario &&
-      this._auth.getAuth().usuario.rol == ROLES.RECURSOS_ELECTRONICOS
+      (this._auth.getAuth().usuario.rol == ROLES.RECURSOS_ELECTRONICOS ||
+      this._auth.getAuth().usuario.rol == ROLES.ADMIN)
     ) {
       return true;
     } else {

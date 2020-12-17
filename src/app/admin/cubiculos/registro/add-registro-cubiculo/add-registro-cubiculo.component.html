@@ -1,0 +1,63 @@
+<div class="container">
+  <form [formGroup]="form" (ngSubmit)="openRequest()">
+    <div class="row">
+      <div class="col-12 d-flex">
+        <h1>Nuevo Registro Cubiculo</h1>
+        <button
+          class="ml-auto"
+          mat-icon-button
+          type="button"
+          (click)="onNoClick()"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      <div class="col-12 mt-2">
+        <mat-form-field class="w-100">
+          <mat-label for="name">Biblioteca</mat-label>
+          <input
+            type="text"
+            matInput
+            placeholder="Biblioteca"
+            formControlName="biblioteca"
+            id="biblioteca"
+            aria-describedby="bibliotecaError"
+          />
+          <mat-error
+            *ngIf="
+              form.get('biblioteca').invalid && form.get('biblioteca').touched
+            "
+            id="bibliotecaError"
+            >Debe tener almenos 2 letras</mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <div class="col-12 mt-3 mb-3">
+        <mat-form-field class="w-100">
+          <mat-label for="name">UR</mat-label>
+          <input
+            matInput
+            type="text"
+            placeholder="UR"
+            formControlName="ur"
+            id="ur"
+            aria-describedby="urError"
+          />
+          <mat-error
+            *ngIf="form.get('ur').invalid && form.get('ur').touched"
+            id="urError"
+            >Debe tener almenos 2 letras</mat-error
+          >
+        </mat-form-field>
+      </div>
+
+      <div class="col-12">
+        <button mat-flat-button color="primary" type="submit" class="btn-block">
+          <mat-icon>save</mat-icon>
+          Guardar
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

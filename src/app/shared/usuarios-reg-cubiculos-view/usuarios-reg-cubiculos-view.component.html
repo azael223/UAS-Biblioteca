@@ -1,0 +1,53 @@
+<div class="container-fluid h-90 pr-4 pl-4 pt-3 animate__animated animate__fadeIn">
+  <div class="row">
+    <div class="col-10">
+      <h1>Cubículos</h1>
+    </div>
+    <div class="col-2">
+      <button
+        class="btn-block"
+        color="primary"
+        mat-raised-button
+        (click)="openDialog()"
+      >
+        <mat-icon class="mr-2">create</mat-icon>
+        Registrarse
+      </button>
+    </div>
+  </div>
+
+  <div class="h-100 card shadow">
+    <div
+      *ngIf="!loaded"
+      class="h-100 w-100 d-flex align-items-center justify-content-center"
+    >
+      <mat-spinner></mat-spinner>
+    </div>
+    <ng-container *ngIf="loaded">
+      <div
+        *ngIf="!usuarios || (usuarios && usuarios.length <= 0)"
+        class="h-100 w-100 d-flex align-items-center justify-content-center"
+      >
+        <h1>No hay usuarios registrados</h1>
+      </div>
+      <ng-container *ngIf="usuarios && usuarios.length > 0">
+        <div class="overflow-auto">
+          <app-user-registry-view
+            #table
+            [users]="usuarios"
+            (getSelected)="updateUser($event)"
+          ></app-user-registry-view>
+        </div>
+
+        <!-- <div class="pag position-relative row w-100"></div> -->
+        <!-- <mat-paginator
+        class="pag-bottom w-100"
+        [length]="totalPages"
+        [pageSize]="pages"
+        [pageSizeOptions]="PAGES"
+        (page)="pagesChange($event)"
+      ></mat-paginator> -->
+      </ng-container>
+    </ng-container>
+  </div>
+</div>

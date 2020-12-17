@@ -1,6 +1,6 @@
 export interface UsuarioRegCubiculo {
   id?: number;
-  idRegCubiculo?:number,
+  idRegistroCubiculo?:number,
   idInstitucion?: number;
   idCubiculo?: number;
   nombre?: string;

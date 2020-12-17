@@ -1,0 +1,45 @@
+<div class="container">
+  <form [formGroup]="form" (ngSubmit)="openRequest()">
+    <div class="row">
+      <div class="col-12 d-flex">
+        <h1>Nueva Institucion</h1>
+        <button
+          class="ml-auto"
+          mat-icon-button
+          type="button"
+          (click)="onNoClick()"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      <div class="col-12 mt-2">
+        <mat-form-field class="w-100">
+          <mat-label for="name">Nombre</mat-label>
+          <input
+            matInput
+            placeholder="Nombre"
+            formControlName="name"
+            id="name"
+            type="text"
+          />
+          <mat-error
+            *ngIf="form.get('name').invalid && form.get('name').touched"
+            >Debe tener al menos 2 letras</mat-error
+          >
+        </mat-form-field>
+      </div>
+      <div class="col-12 mt-3 mb-3">
+        <mat-form-field class="w-100">
+          <mat-label for="abbrv">Abreviatura</mat-label>
+          <input matInput formControlName="abbrv" id="abbrv" type="text" />
+        </mat-form-field>
+      </div>
+      <div class="col-12">
+        <button mat-flat-button color="primary" type="submit" class="btn-block">
+          <mat-icon>save</mat-icon>
+          Guardar
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
