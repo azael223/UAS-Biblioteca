@@ -1,0 +1,18 @@
+.dash-card {
+  height: 100%;
+  width: 100%;
+  -webkit-box-shadow: 0px 2px 7px 0px rgba(0,0,0,0.25);
+  -moz-box-shadow: 0px 2px 7px 0px rgba(0,0,0,0.25);
+  box-shadow: 0px 2px 7px 0px rgba(0,0,0,0.25);
+  border-radius: 1rem;
+}
+
+.cards-row{
+  height: 100px;
+}
+
+.dash-cards-container{
+  height: 100%;
+  width: 100%;
+  padding: 1rem;
+}

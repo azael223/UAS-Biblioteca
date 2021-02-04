@@ -69,6 +69,12 @@ export class NavbarAdminComponent implements OnInit {
       rol: [ROLES.ADMIN],
       icon: 'account_balance',
     },
+    {
+      path: 'reportes',
+      title: 'Reportes',
+      rol: [ROLES.ADMIN],
+      icon: 'assignment ',
+    },
     // { path: 'reportes', title: 'Reportes', rol: [ROLES.ADMIN] },
   ];
   changeRoute(route: IRoute) {

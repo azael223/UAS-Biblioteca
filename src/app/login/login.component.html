@@ -6,12 +6,12 @@
   <div class="container shadow card p-5 login">
     <form [formGroup]="form" (ngSubmit)="login()">
       <div class="row">
-        <div class="col-12">
+        <div class="col-12 text-center">
           <h1>Ingresar</h1>
         </div>
         <!-- USUARIO -->
         <div class="col-12 mt-2">
-          <mat-form-field class="w-100">
+          <mat-form-field appearance="outline" class="w-100">
             <mat-label for="">Usuario</mat-label>
             <input
               matInput
@@ -24,7 +24,7 @@
         </div>
         <!-- CONTRASEÑA -->
         <div class="col-12 mt-3 mb-3">
-          <mat-form-field class="w-100">
+          <mat-form-field appearance="outline" class="w-100">
             <mat-label for="">Contraseña</mat-label>
             <input
               matInput

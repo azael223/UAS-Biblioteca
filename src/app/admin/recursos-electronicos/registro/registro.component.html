@@ -30,7 +30,7 @@
     >
       <h1>No se encontraron registros</h1>
     </div>
-    <ng-container>
+    <ng-container  *ngIf="objects && objects.length > 0">
       <div class="overflow-auto">
         <table
           #table
