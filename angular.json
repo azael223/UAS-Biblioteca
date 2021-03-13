@@ -68,11 +68,11 @@
                 }
               ]
             },
-            "test": {
+            "dev": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.test.ts"
+                  "with": "src/environments/environment.dev.ts"
                 }
               ],
               "optimization": true,
@@ -94,8 +94,8 @@
             "production": {
               "browserTarget": "UAS-Biblioteca:build:production"
             },
-            "test":{
-              "browserTarget": "UAS-Biblioteca:build",
+            "dev":{
+              "browserTarget": "UAS-Biblioteca:build:dev",
               "port":80,
               "host":"0.0.0.0",
               "disableHostCheck": true

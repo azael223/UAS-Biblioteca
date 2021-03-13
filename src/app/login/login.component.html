@@ -1,61 +1,47 @@
-<div class="container-fluid p-0">
+<div class="main-login-container">
   <div class="header">
-    <h1 class="main-title">Biblioteca</h1>
+    <span class="main-title">Biblioteca</span>
   </div>
 
   <div class="container shadow card p-5 login">
     <form [formGroup]="form" (ngSubmit)="login()">
-      <div class="row">
-        <div class="col-12 text-center">
-          <h1>Ingresar</h1>
+      <div class="login-container">
+        <div class="login-container-title">
+          <span>Ingresar</span>
         </div>
         <!-- USUARIO -->
-        <div class="col-12 mt-2">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label for="">Usuario</mat-label>
-            <input
-              matInput
-              placeholder="Usuario"
-              type="text"
-              formControlName="username"
-            />
-            <mat-error *ngIf="isUserInvalid"> Ingrese usuario </mat-error>
-          </mat-form-field>
-        </div>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label for="">Usuario</mat-label>
+          <input
+            matInput
+            placeholder="Usuario"
+            type="text"
+            formControlName="username"
+          />
+          <mat-error *ngIf="isUserInvalid"> Ingrese usuario </mat-error>
+        </mat-form-field>
+
         <!-- CONTRASEÑA -->
-        <div class="col-12 mt-3 mb-3">
-          <mat-form-field appearance="outline" class="w-100">
-            <mat-label for="">Contraseña</mat-label>
-            <input
-              matInput
-              placeholder="Contraseña"
-              type="password"
-              formControlName="password"
-            />
-            <mat-error *ngIf="isPasswordInvalid">
-              Ingrese contraseña
-            </mat-error>
-          </mat-form-field>
-        </div>
-        <div class="col-12">
-          <button
-            mat-raised-button
-            color="primary"
-            class="btn-block"
-            type="submit"
-          >
-            Iniciar Sesión
-          </button>
-        </div>
-        <div
-          *ngIf="isLoginInvalid"
-          class="col-12 pt-5 animate__animated animate__slideInDown"
-        >
-          <div class="alert alert-danger" role="alert">
-            {{ loginError }}
-          </div>
-        </div>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label for="">Contraseña</mat-label>
+          <input
+            matInput
+            placeholder="Contraseña"
+            type="password"
+            formControlName="password"
+          />
+          <mat-error *ngIf="isPasswordInvalid"> Ingrese contraseña </mat-error>
+        </mat-form-field>
+        <button matRipple class="custom-button-secondary w-100" type="submit">
+          Iniciar Sesión
+        </button>
       </div>
     </form>
+  </div>
+
+  <div *ngIf="isLoginInvalid" class="animate__animated animate__slideInDown">
+    <div class="alert alert-danger" role="alert">
+      {{ loginError }}
+    </div>
   </div>
 </div>

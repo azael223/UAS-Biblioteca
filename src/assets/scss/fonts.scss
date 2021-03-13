@@ -1,0 +1,54 @@
+@mixin importFont ($family, $src, $weight, $style) {
+  @font-face {
+    font-family: $family;
+    src: url($src);
+    font-weight: $weight;
+    font-style: $style;
+  }
+}
+@include importFont("Sarabun", "../fonts/Sarabun/Sarabun-Thin.ttf", 100, normal);
+@include importFont("Sarabun", "../fonts/Sarabun/Sarabun-ExtraLight.ttf", 200, normal);
+@include importFont("Sarabun", "../fonts/Sarabun/Sarabun-Light.ttf", 300, normal);
+@include importFont("Sarabun", "../fonts/Sarabun/Sarabun-Regular.ttf", 400, normal);
+@include importFont("Sarabun", "../fonts/Sarabun/Sarabun-Medium.ttf", 500, normal);
+@include importFont("Sarabun", "../fonts/Sarabun/Sarabun-SemiBold.ttf", 600, normal);
+@include importFont("Sarabun", "../fonts/Sarabun/Sarabun-Bold.ttf", 700, normal);
+@include importFont("Sarabun", "../fonts/Sarabun/Sarabun-ExtraBold.ttf", 800, normal);
+
+@include importFont("Sarabun", "../fonts/Sarabun/Sarabun-ThinItalic.ttf", 100, italic);
+@include importFont("Sarabun", "../fonts/Sarabun/Sarabun-ExtraLightItalic.ttf", 200, italic);
+@include importFont("Sarabun", "../fonts/Sarabun/Sarabun-LightItalic.ttf", 300, italic);
+@include importFont("Sarabun", "../fonts/Sarabun/Sarabun-Italic.ttf", 400, italic);
+@include importFont("Sarabun", "../fonts/Sarabun/Sarabun-MediumItalic.ttf", 500, italic);
+@include importFont("Sarabun", "../fonts/Sarabun/Sarabun-SemiBoldItalic.ttf", 600, italic);
+@include importFont("Sarabun", "../fonts/Sarabun/Sarabun-BoldItalic.ttf", 700, italic);
+@include importFont("Sarabun", "../fonts/Sarabun/Sarabun-ExtraBoldItalic.ttf", 800, italic);
+
+
+
+
+.title{
+  font-size: 32px !important;
+  font-weight: 600px !important;
+}
+
+.title-2{
+  font-size: 28px !important;
+  font-weight: 600px !important;
+}
+
+.subtitle{
+  font-size: 24px !important;
+  font-weight: 600px !important;
+}
+
+.subtitle-2{
+  font-size: 20px !important;
+  font-weight: 500px !important;
+}
+
+.normal{
+  font-size: 16px !important;
+  font-weight: 400px !important;
+}
+

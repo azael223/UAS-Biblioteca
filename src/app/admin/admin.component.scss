@@ -1,4 +1,12 @@
 .admin-content{
-    width: 100%;
-    height: calc(100vh - 52px);
+  height: calc(100% - 54px);
+}
+
+.main-container{
+  height: 100%;
+}
+.main-router{
+  display: flex;
+  flex: 1 1 auto;
+  overflow: hidden;
 }

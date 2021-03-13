@@ -1,1 +1,1 @@
-ng serve --configuration test
+ng serve --configuration=dev

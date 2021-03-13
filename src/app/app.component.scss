@@ -1,4 +1,5 @@
-.main-content {
-  overflow: hidden;
-  min-height: fit-content;
+.main-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }

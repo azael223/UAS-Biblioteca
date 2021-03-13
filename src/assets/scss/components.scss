@@ -1,0 +1,82 @@
+@import "../scss/themes.scss";
+
+.main-page-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 10px 15px;
+  gap: 16px;
+}
+
+.custom-header {
+  display: flex;
+  flex-direction: column;
+  hr {
+    width: 100%;
+  }
+  .custom-header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .custom-header-title {
+    font-size: 32px;
+    font-weight: 500;
+    color: $dark-color;
+  }
+  .custom-header-subtitle {
+    font-size: 28px;
+    font-weight: 500;
+    color: $dark-color;
+  }
+  .custom-header-actions {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+  }
+}
+
+.custom-sub-header {
+  display: flex;
+}
+
+.custom-button {
+  font-family: "Sarabun", Arial, Helvetica, sans-serif;
+  display: flex;
+  justify-content: center;
+  border-radius: 5px;
+  border: none;
+  padding: 10px 12px;
+  font-weight: 500;
+}
+.custom-button-primary {
+  background-color: $primary-color;
+  color: $light-color;
+  @extend .custom-button;
+}
+
+.custom-button-secondary {
+  background-color: $secondary-color;
+  color: $light-color;
+  @extend .custom-button;
+}
+
+.custom-card {
+  height: 100%;
+  width: 100%;
+  background-color: $light-color;
+  border-radius: 6px;
+  overflow: hidden;
+  -webkit-box-shadow: 0px 2px 2px 1px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0px 2px 2px 1px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 2px 2px 1px rgba(0, 0, 0, 0.3);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.custom-paginator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
