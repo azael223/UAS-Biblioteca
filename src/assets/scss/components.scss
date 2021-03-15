@@ -1,4 +1,10 @@
 @import "../scss/themes.scss";
+.main-content {
+  height: calc(100% - 56px);
+}
+.sub-content {
+  height: calc(100% - 40px);
+}
 
 .main-page-container {
   display: flex;
@@ -48,16 +54,31 @@
   border: none;
   padding: 10px 12px;
   font-weight: 500;
+  gap: 8px;
+  align-items: center;
+  text-decoration: none;
+  &:hover {
+    text-decoration: none;
+    color: $light-color;
+  }
 }
 .custom-button-primary {
   background-color: $primary-color;
   color: $light-color;
+  transition: background-color 0.3s;
+  &:hover {
+    background-color: $primary-color-selected;
+  }
   @extend .custom-button;
 }
 
 .custom-button-secondary {
   background-color: $secondary-color;
   color: $light-color;
+  transition: background-color 0.3s;
+  &:hover {
+    background-color: $secondary-color-selected;
+  }
   @extend .custom-button;
 }
 
@@ -75,8 +96,75 @@
   flex-direction: column;
 }
 
+.custom-navbar {
+  display: flex;
+  padding: 0 15px;
+  gap: 8px;
+  align-items: center;
+  background-color: $primary-color;
+  height: 56px;
+  .custom-navbar-button {
+    font-size: 16px;
+    @extend .custom-button-primary;
+  }
+
+  .custom-navbar-button-active{
+    background-color: $primary-color-selected;
+  }
+
+  .custom-navbar-menu-button {
+    font-size: 20px;
+    @extend .custom-button-primary;
+  }
+  .custom-navbar-title {
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+    gap: 8px;
+    align-items: center;
+    color: $light-color;
+    font-size: 24px;
+    font-weight: 500;
+  }
+  .custom-navbar-middle {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    align-items: center;
+  }
+  .custom-navbar-end {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    align-items: center;
+  }
+}
+.custom-sub-navbar {
+  display: flex;
+  justify-content: center;
+  background-color: $secondary-color;
+  height: 40px;
+  gap: 8px;
+  padding: 0 15px;
+  .custom-sub-navbar-button {
+    font-size: 16px;
+    @extend .custom-button-secondary;
+  }
+  .custom-sub-navbar-button-active{
+    background-color: $secondary-color-selected;
+  }
+}
+
 .custom-paginator {
-  position: absolute;
-  bottom: 0;
-  left: 0;
+  width: 100%;
+}
+
+.custom-table {
+  flex: 1;
+  overflow-y: auto;
+  table {
+    width: 100%;
+  }
 }

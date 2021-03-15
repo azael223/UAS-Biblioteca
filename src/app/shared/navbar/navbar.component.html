@@ -1,37 +1,20 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-2">
-  <a class="navbar-brand">Biblioteca</a>
-  <button
-    class="navbar-toggler"
-    type="button"
-    data-toggle="collapse"
-    data-target="#navbarNav"
-    aria-controls="navbarNav"
-    aria-expanded="false"
-    aria-label="Toggle navigation"
-  >
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+<div class="custom-navbar">
+  <div class="custom-navbar-title">
+    <span>Biblioteca</span>
+  </div>
+  <div class="custom-navbar-middle">
     <ng-container *ngIf="rol === roles.ADMIN">
-      <ul class="navbar-nav justify-content-center">
-        <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" routerLink="biblioteca">Biblioteca</a>
-        </li>
-        <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" routerLink="cubiculos">Cubiculos</a>
-        </li>
-        <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" routerLink="recursos-electronicos"
-            >Recursos Electronicos</a
-          >
-        </li>
-      </ul>
+      <a *ngIf="rol === roles.ADMIN || rol === roles.BIBLIOTECA ||  rol == roles.BIBLIOTECA_USUARIOS" class="custom-button-primary" routerLinkActive="custom-navbar-button-active" routerLink="biblioteca">Biblioteca</a>
+      <a *ngIf="rol === roles.ADMIN || rol === roles.CUBICULOS || rol === roles.CUBICULOS_USUARIOS" class="custom-button-primary" routerLinkActive="custom-navbar-button-active" routerLink="cubiculos">Cubiculos</a>
+      <a *ngIf="rol === roles.ADMIN || rol === roles.RECURSOS_ELECTRONICOS || rol === roles.RECURSOS_ELECTRONICOS_USUARIOS" routerLinkActive="custom-navbar-button-active" class="custom-button-primary" routerLink="recursos-electronicos">Recursos Electronicos</a>
     </ng-container>
   </div>
-  <button *ngIf="verifyRol()" mat-flat-button (click)="logOut()">
-    <mat-icon>exit_to_app</mat-icon> Salir
-  </button>
-  <button *ngIf="!(verifyRol())" mat-flat-button (click)="goToAdmin()">
-    <mat-icon>home</mat-icon> Regresar
-  </button>
-</nav>
+  <div class="custom-navbar-end">
+    <button class="custom-button-primary" *ngIf="verifyRol()" (click)="logOut()">
+      <mat-icon>exit_to_app</mat-icon> Salir
+    </button>
+    <button class="custom-button-primary" *ngIf="!verifyRol()" (click)="goToAdmin()">
+      <mat-icon>home</mat-icon> Regresar
+    </button>
+  </div>
+</div>

@@ -1,23 +1,16 @@
-<div class="container-fluid h-90 pr-4 pl-4 pt-3 animate__animated animate__fadeIn">
-
-  <div class="row">
-      <div class="col-10">
-        <h1>Biblioteca</h1>
+<div class="main-page-container animate__animated animate__fadeIn">
+  <div class="custom-header">
+    <div class="custom-header-content">
+      <span class="custom-header-title"> Registro Biblioteca </span>
+      <div class="custom-header-actions">
+        <button class="custom-button-secondary" (click)="openDialog()">
+          REGISTRARSE
+        </button>
       </div>
-    <div class="col-2">
-      <button
-        class="btn-block"
-        color="primary"
-        mat-raised-button
-        (click)="openDialog()"
-      >
-        <mat-icon class="mr-2">create</mat-icon>
-        Registrarse
-      </button>
     </div>
   </div>
-
-  <div class="h-100 card shadow">
+  <!-- TABLE -->
+  <div class="custom-card animate__animated animate__fadeIn">
     <div
       *ngIf="!loaded"
       class="h-100 w-100 d-flex align-items-center justify-content-center"
@@ -32,13 +25,11 @@
         <h1>No hay usuarios registrados</h1>
       </div>
       <ng-container *ngIf="usuarios && usuarios.length > 0">
-        <div class="overflow-auto">
-          <app-user-registry-view
-            #table
-            [users]="usuarios"
-            (getSelected)="updateUser($event)"
-          ></app-user-registry-view>
-        </div>
+        <app-user-registry-view
+          #table
+          [users]="usuarios"
+          (getSelected)="updateUser($event)"
+        ></app-user-registry-view>
 
         <!-- <div class="pag position-relative row w-100"></div> -->
         <!-- <mat-paginator
