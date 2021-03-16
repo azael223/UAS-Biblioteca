@@ -12,6 +12,7 @@
   height: 100%;
   padding: 10px 15px;
   gap: 16px;
+  background-color: $back-color;
 }
 
 .custom-header {
@@ -82,6 +83,16 @@
   @extend .custom-button;
 }
 
+.custom-button-cancel {
+  background-color: $cancel-color;
+  color: $light-color;
+  transition: background-color 0.3s;
+  &:hover {
+    background-color: $cancel-color-selected;
+  }
+  @extend .custom-button;
+}
+
 .custom-card {
   height: 100%;
   width: 100%;
@@ -115,6 +126,19 @@
   .custom-navbar-menu-button {
     font-size: 20px;
     @extend .custom-button-primary;
+  }
+  .custom-navbar-icon {
+    border-radius: 50%;
+    height: 35px;
+    width: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $light-color;
+    img {
+      height: 25px;
+      width: 25px;
+    }
   }
   .custom-navbar-title {
     flex: 1;
@@ -231,6 +255,7 @@
   }
   .custom-modal-actions {
     display: flex;
+    gap: 8px;
     justify-content: flex-end;
   }
 }
@@ -260,4 +285,24 @@
 
 .custom-form-field {
   width: 100%;
+}
+
+.custom-menu {
+  .mat-menu-content {
+    padding: 0 !important;
+    background-color: $primary-color;
+  }
+  .mat-menu-item {
+    color: $light-color;
+    font-size: 18px !important;
+    &:focus{
+      outline: none;
+    }
+    &:hover{
+      background-color: $secondary-color;
+    }
+  }
+  mat-icon{
+    color: $light-color !important;
+  }
 }

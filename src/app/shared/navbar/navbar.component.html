@@ -1,19 +1,61 @@
 <div class="custom-navbar">
   <div class="custom-navbar-title">
+    <div class="custom-navbar-icon">
+      <img src="assets/icons/uas_logo_color.svg" alt="UAS Logo" />
+    </div>
+
     <span>Biblioteca</span>
   </div>
   <div class="custom-navbar-middle">
     <ng-container *ngIf="rol === roles.ADMIN">
-      <a *ngIf="rol === roles.ADMIN || rol === roles.BIBLIOTECA ||  rol == roles.BIBLIOTECA_USUARIOS" class="custom-button-primary" routerLinkActive="custom-navbar-button-active" routerLink="biblioteca">Biblioteca</a>
-      <a *ngIf="rol === roles.ADMIN || rol === roles.CUBICULOS || rol === roles.CUBICULOS_USUARIOS" class="custom-button-primary" routerLinkActive="custom-navbar-button-active" routerLink="cubiculos">Cubiculos</a>
-      <a *ngIf="rol === roles.ADMIN || rol === roles.RECURSOS_ELECTRONICOS || rol === roles.RECURSOS_ELECTRONICOS_USUARIOS" routerLinkActive="custom-navbar-button-active" class="custom-button-primary" routerLink="recursos-electronicos">Recursos Electronicos</a>
+      <a
+        *ngIf="
+          rol === roles.ADMIN ||
+          rol === roles.BIBLIOTECA ||
+          rol == roles.BIBLIOTECA_USUARIOS
+        "
+        class="custom-button-primary"
+        routerLinkActive="custom-navbar-button-active"
+        routerLink="biblioteca"
+        >Biblioteca</a
+      >
+      <a
+        *ngIf="
+          rol === roles.ADMIN ||
+          rol === roles.CUBICULOS ||
+          rol === roles.CUBICULOS_USUARIOS
+        "
+        class="custom-button-primary"
+        routerLinkActive="custom-navbar-button-active"
+        routerLink="cubiculos"
+        >Cubiculos</a
+      >
+      <a
+        *ngIf="
+          rol === roles.ADMIN ||
+          rol === roles.RECURSOS_ELECTRONICOS ||
+          rol === roles.RECURSOS_ELECTRONICOS_USUARIOS
+        "
+        routerLinkActive="custom-navbar-button-active"
+        class="custom-button-primary"
+        routerLink="recursos-electronicos"
+        >Recursos Electronicos</a
+      >
     </ng-container>
   </div>
   <div class="custom-navbar-end">
-    <button class="custom-button-primary" *ngIf="verifyRol()" (click)="logOut()">
+    <button
+      class="custom-button-primary"
+      *ngIf="verifyRol()"
+      (click)="logOut()"
+    >
       <mat-icon>exit_to_app</mat-icon> Salir
     </button>
-    <button class="custom-button-primary" *ngIf="!verifyRol()" (click)="goToAdmin()">
+    <button
+      class="custom-button-primary"
+      *ngIf="!verifyRol()"
+      (click)="goToAdmin()"
+    >
       <mat-icon>home</mat-icon> Regresar
     </button>
   </div>

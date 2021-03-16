@@ -1,5 +1,8 @@
 <div class="custom-navbar">
   <div class="custom-navbar-title">
+    <div class="custom-navbar-icon">
+      <img src="assets/icons/uas_logo_color.svg" alt="UAS Logo">
+    </div>
     <span>Biblioteca</span>
   </div>
   <div class="custom-navbar-middle">
@@ -32,7 +35,7 @@
   </div>
 </div>
 
-<mat-menu #menu="matMenu">
+<mat-menu class="custom-menu" #menu="matMenu">
   <ng-container *ngFor="let route of routes">
     <button
       class="h-100 btn-nav"
