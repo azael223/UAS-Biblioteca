@@ -130,7 +130,7 @@ export class EquiposComponent implements OnInit, AfterViewInit, OnDestroy {
 
   openDialog(data?: EquipoComputo) {
     const dialogRef = this._dialog.open(AddEquipoComponent, {
-      width: '1000px',
+      width: '600px',
       data: data,
     });
 

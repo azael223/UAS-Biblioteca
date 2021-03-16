@@ -57,8 +57,9 @@ export class UsuariosRegistroViewComponent
   openDialog() {
     const dialogRef = this._dialog.open(UsuariosRegistroComponent, {
       data: this.registro,
+      width:'600px'
     });
-    +dialogRef
+    dialogRef
       .afterClosed()
       .pipe(takeUntil(this.onDestroy))
       .subscribe((result) => {
@@ -108,7 +109,7 @@ export class UsuariosRegistroViewComponent
       .pipe(takeUntil(this.onDestroy))
       .subscribe((usuarios: UsuarioRegistro[]) => {
         this.loaded = true;
-        console.log(usuarios)
+        console.log(usuarios);
         this.usuarios = usuarios;
       });
   }

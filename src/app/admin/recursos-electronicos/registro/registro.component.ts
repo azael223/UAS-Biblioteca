@@ -138,7 +138,7 @@ export class RegistroComponent implements OnInit {
 
   openDialog(data?: RegRecElec) {
     const dialogRef = this._dialog.open(AddRegistroRecElecComponent, {
-      width: '1000px',
+      width: '600px',
       data: data,
     });
 

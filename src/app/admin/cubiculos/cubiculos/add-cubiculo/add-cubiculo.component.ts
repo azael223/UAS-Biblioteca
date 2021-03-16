@@ -36,7 +36,7 @@ export class AddCubiculoComponent implements OnInit, OnDestroy, AfterViewInit {
     private _fb: FormBuilder,
     private _snackBar:MatSnackBar,
     private _dialogRef: MatDialogRef<AddCubiculoComponent>,
-    @Inject(MAT_DIALOG_DATA) private data?: Cubiculo
+    @Inject(MAT_DIALOG_DATA) public data?: Cubiculo
   ) {}
 
 

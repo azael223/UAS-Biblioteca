@@ -45,8 +45,9 @@ export class UsuariosRegRecElecViewComponent
   openDialog() {
     const dialogRef = this._dialog.open(UsuariosRegRecElecComponent, {
       data: this.registro,
+      width:'600px'
     });
-    +dialogRef
+    dialogRef
       .afterClosed()
       .pipe(takeUntil(this.onDestroy))
       .subscribe((result) => {

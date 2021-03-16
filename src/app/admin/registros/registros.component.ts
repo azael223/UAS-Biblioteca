@@ -144,7 +144,7 @@ export class RegistrosComponent implements OnInit, AfterViewInit, OnDestroy {
 
   openDialog(data?: Registro) {
     const dialogRef = this._dialog.open(AddRegistroComponent, {
-      width: '1000px',
+      width: '600px',
       data: data,
     });
 

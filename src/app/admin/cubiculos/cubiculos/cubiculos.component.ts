@@ -131,7 +131,7 @@ export class CubiculosComponent implements OnInit, OnDestroy, AfterViewInit {
 
   openDialog(data?: Cubiculo) {
     const dialogRef = this._dialog.open(AddCubiculoComponent, {
-      width: '1000px',
+      width: '600px',
       data: data,
     });
 

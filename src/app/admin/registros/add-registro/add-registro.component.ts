@@ -35,7 +35,7 @@ export class AddRegistroComponent implements OnInit, AfterViewInit, OnDestroy {
     private _fb: FormBuilder,
     private _snackBar: MatSnackBar,
     private _dialogRef: MatDialogRef<AddRegistroComponent>,
-    @Inject(MAT_DIALOG_DATA) private data?: Registro
+    @Inject(MAT_DIALOG_DATA) public data?: Registro
   ) {}
 
   matcher = new ErrorStateMatcher();

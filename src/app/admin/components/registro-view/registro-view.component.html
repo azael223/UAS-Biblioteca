@@ -1,7 +1,7 @@
-<table
+<div class="custom-table">
+  <table
   mat-table
   [dataSource]="data"
-  class="mat-elevation-z8 w-100 sticky-header"
 >
   <ng-container matColumnDef="pos">
     <th mat-header-cell *matHeaderCellDef>Num</th>
@@ -24,3 +24,5 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 </table>
+</div>
+

@@ -132,7 +132,7 @@ export class InstitucionesComponent
 
   openDialog(data?: Institucion) {
     const dialogRef = this._dialog.open(AddInstitucionComponent, {
-      width: '1000px',
+      width: '600px',
       data: data,
     });
 

@@ -1,53 +1,49 @@
-<div class="container">
-  <form [formGroup]="form" (ngSubmit)="openRequest()">
-    <div class="row">
-      <div class="col-12 d-flex">
-        <h1>Nuevo Registro Recursos Electrónicos</h1>
-        <button
-          class="ml-auto"
-          mat-icon-button
-          type="button"
-          (click)="onNoClick()"
+<form
+  class="custom-modal-container"
+  [formGroup]="form"
+  (ngSubmit)="openRequest()"
+>
+  <div class="custom-modal-header">
+    <span class="custom-modal-title">
+      {{
+        (data ? "EDITAR" : "NUEVO") + " REGISTRO RECURSOS ELECTRóNICOS"
+          | uppercase
+      }}
+    </span>
+    <mat-icon class="custom-modal-close" (click)="onNoClick()">close</mat-icon>
+  </div>
+  <div class="custom-modal-content row">
+    <div class="col-12">
+      <mat-form-field appearance="outline" class="custom-form-field">
+        <mat-label>Area</mat-label>
+        <input
+          matInput
+          formControlName="area"
+          type="text"
+          aria-describedby="areaError"
+        />
+        <mat-error
+          *ngIf="form.get('area').invalid && form.get('area').touched"
+          id="areaError"
+          >Debe tener al menos 2 letras</mat-error
         >
-          <mat-icon>close</mat-icon>
-        </button>
-      </div>
-
-      <div class="col-12 mt-2">
-        <mat-form-field class="w-100">
-          <mat-label>Area</mat-label>
-          <input
-            matInput
-            formControlName="area"
-            type="text"
-            aria-describedby="areaError"
-          />
-          <mat-error
-            *ngIf="form.get('area').invalid && form.get('area').touched"
-            id="areaError"
-            >Debe tener al menos 2 letras</mat-error
-          >
-        </mat-form-field>
-      </div>
-      <div class="col-12 mt-3 mb-3">
-        <mat-form-field class="w-100">
-          <mat-label for="turno">Status</mat-label>
-          <mat-select id="turno" formControlName="turno">
-            <mat-option
-              *ngFor="let turno of turnos | keyvalue"
-              [value]="turno.key"
-            >
-              {{ turno.value }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="col-12">
-        <button mat-flat-button color="primary" type="submit" class="btn-block">
-          <mat-icon>save</mat-icon>
-          Guardar
-        </button>
-      </div>
+      </mat-form-field>
     </div>
-  </form>
-</div>
+    <div class="col-12">
+      <mat-form-field appearance="outline" class="custom-form-field">
+        <mat-label for="turno">Status</mat-label>
+        <mat-select id="turno" formControlName="turno">
+          <mat-option
+            *ngFor="let turno of turnos | keyvalue"
+            [value]="turno.key"
+          >
+            {{ turno.value }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="custom-modal-actions">
+    <button class="custom-button-secondary" type="submit">GUARDAR</button>
+  </div>
+</form>

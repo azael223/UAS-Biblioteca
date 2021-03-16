@@ -1,114 +1,102 @@
-<div class="container">
-  <!--  -->
-  <form [formGroup]="form" (ngSubmit)="performRequest()">
-    <div class="row">
-      <!-- NAME -->
-      <div class="col-12 d-flex">
-        <h1>Registrarse en Biblioteca</h1>
-        <button
-          class="ml-auto"
-          mat-icon-button
-          type="button"
-          (click)="onNoClick()"
+<!--  -->
+<form
+  [formGroup]="form"
+  class="custom-modal-container"
+  (ngSubmit)="performRequest()"
+>
+  <div class="custom-modal-header">
+    <span class="custom-modal-title"> REGISTRARSE EN BIBLIOTECA </span>
+    <mat-icon class="custom-modal-close" (click)="onNoClick()">close</mat-icon>
+  </div>
+  <div class="row">
+    <!-- NAME -->
+    <div class="col-12">
+      <mat-form-field appearance="outline" class="custom-form-field">
+        <mat-label for="">Nombre</mat-label>
+        <input
+          matInput
+          placeholder="Nomrbe"
+          type="text"
+          formControlName="nombre"
+        />
+        <mat-error *ngIf="isNameInvalid" class="form-text text-danger"
+          >Ingrese un nombre valido, solo letras y al menos 2 letras</mat-error
         >
-          <mat-icon>close</mat-icon>
-        </button>
-      </div>
-      <div class="col-12 mt-2">
-        <mat-form-field class="w-100">
-          <mat-label for="">Nombre</mat-label>
-          <input
-            matInput
-            placeholder="Nomrbe"
-            type="text"
-            formControlName="nombre"
-          />
-          <mat-error *ngIf="isNameInvalid" class="form-text text-danger"
-            >Ingrese un nombre valido, solo letras y al menos 2
-            letras</mat-error
-          >
-        </mat-form-field>
-      </div>
-
-      <!-- GENRE -->
-      <div class="col-6 mt-3">
-        <section>
-          <label>Genero</label>
-          <br />
-          <mat-radio-group formControlName="sexo">
-            <mat-radio-button color="primary" class="mr-4" value="M"
-              >Masculino</mat-radio-button
-            >
-            <mat-radio-button color="primary" value="F"
-              >Femenino</mat-radio-button
-            >
-          </mat-radio-group>
-        </section>
-      </div>
-
-      <!-- EMAIL -->
-      <div class="col-12 mt-3">
-        <mat-form-field class="w-100">
-          <mat-label for="">Email</mat-label>
-          <input
-            matInput
-            placeholder="ejemplo@etc.com"
-            type="email"
-            formControlName="email"
-          />
-        </mat-form-field>
-      </div>
-
-      <!-- INSTITUTION -->
-      <div class="col-12 mt-3">
-        <mat-form-field class="w-100">
-          <mat-label for="">Institución</mat-label>
-          <input
-            type="text"
-            matInput
-            formControlName="institucion"
-            [matAutocomplete]="auto"
-            placeholder="Seleccione la institución a la que pertenece"
-          />
-          <mat-error *ngIf="isInstitucionInvalid" class="form-text text-danger"
-            >Seleccione una institución</mat-error
-          >
-        </mat-form-field>
-        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-          <mat-option
-            *ngFor="let institucion of filteredInstituciones | async"
-            [value]="institucion"
-          >
-            {{ institucion.nombre }}
-          </mat-option>
-        </mat-autocomplete>
-      </div>
-
-      <!-- EQUIPOS -->
-      <div class="col-12 mt-3 mb-3">
-        <mat-form-field class="w-100">
-          <mat-label>Equipo</mat-label>
-          <mat-select
-            placeholder="Seleccione un equipo"
-            formControlName="equipo"
-          >
-            <mat-option *ngFor="let equipo of equipos" [value]="equipo.id">{{
-              equipo.nombre
-            }}</mat-option>
-          </mat-select>
-          <mat-error *ngIf="isEquipoInvalid" class="form-text text-danger"
-            >Seleccione una equipo</mat-error
-          >
-        </mat-form-field>
-      </div>
-
-      <!-- BUTTONS -->
-      <div class="col-12">
-        <button mat-flat-button color="primary" type="submit" class="btn-block">
-          <mat-icon class="mr-3">check_circle_outline </mat-icon>
-          Registrarse
-        </button>
-      </div>
+      </mat-form-field>
     </div>
-  </form>
-</div>
+
+    <!-- GENRE -->
+    <div class="col-6">
+      <section>
+        <label>Genero</label>
+        <br />
+        <mat-radio-group formControlName="sexo">
+          <mat-radio-button color="primary" class="mr-4" value="M"
+            >Masculino</mat-radio-button
+          >
+          <mat-radio-button color="primary" value="F"
+            >Femenino</mat-radio-button
+          >
+        </mat-radio-group>
+      </section>
+    </div>
+
+    <!-- EMAIL -->
+    <div class="col-12">
+      <mat-form-field appearance="outline" class="custom-form-field">
+        <mat-label for="">Email</mat-label>
+        <input
+          matInput
+          placeholder="ejemplo@etc.com"
+          type="email"
+          formControlName="email"
+        />
+      </mat-form-field>
+    </div>
+
+    <!-- INSTITUTION -->
+    <div class="col-12">
+      <mat-form-field appearance="outline" class="custom-form-field">
+        <mat-label for="">Institución</mat-label>
+        <input
+          type="text"
+          matInput
+          formControlName="institucion"
+          [matAutocomplete]="auto"
+          placeholder="Seleccione la institución a la que pertenece"
+        />
+        <mat-error *ngIf="isInstitucionInvalid" class="form-text text-danger"
+          >Seleccione una institución</mat-error
+        >
+      </mat-form-field>
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+        <mat-option
+          *ngFor="let institucion of filteredInstituciones | async"
+          [value]="institucion"
+        >
+          {{ institucion.nombre }}
+        </mat-option>
+      </mat-autocomplete>
+    </div>
+
+    <!-- EQUIPOS -->
+    <div class="col-12">
+      <mat-form-field appearance="outline" class="custom-form-field">
+        <mat-label>Equipo</mat-label>
+        <mat-select placeholder="Seleccione un equipo" formControlName="equipo">
+          <mat-option *ngFor="let equipo of equipos" [value]="equipo.id">{{
+            equipo.nombre
+          }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="isEquipoInvalid" class="form-text text-danger"
+          >Seleccione una equipo</mat-error
+        >
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- BUTTONS -->
+  <div class="custom-modal-actions">
+    <button class="custom-button-secondary" type="submit">REGISTRARSE</button>
+  </div>
+</form>

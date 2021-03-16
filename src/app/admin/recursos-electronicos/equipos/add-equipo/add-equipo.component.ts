@@ -34,7 +34,7 @@ export class AddEquipoComponent implements OnInit, AfterViewInit, OnDestroy {
     private _snackBar: MatSnackBar,
     private _api: BibliotecaApiService,
     private _dialogRef: MatDialogRef<AddEquipoComponent>,
-    @Inject(MAT_DIALOG_DATA) private data?: EquipoComputo
+    @Inject(MAT_DIALOG_DATA) public data?: EquipoComputo
   ) {}
 
   get name() {

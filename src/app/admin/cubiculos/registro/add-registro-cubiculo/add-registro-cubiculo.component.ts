@@ -39,7 +39,7 @@ export class AddRegistroCubiculoComponent
     private _fb: FormBuilder,
     private _snackBar: MatSnackBar,
     private _dialogRef: MatDialogRef<AddRegistroCubiculoComponent>,
-    @Inject(MAT_DIALOG_DATA) private data?: RegCubiculos
+    @Inject(MAT_DIALOG_DATA) public data?: RegCubiculos
   ) {}
 
   get biblioteca() {

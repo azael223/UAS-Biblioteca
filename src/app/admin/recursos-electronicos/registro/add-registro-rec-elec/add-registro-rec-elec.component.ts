@@ -27,7 +27,7 @@ export class AddRegistroRecElecComponent implements OnInit {
     private _fb: FormBuilder,
     private _snackBar: MatSnackBar,
     private _dialogRef: MatDialogRef<AddRegistroRecElecComponent>,
-    @Inject(MAT_DIALOG_DATA) private data?: RegRecElec
+    @Inject(MAT_DIALOG_DATA) public data?: RegRecElec
   ) {}
   matcher = new ErrorStateMatcher();
 
