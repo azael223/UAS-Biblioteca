@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MODELS } from '@models/Models';
 import { RegCubiculos } from '@models/regCubiculos.model';
-import { UsuarioRegCubiculo } from '@models/usuarioRegCubiculo.model';
+import { UsCubiculos } from '@models/usCubiculos.model';
 import { BibliotecaApiService } from '@services/biblioteca-api.service';
 import { User } from 'app/shared/components/user-registry-view/user-registry-view.component';
 import * as moment from 'moment';
@@ -16,14 +16,15 @@ import { UsuariosRegCubiculosComponent } from './usuarios-reg-cubiculos/usuarios
   styleUrls: ['./usuarios-reg-cubiculos-view.component.scss'],
 })
 export class UsuariosRegCubiculosViewComponent
-  implements OnInit, AfterViewInit, OnDestroy {
+  implements OnInit, AfterViewInit, OnDestroy
+{
   private onDestroy = new Subject<any>();
   public users: User[];
   private model = MODELS.REG_CUBICULOS;
-  private usuariosModel = MODELS.REG_CUBICULOS_USUARIOS;
+  private usuariosModel = MODELS.US_CUBICULOS;
   private idRegistro = 'idRegistroCubiculo';
   public registro: RegCubiculos;
-  public usuarios: UsuarioRegCubiculo[];
+  public usuarios: UsCubiculos[];
   public loaded = false;
 
   constructor(private _api: BibliotecaApiService, private _dialog: MatDialog) {}
@@ -75,10 +76,10 @@ export class UsuariosRegCubiculosViewComponent
       });
   }
 
-  updateUser(user: UsuarioRegCubiculo) {
-    const updateUser: UsuarioRegCubiculo = {
+  updateUser(user: UsCubiculos) {
+    const updateUser: UsCubiculos = {
       id: user.id,
-      terminadoEn: moment().format('YYYY-MM-DD HH:mm:ss'),
+      terminadoEn: moment().toISOString(),
     };
     console.log(updateUser);
     this._api
@@ -95,7 +96,7 @@ export class UsuariosRegCubiculosViewComponent
     this.loaded = false;
     this.getUsuarios(this.registro.id)
       .pipe(takeUntil(this.onDestroy))
-      .subscribe((usuarios: UsuarioRegCubiculo[]) => {
+      .subscribe((usuarios: UsCubiculos[]) => {
         this.loaded = true;
         console.log(usuarios);
         this.usuarios = usuarios;

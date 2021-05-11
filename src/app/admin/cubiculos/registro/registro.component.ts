@@ -93,10 +93,10 @@ export class RegistroComponent implements OnInit, AfterViewInit, OnDestroy {
               (data: any) => {
                 console.log(data);
                 if (data && !data.error) {
-                  this.openSnack(`Registro ${object.id} eliminado`);
+                  this.openSnack(`RegBiblioteca ${object.id} eliminado`);
                   this.renderRows();
                 } else {
-                  this.openSnack(`Registro  ${object.id} no se pudo eliminar`);
+                  this.openSnack(`RegBiblioteca  ${object.id} no se pudo eliminar`);
                 }
               },
               () => {

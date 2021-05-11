@@ -33,7 +33,7 @@ export class CubiculosComponent implements OnInit, OnDestroy, AfterViewInit {
   public totalPages = 0;
   public PAGES = this._pagination.PAGES;
   public loaded = false;
-  private model = MODELS.CUBICULO;
+  private model = MODELS.CUBICULOS;
 
   constructor(
     private _api: BibliotecaApiService,

@@ -7,8 +7,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { Registro } from '@models/registro.model';
-import { UsuarioRegistro } from '@models/usuarioRegistro.model';
+import { RegBiblioteca } from '@models/regBiblioteca.model';
+import { UsBiblioteca } from '@models/usBiblioteca.model';
 import { Institucion } from '@models/institucion.model';
 import { BibliotecaApiService } from '@services/biblioteca-api.service';
 import { Observable, Subject } from 'rxjs';
@@ -28,14 +28,15 @@ import * as moment from 'moment';
   styleUrls: ['./usuarios-registro-view.component.scss'],
 })
 export class UsuariosRegistroViewComponent
-  implements OnInit, AfterViewInit, OnDestroy {
+  implements OnInit, AfterViewInit, OnDestroy
+{
   private onDestroy = new Subject<any>();
   public users: User[];
-  private model = MODELS.REGISTROS;
-  private usuariosModel = MODELS.REG_USUARIOS;
+  private model = MODELS.REG_BIBLIOTECA;
+  private usuariosModel = MODELS.REG_BIBLIOTECA;
   private idRegistro = 'idRegistro';
-  public registro: Registro;
-  public usuarios: UsuarioRegistro[];
+  public registro: RegBiblioteca;
+  public usuarios: UsBiblioteca[];
   public loaded = false;
 
   constructor(private _api: BibliotecaApiService, private _dialog: MatDialog) {}
@@ -57,7 +58,7 @@ export class UsuariosRegistroViewComponent
   openDialog() {
     const dialogRef = this._dialog.open(UsuariosRegistroComponent, {
       data: this.registro,
-      width:'600px'
+      width: '600px',
     });
     dialogRef
       .afterClosed()
@@ -78,8 +79,7 @@ export class UsuariosRegistroViewComponent
   loadData() {
     this.getRegistro()
       .pipe(takeUntil(this.onDestroy))
-      .subscribe((regs: Registro[]) => {
-        console.log(regs);
+      .subscribe((regs: RegBiblioteca[]) => {
         this.registro = regs[0];
         if (this.registro) {
           this.loadUsers();
@@ -87,18 +87,16 @@ export class UsuariosRegistroViewComponent
       });
   }
 
-  updateUser(user: UsuarioRegistro) {
-    const updateUser: UsuarioRegistro = {
+  updateUser(user: UsBiblioteca) {
+    const updateUser: UsBiblioteca = {
       id: user.id,
-      terminadoEn: moment().format('YYYY-MM-DD HH:mm:ss'),
+      terminadoEn: moment().toISOString(),
     };
-    console.log(updateUser);
     this._api
       .updateObject(updateUser, this.usuariosModel)
       .pipe(takeUntil(this.onDestroy))
       .subscribe((data) => {
         if (data) {
-          console.log(data);
         }
       });
   }
@@ -107,9 +105,8 @@ export class UsuariosRegistroViewComponent
     this.loaded = false;
     this.getUsuarios(this.registro.id)
       .pipe(takeUntil(this.onDestroy))
-      .subscribe((usuarios: UsuarioRegistro[]) => {
+      .subscribe((usuarios: UsBiblioteca[]) => {
         this.loaded = true;
-        console.log(usuarios);
         this.usuarios = usuarios;
       });
   }

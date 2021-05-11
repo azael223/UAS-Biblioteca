@@ -4,7 +4,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MODELS, TURNOS } from '@models/Models';
-import { RegRecElec } from '@models/regRecElec.model';
+import { RegEquipos } from '@models/regEquipos';
 import { BibliotecaApiService } from '@services/biblioteca-api.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -15,6 +15,13 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./add-registro-rec-elec.component.scss'],
 })
 export class AddRegistroRecElecComponent implements OnInit {
+  constructor(
+    private _api: BibliotecaApiService,
+    private _fb: FormBuilder,
+    private _snackBar: MatSnackBar,
+    private _dialogRef: MatDialogRef<AddRegistroRecElecComponent>,
+    @Inject(MAT_DIALOG_DATA) public data?: RegEquipos
+  ) {}
   private onDestroy = new Subject<any>();
   public turnos = TURNOS;
   public form = this._fb.group({
@@ -22,15 +29,23 @@ export class AddRegistroRecElecComponent implements OnInit {
     turno: new FormControl('M', [Validators.required]),
   });
 
-  constructor(
-    private _api: BibliotecaApiService,
-    private _fb: FormBuilder,
-    private _snackBar: MatSnackBar,
-    private _dialogRef: MatDialogRef<AddRegistroRecElecComponent>,
-    @Inject(MAT_DIALOG_DATA) public data?: RegRecElec
-  ) {}
   matcher = new ErrorStateMatcher();
 
+  ngOnInit(): void {
+    if (this.data) {
+      this.form.patchValue({
+        area: this.data.area,
+        turno: this.data.turno,
+      });
+    }
+  }
+
+  ngAfterViewInit(): void {}
+
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
+  }
   get area() {
     return this.form.get('area').value;
   }
@@ -40,12 +55,12 @@ export class AddRegistroRecElecComponent implements OnInit {
 
   openRequest() {
     if (this.form.valid) {
-      const newObject: RegRecElec = {
+      const newObject: RegEquipos = {
         area: this.area,
         turno: this.turno,
       };
       if (this.data) {
-        const editObject: RegRecElec = {
+        const editObject: RegEquipos = {
           ...this.data,
           ...newObject,
         };
@@ -57,15 +72,15 @@ export class AddRegistroRecElecComponent implements OnInit {
     }
   }
 
-  createObject(object: RegRecElec) {
+  createObject(object: RegEquipos) {
     this._api
-      .createObject(object, MODELS.REG_REC_ELEC)
+      .createObject(object, MODELS.REG_EQUIPOS)
       .pipe(takeUntil(this.onDestroy))
       .subscribe(
         (data) => {
           if (data) {
             this.onNoClick();
-            this.openSnackBar(`Registro creado`);
+            this.openSnackBar(`RegBiblioteca creado`);
           }
         },
         () => {
@@ -73,15 +88,15 @@ export class AddRegistroRecElecComponent implements OnInit {
         }
       );
   }
-  editObject(object: RegRecElec) {
+  editObject(object: RegEquipos) {
     this._api
-      .updateObject(object, MODELS.REG_REC_ELEC)
+      .updateObject(object, MODELS.REG_EQUIPOS)
       .pipe(takeUntil(this.onDestroy))
       .subscribe(
         (data) => {
           if (data) {
             this.onNoClick();
-            this.openSnackBar(`Registro actualizado`);
+            this.openSnackBar(`RegBiblioteca actualizado`);
           }
         },
         () => {
@@ -98,21 +113,5 @@ export class AddRegistroRecElecComponent implements OnInit {
     this._snackBar.open(message, 'X', {
       duration: 3000,
     });
-  }
-
-  ngOnInit(): void {}
-
-  ngAfterViewInit(): void {
-    if (this.data) {
-      this.form.patchValue({
-        area: this.data.area,
-        turno: this.data.turno,
-      });
-    }
-  }
-
-  ngOnDestroy(): void {
-    this.onDestroy.next();
-    this.onDestroy.unsubscribe();
   }
 }

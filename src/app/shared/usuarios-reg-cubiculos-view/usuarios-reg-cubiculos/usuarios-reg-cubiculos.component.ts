@@ -1,11 +1,24 @@
-import { AfterViewInit, Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import {
+  AfterViewInit,
+  Component,
+  Inject,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Cubiculo } from '@models/cubiculo.model';
 import { Institucion } from '@models/institucion.model';
 import { MODELS } from '@models/Models';
 import { RegCubiculos } from '@models/regCubiculos.model';
-import { UsuarioRegCubiculo } from '@models/usuarioRegCubiculo.model';
+import { UsCubiculos } from '@models/usCubiculos.model';
 import { BibliotecaApiService } from '@services/biblioteca-api.service';
 import { FormLib } from 'app/libs/Form.lib';
 import { Observable, Subject } from 'rxjs';
@@ -17,12 +30,13 @@ import { map, startWith, takeUntil } from 'rxjs/operators';
   styleUrls: ['./usuarios-reg-cubiculos.component.scss'],
 })
 export class UsuariosRegCubiculosComponent
-  implements OnInit, AfterViewInit, OnDestroy {
+  implements OnInit, AfterViewInit, OnDestroy
+{
   private onDestroy = new Subject<any>();
   private instituciones: Institucion[];
   public cubiculos: Cubiculo[];
   public filteredInstituciones: Observable<Institucion[]>;
-  private model = MODELS.REG_CUBICULOS_USUARIOS;
+  private model = MODELS.US_CUBICULOS;
 
   constructor(
     private _api: BibliotecaApiService,
@@ -42,7 +56,9 @@ export class UsuariosRegCubiculosComponent
     return this.form.get('nombre').invalid && this.form.get('nombre').touched;
   }
   get isCubiculoInvalid() {
-    return this.form.get('cubiculo').invalid && this.form.get('cubiculo').touched;
+    return (
+      this.form.get('cubiculo').invalid && this.form.get('cubiculo').touched
+    );
   }
 
   institucionValidator(instituciones: Institucion[]): ValidatorFn {
@@ -67,7 +83,7 @@ export class UsuariosRegCubiculosComponent
     return this._api.getObjects(MODELS.INSTITUCIONES);
   }
   getCubiculos() {
-    return this._api.getObjects(MODELS.CUBICULO);
+    return this._api.getObjects(MODELS.CUBICULOS);
   }
 
   /* INSTITUCIONES FILTER */
@@ -94,17 +110,16 @@ export class UsuariosRegCubiculosComponent
   performRequest() {
     FormLib.markFormGroupTouched(this.form);
     if (this.form.valid) {
-      const newObject: UsuarioRegCubiculo = {
-        idInstitucion: (<Institucion>this.form.get('institucion').value).id,
-        idCubiculo: this.form.get('cubiculo').value,
-        idRegistroCubiculo:this.data.id,
+      const newObject: UsCubiculos = {
+        cubiculoId: this.form.get('cubiculo').value,
+        regCubiculosId: this.data.id,
         nombre: this.form.get('nombre').value,
       };
       this.createUser(newObject);
     }
   }
 
-  createUser(object: UsuarioRegCubiculo) {
+  createUser(object: UsCubiculos) {
     this._api
       .createObject(object, this.model)
       .pipe(takeUntil(this.onDestroy))

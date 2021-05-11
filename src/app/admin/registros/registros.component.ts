@@ -10,7 +10,7 @@ import { PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTable } from '@angular/material/table';
 import { MODELS, TURNOS } from '@models/Models';
-import { Registro } from '@models/registro.model';
+import { RegBiblioteca } from '@models/regBiblioteca.model';
 import { BibliotecaApiService } from '@services/biblioteca-api.service';
 import { PaginationService } from '@services/pagination.service';
 import { ConfirmDialogComponent } from 'app/templates/dialogs/confirm-dialog/confirm-dialog.component';
@@ -27,12 +27,12 @@ import { UsuariosRegistroModalComponent } from './usuarios-registro-modal/usuari
 })
 export class RegistrosComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('table') table: MatTable<any>;
-  public objects: Registro[];
+  public objects: RegBiblioteca[];
   public displayedColumns = ['pos', 'ur', 'area', 'turno', 'date', 'options'];
   private onDestroy = new Subject<any>();
   public loaded = false;
   public turnos = TURNOS;
-  private model = MODELS.REGISTROS;
+  private model = MODELS.REG_BIBLIOTECA;
   public index = 0;
   public pages = this._pagination.pagination;
   public totalPages = 0;
@@ -64,7 +64,7 @@ export class RegistrosComponent implements OnInit, AfterViewInit, OnDestroy {
         this.totalPages = count;
         this.getRegistros()
           .pipe(takeUntil(this.onDestroy))
-          .subscribe((objects: Registro[]) => {
+          .subscribe((objects: RegBiblioteca[]) => {
             this.objects = objects;
             this.loaded = true;
             if (firstLoad) {
@@ -74,7 +74,7 @@ export class RegistrosComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  deleteObject(object: Registro) {
+  deleteObject(object: RegBiblioteca) {
     const dialogRefd = this._dialog.open(ConfirmDialogComponent, {
       width: '500px',
       data: {
@@ -94,10 +94,10 @@ export class RegistrosComponent implements OnInit, AfterViewInit, OnDestroy {
               (data: any) => {
                 console.log(data);
                 if (data && !data.error) {
-                  this.openSnack(`Registro ${object.id} eliminado`);
+                  this.openSnack(`RegBiblioteca ${object.id} eliminado`);
                   this.renderRows();
                 } else {
-                  this.openSnack(`Registro  ${object.id} no se pudo eliminar`);
+                  this.openSnack(`RegBiblioteca  ${object.id} no se pudo eliminar`);
                 }
               },
               () => {
@@ -142,7 +142,7 @@ export class RegistrosComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  openDialog(data?: Registro) {
+  openDialog(data?: RegBiblioteca) {
     const dialogRef = this._dialog.open(AddRegistroComponent, {
       width: '600px',
       data: data,

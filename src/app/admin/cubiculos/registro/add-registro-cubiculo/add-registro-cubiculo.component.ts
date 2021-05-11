@@ -24,6 +24,13 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class AddRegistroCubiculoComponent
   implements OnInit, AfterViewInit, OnDestroy {
+  constructor(
+    private _api: BibliotecaApiService,
+    private _fb: FormBuilder,
+    private _snackBar: MatSnackBar,
+    private _dialogRef: MatDialogRef<AddRegistroCubiculoComponent>,
+    @Inject(MAT_DIALOG_DATA) public data?: RegCubiculos
+  ) {}
   private onDestroy = new Subject<any>();
 
   public form = this._fb.group({
@@ -34,14 +41,21 @@ export class AddRegistroCubiculoComponent
     ur: new FormControl('', [Validators.required, Validators.minLength(2)]),
   });
 
-  constructor(
-    private _api: BibliotecaApiService,
-    private _fb: FormBuilder,
-    private _snackBar: MatSnackBar,
-    private _dialogRef: MatDialogRef<AddRegistroCubiculoComponent>,
-    @Inject(MAT_DIALOG_DATA) public data?: RegCubiculos
-  ) {}
+  ngOnInit(): void {
+    if (this.data) {
+      this.form.patchValue({
+        biblioteca: this.data.biblioteca,
+        ur: this.data.ur,
+      });
+    }
+  }
 
+  ngAfterViewInit(): void {}
+
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
+  }
   get biblioteca() {
     return this.form.get('biblioteca').value;
   }
@@ -77,7 +91,7 @@ export class AddRegistroCubiculoComponent
         (data) => {
           if (data) {
             this.onNoClick();
-            this.openSnackBar(`Registro creado`);
+            this.openSnackBar(`RegBiblioteca creado`);
           }
         },
         () => {
@@ -93,7 +107,7 @@ export class AddRegistroCubiculoComponent
         (data) => {
           if (data) {
             this.onNoClick();
-            this.openSnackBar(`Registro actualizado`);
+            this.openSnackBar(`RegBiblioteca actualizado`);
           }
         },
         () => {
@@ -110,21 +124,5 @@ export class AddRegistroCubiculoComponent
     this._snackBar.open(message, 'X', {
       duration: 3000,
     });
-  }
-
-  ngOnInit(): void {}
-
-  ngAfterViewInit(): void {
-    if (this.data) {
-      this.form.patchValue({
-        biblioteca:this.data.biblioteca,
-        ur:this.data.ur
-      });
-    }
-  }
-
-  ngOnDestroy(): void {
-    this.onDestroy.next();
-    this.onDestroy.unsubscribe();
   }
 }

@@ -13,7 +13,7 @@ import { Cubiculo } from '@models/cubiculo.model';
 import { Institucion } from '@models/institucion.model';
 import { MODELS } from '@models/Models';
 import { RegCubiculos } from '@models/regCubiculos.model';
-import { UsuarioRegCubiculo } from '@models/usuarioRegCubiculo.model';
+import { UsCubiculos } from '@models/usCubiculos.model';
 import { BibliotecaApiService } from '@services/biblioteca-api.service';
 import { PaginationService } from '@services/pagination.service';
 import { Column } from 'app/admin/components/registro-view/registro-view.component';
@@ -48,14 +48,14 @@ export class CubiculosRegistroModalComponent
       property: 'cubiculo',
     },
   ];
-  public objects: UsuarioRegCubiculo[];
+  public objects: UsCubiculos[];
   private onDestroy = new Subject<any>();
   public loaded = false;
   public index = 0;
   public pages = this._pagination.pagination;
   public totalPages = 0;
   public PAGES = this._pagination.PAGES;
-  public model = MODELS.REG_CUBICULOS_USUARIOS;
+  public model = MODELS.US_CUBICULOS;
   public instituciones: Institucion[];
   public cubiculos: Cubiculo[];
 
@@ -68,7 +68,7 @@ export class CubiculosRegistroModalComponent
   }
 
   getCubiculos() {
-    return this._api.getObjects(MODELS.CUBICULO);
+    return this._api.getObjects(MODELS.CUBICULOS);
   }
 
   getUsuarios() {
@@ -103,7 +103,7 @@ export class CubiculosRegistroModalComponent
         this.totalPages = count;
         this.getUsuarios()
           .pipe(takeUntil(this.onDestroy))
-          .subscribe((objects: UsuarioRegCubiculo[]) => {
+          .subscribe((objects: UsCubiculos[]) => {
             this.getInstituciones()
               .pipe(takeUntil(this.onDestroy))
               .subscribe((instituciones: Institucion[]) => {
@@ -125,7 +125,7 @@ export class CubiculosRegistroModalComponent
       });
   }
 
-  dataTransform(objects: UsuarioRegCubiculo[]) {
+  dataTransform(objects: UsCubiculos[]) {
     let retObjects: any[] = [];
     objects.forEach((object) => {
       let retObject: any = { ...object };

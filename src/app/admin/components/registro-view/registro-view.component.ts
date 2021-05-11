@@ -5,7 +5,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { UsuarioRegistro } from '@models/usuarioRegistro.model';
+import { UsBiblioteca } from '@models/usBiblioteca.model';
 
 export interface Column {
   title: string;

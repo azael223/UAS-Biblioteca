@@ -3,7 +3,9 @@
     <div class="custom-header-content">
       <span class="custom-header-title"> Registro Recursos Electrónicos </span>
       <div class="custom-header-actions">
-        <button class="custom-button-secondary" (click)="openDialog()">REGISTRARSE</button>
+        <button class="custom-button-secondary" (click)="openDialog()">
+          REGISTRARSE
+        </button>
       </div>
     </div>
   </div>
@@ -27,6 +29,7 @@
           #table
           [users]="usuarios"
           (getSelected)="updateUser($event)"
+          [type]="'equipos'"
         ></app-user-registry-view>
 
         <!-- <div class="pag position-relative row w-100"></div> -->

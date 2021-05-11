@@ -7,6 +7,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatListModule } from '@angular/material/list';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [AddInstitucionComponent],
@@ -19,6 +21,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatInputModule,
     MatIconModule,
     MatButtonModule,
+    MatListModule,
+    MatProgressSpinnerModule,
   ],
   exports: [AddInstitucionComponent],
 })

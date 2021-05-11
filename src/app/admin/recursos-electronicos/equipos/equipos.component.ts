@@ -9,7 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTable } from '@angular/material/table';
-import { EquipoComputo, STATUS_EQUIPO } from '@models/equipoComputo.model';
+import { Equipo, STATUS_EQUIPO } from '@models/equipo.model';
 import { MODELS } from '@models/Models';
 import { BibliotecaApiService } from '@services/biblioteca-api.service';
 import { PaginationService } from '@services/pagination.service';
@@ -25,7 +25,7 @@ import { AddEquipoComponent } from './add-equipo/add-equipo.component';
 })
 export class EquiposComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('table') table: MatTable<any>;
-  public equipos: EquipoComputo[];
+  public equipos: Equipo[];
   public displayedColumns = ['pos', 'name', 'status', 'options'];
   private onDestroy = new Subject<any>();
   public status = STATUS_EQUIPO;
@@ -34,7 +34,7 @@ export class EquiposComponent implements OnInit, AfterViewInit, OnDestroy {
   public totalPages = 0;
   public PAGES = this._pagination.PAGES;
   public loaded = false;
-  private model = MODELS.EQUIPOS_COMPUTO;
+  private model = MODELS.EQUIPOS;
 
   constructor(
     private _api: BibliotecaApiService,
@@ -62,7 +62,7 @@ export class EquiposComponent implements OnInit, AfterViewInit, OnDestroy {
         this.totalPages = count;
         this.getEquipos()
           .pipe(takeUntil(this.onDestroy))
-          .subscribe((objects: EquipoComputo[]) => {
+          .subscribe((objects: Equipo[]) => {
             this.equipos = objects;
             this.loaded = true;
             if (firstLoad) {
@@ -72,7 +72,7 @@ export class EquiposComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  deleteObject(object: EquipoComputo) {
+  deleteObject(object: Equipo) {
     const dialogRefd = this._dialog.open(ConfirmDialogComponent, {
       width: '500px',
       data: {
@@ -128,7 +128,7 @@ export class EquiposComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  openDialog(data?: EquipoComputo) {
+  openDialog(data?: Equipo) {
     const dialogRef = this._dialog.open(AddEquipoComponent, {
       width: '600px',
       data: data,

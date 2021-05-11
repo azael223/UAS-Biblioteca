@@ -9,11 +9,11 @@ import {
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { MatTable } from '@angular/material/table';
-import { EquipoComputo } from '@models/equipoComputo.model';
+import { Equipo } from '@models/equipo.model';
 import { Institucion } from '@models/institucion.model';
 import { MODELS } from '@models/Models';
-import { RegRecElec } from '@models/regRecElec.model';
-import { UsuarioRegRecElec } from '@models/usuarioRegRecElec.model';
+import { RegEquipos } from '@models/regEquipos';
+import { UsEquipos } from '@models/usEquipos.model';
 import { BibliotecaApiService } from '@services/biblioteca-api.service';
 import { PaginationService } from '@services/pagination.service';
 import { Column } from 'app/admin/components/registro-view/registro-view.component';
@@ -30,7 +30,7 @@ export class RecElecRegistroModalComponent
   constructor(
     private _api: BibliotecaApiService,
     private _dialogRef: MatDialogRef<RecElecRegistroModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public dataIn: RegRecElec,
+    @Inject(MAT_DIALOG_DATA) public dataIn: RegEquipos,
     private _pagination: PaginationService
   ) {}
   @ViewChild('table') table: MatTable<any>;
@@ -50,16 +50,16 @@ export class RecElecRegistroModalComponent
       property: 'equipo',
     },
   ];
-  public objects: UsuarioRegRecElec[];
+  public objects: UsEquipos[];
   private onDestroy = new Subject<any>();
   public loaded = false;
   public index = 0;
   public pages = this._pagination.pagination;
   public totalPages = 0;
   public PAGES = this._pagination.PAGES;
-  public model = MODELS.REG_REC_ELEC_USUARIOS;
+  public model = MODELS.US_EQUIPOS;
   public instituciones: Institucion[];
-  public equipos: EquipoComputo[];
+  public equipos: Equipo[];
 
   count() {
     return this._api.count(this.model);
@@ -70,7 +70,7 @@ export class RecElecRegistroModalComponent
   }
 
   getEquipos() {
-    return this._api.getObjects(MODELS.EQUIPOS_COMPUTO);
+    return this._api.getObjects(MODELS.EQUIPOS);
   }
 
   getUsuarios() {
@@ -105,13 +105,13 @@ export class RecElecRegistroModalComponent
         this.totalPages = count;
         this.getUsuarios()
           .pipe(takeUntil(this.onDestroy))
-          .subscribe((objects: UsuarioRegRecElec[]) => {
+          .subscribe((objects: UsEquipos[]) => {
             this.getInstituciones()
               .pipe(takeUntil(this.onDestroy))
               .subscribe((instituciones: Institucion[]) => {
                 this.getEquipos()
                   .pipe(takeUntil(this.onDestroy))
-                  .subscribe((sequipos: EquipoComputo[]) => {
+                  .subscribe((sequipos: Equipo[]) => {
                     this.equipos = sequipos;
                     this.instituciones = instituciones;
                     this.objects = this.dataTransform(objects);
@@ -127,7 +127,7 @@ export class RecElecRegistroModalComponent
       });
   }
 
-  dataTransform(objects: UsuarioRegRecElec[]) {
+  dataTransform(objects: UsEquipos[]) {
     let retObjects: any[] = [];
     objects.forEach((object) => {
       let retObject: any = { ...object };

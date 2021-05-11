@@ -11,8 +11,8 @@ import { PageEvent } from '@angular/material/paginator';
 import { MatTable } from '@angular/material/table';
 import { Institucion } from '@models/institucion.model';
 import { MODELS } from '@models/Models';
-import { Registro } from '@models/registro.model';
-import { UsuarioRegistro } from '@models/usuarioRegistro.model';
+import { RegBiblioteca } from '@models/regBiblioteca.model';
+import { UsBiblioteca } from '@models/usBiblioteca.model';
 import { BibliotecaApiService } from '@services/biblioteca-api.service';
 import { PaginationService } from '@services/pagination.service';
 import { Column } from 'app/admin/components/registro-view/registro-view.component';
@@ -29,7 +29,7 @@ export class UsuariosRegistroModalComponent
   constructor(
     private _api: BibliotecaApiService,
     private _dialogRef: MatDialogRef<UsuariosRegistroModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public dataIn: Registro,
+    @Inject(MAT_DIALOG_DATA) public dataIn: RegBiblioteca,
     private _pagination: PaginationService
   ) {}
   @ViewChild('table') table: MatTable<any>;
@@ -44,16 +44,26 @@ export class UsuariosRegistroModalComponent
       property: 'institucion',
     },
   ];
-  public objects: UsuarioRegistro[];
+  public objects: UsBiblioteca[];
   private onDestroy = new Subject<any>();
   public loaded = false;
   public index = 0;
   public pages = this._pagination.pagination;
   public totalPages = 0;
   public PAGES = this._pagination.PAGES;
-  public model = MODELS.REG_USUARIOS;
+  public model = MODELS.REG_BIBLIOTECA;
   public instituciones: Institucion[];
 
+  ngOnInit(): void {}
+
+  ngAfterViewInit(): void {
+    this.renderRows();
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
+  }
   count() {
     return this._api.count(this.model);
   }
@@ -94,7 +104,7 @@ export class UsuariosRegistroModalComponent
         this.totalPages = count;
         this.getUsuarios()
           .pipe(takeUntil(this.onDestroy))
-          .subscribe((objects: Registro[]) => {
+          .subscribe((objects: RegBiblioteca[]) => {
             this.getInstituciones()
               .pipe(takeUntil(this.onDestroy))
               .subscribe((instituciones: Institucion[]) => {
@@ -111,7 +121,7 @@ export class UsuariosRegistroModalComponent
       });
   }
 
-  dataTransform(objects: UsuarioRegistro[]) {
+  dataTransform(objects: UsBiblioteca[]) {
     let retObjects: any[] = [];
     objects.forEach((object) => {
       let retObject: any = { ...object };
@@ -133,16 +143,5 @@ export class UsuariosRegistroModalComponent
       retObjects.push(retObject);
     });
     return retObjects;
-  }
-
-  ngOnInit(): void {}
-
-  ngAfterViewInit(): void {
-    this.renderRows();
-  }
-
-  ngOnDestroy(): void {
-    this.onDestroy.next();
-    this.onDestroy.unsubscribe();
   }
 }

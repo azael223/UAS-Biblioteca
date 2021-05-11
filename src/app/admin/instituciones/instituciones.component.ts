@@ -9,7 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTable } from '@angular/material/table';
-import { EquipoComputo } from '@models/equipoComputo.model';
+import { Equipo } from '@models/equipo.model';
 import { Institucion } from '@models/institucion.model';
 import { MODELS } from '@models/Models';
 import { BibliotecaApiService } from '@services/biblioteca-api.service';
@@ -28,7 +28,7 @@ export class InstitucionesComponent
   implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('table') table: MatTable<any>;
   public instituciones: Institucion[];
-  public displayedColumns = ['pos', 'name', 'abbrv', 'options'];
+  public displayedColumns = ['pos', 'name', 'options'];
   private onDestroy = new Subject<any>();
   public loaded = false;
   private model = MODELS.INSTITUCIONES;

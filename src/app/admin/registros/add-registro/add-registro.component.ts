@@ -10,7 +10,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MODELS, TURNOS } from '@models/Models';
-import { Registro } from '@models/registro.model';
+import { RegBiblioteca } from '@models/regBiblioteca.model';
 import { BibliotecaApiService } from '@services/biblioteca-api.service';
 import * as moment from 'moment';
 import { Subject } from 'rxjs';
@@ -22,6 +22,13 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./add-registro.component.scss'],
 })
 export class AddRegistroComponent implements OnInit, AfterViewInit, OnDestroy {
+  constructor(
+    private _api: BibliotecaApiService,
+    private _fb: FormBuilder,
+    private _snackBar: MatSnackBar,
+    private _dialogRef: MatDialogRef<AddRegistroComponent>,
+    @Inject(MAT_DIALOG_DATA) public data?: RegBiblioteca
+  ) {}
   private onDestroy = new Subject<any>();
   public turnos = TURNOS;
   public form = this._fb.group({
@@ -30,15 +37,24 @@ export class AddRegistroComponent implements OnInit, AfterViewInit, OnDestroy {
     turno: new FormControl('M', [Validators.required]),
   });
 
-  constructor(
-    private _api: BibliotecaApiService,
-    private _fb: FormBuilder,
-    private _snackBar: MatSnackBar,
-    private _dialogRef: MatDialogRef<AddRegistroComponent>,
-    @Inject(MAT_DIALOG_DATA) public data?: Registro
-  ) {}
-
   matcher = new ErrorStateMatcher();
+
+  ngOnInit(): void {
+    if (this.data) {
+      this.form.patchValue({
+        area: this.data.area,
+        ur: this.data.ur,
+        turno: this.data.turno,
+      });
+    }
+  }
+
+  ngAfterViewInit(): void {}
+
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
+  }
 
   get area() {
     return this.form.get('area').value;
@@ -52,13 +68,13 @@ export class AddRegistroComponent implements OnInit, AfterViewInit, OnDestroy {
 
   openRequest() {
     if (this.form.valid) {
-      const newObject: Registro = {
+      const newObject: RegBiblioteca = {
         area: this.area,
         ur: this.ur,
         turno: this.turno,
       };
       if (this.data) {
-        const editObject: Registro = {
+        const editObject: RegBiblioteca = {
           ...this.data,
           ...newObject,
         };
@@ -70,15 +86,15 @@ export class AddRegistroComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  createObject(object: Registro) {
+  createObject(object: RegBiblioteca) {
     this._api
-      .createObject(object, MODELS.REGISTROS)
+      .createObject(object, MODELS.REG_BIBLIOTECA)
       .pipe(takeUntil(this.onDestroy))
       .subscribe(
         (data) => {
           if (data) {
             this.onNoClick();
-            this.openSnackBar(`Registro creado`);
+            this.openSnackBar(`RegBiblioteca creado`);
           }
         },
         () => {
@@ -86,15 +102,15 @@ export class AddRegistroComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       );
   }
-  editObject(object: Registro) {
+  editObject(object: RegBiblioteca) {
     this._api
-      .updateObject(object, MODELS.REGISTROS)
+      .updateObject(object, MODELS.REG_BIBLIOTECA)
       .pipe(takeUntil(this.onDestroy))
       .subscribe(
         (data) => {
           if (data) {
             this.onNoClick();
-            this.openSnackBar(`Registro actualizado`);
+            this.openSnackBar(`RegBiblioteca actualizado`);
           }
         },
         () => {
@@ -111,22 +127,5 @@ export class AddRegistroComponent implements OnInit, AfterViewInit, OnDestroy {
     this._snackBar.open(message, 'X', {
       duration: 3000,
     });
-  }
-
-  ngOnInit(): void {}
-
-  ngAfterViewInit(): void {
-    if (this.data) {
-      this.form.patchValue({
-        area: this.data.area,
-        ur: this.data.ur,
-        turno: this.data.turno,
-      });
-    }
-  }
-
-  ngOnDestroy(): void {
-    this.onDestroy.next();
-    this.onDestroy.unsubscribe();
   }
 }

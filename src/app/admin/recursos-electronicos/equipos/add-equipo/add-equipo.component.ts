@@ -8,7 +8,7 @@ import {
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { EquipoComputo, STATUS_EQUIPO } from '@models/equipoComputo.model';
+import { Equipo, STATUS_EQUIPO } from '@models/equipo.model';
 import { MODELS } from '@models/Models';
 import { BibliotecaApiService } from '@services/biblioteca-api.service';
 import * as moment from 'moment';
@@ -21,6 +21,13 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./add-equipo.component.scss'],
 })
 export class AddEquipoComponent implements OnInit, AfterViewInit, OnDestroy {
+  constructor(
+    private _fb: FormBuilder,
+    private _snackBar: MatSnackBar,
+    private _api: BibliotecaApiService,
+    private _dialogRef: MatDialogRef<AddEquipoComponent>,
+    @Inject(MAT_DIALOG_DATA) public data?: Equipo
+  ) {}
   public equipoStatus = STATUS_EQUIPO;
 
   public form = this._fb.group({
@@ -29,14 +36,21 @@ export class AddEquipoComponent implements OnInit, AfterViewInit, OnDestroy {
   });
   private onDestroy = new Subject<any>();
 
-  constructor(
-    private _fb: FormBuilder,
-    private _snackBar: MatSnackBar,
-    private _api: BibliotecaApiService,
-    private _dialogRef: MatDialogRef<AddEquipoComponent>,
-    @Inject(MAT_DIALOG_DATA) public data?: EquipoComputo
-  ) {}
+  ngOnInit(): void {
+    if (this.data) {
+      this.form.patchValue({
+        name: this.data.nombre,
+        status: this.data.status,
+      });
+    }
+  }
 
+  ngAfterViewInit(): void {}
+
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
+  }
   get name() {
     return this.form.get('name').value;
   }
@@ -46,17 +60,17 @@ export class AddEquipoComponent implements OnInit, AfterViewInit, OnDestroy {
 
   openRequest() {
     if (this.form.valid) {
-      const newEquipo: EquipoComputo = {
+      const newEquipo: Equipo = {
         nombre: this.name,
         status: this.status,
       };
       if (this.data) {
-        const editEquipo:EquipoComputo = {
+        const editEquipo: Equipo = {
           ...this.data,
           ...newEquipo,
-          actualizadoEn:moment().format('YYYY-MM-DD HH:mm:ss')
-        }
-        delete editEquipo.creadoEn
+          actualizadoEn: moment().format('YYYY-MM-DD HH:mm:ss'),
+        };
+        delete editEquipo.creadoEn;
         this.editEquipo(editEquipo);
       } else {
         this.createEquipo(newEquipo);
@@ -64,9 +78,9 @@ export class AddEquipoComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  createEquipo(equipo: EquipoComputo) {
+  createEquipo(equipo: Equipo) {
     this._api
-      .createObject(equipo, MODELS.EQUIPOS_COMPUTO)
+      .createObject(equipo, MODELS.EQUIPOS)
       .pipe(takeUntil(this.onDestroy))
       .subscribe(
         (data) => {
@@ -81,20 +95,22 @@ export class AddEquipoComponent implements OnInit, AfterViewInit, OnDestroy {
       );
   }
 
-editEquipo(equipo:EquipoComputo){
-  this._api
-  .updateObject(equipo, MODELS.EQUIPOS_COMPUTO)
-  .pipe(takeUntil(this.onDestroy))
-  .subscribe((data) => {
-    if (data) {
-      this.onNoClick()
-      this.openSnackBar(`Equipo "${this.name}" actualizado`);
-    }
-  },()=>{
-    this.openSnackBar(`Error al actualizar equipo "${this.name}"`)
-  });
-}
-
+  editEquipo(equipo: Equipo) {
+    this._api
+      .updateObject(equipo, MODELS.EQUIPOS)
+      .pipe(takeUntil(this.onDestroy))
+      .subscribe(
+        (data) => {
+          if (data) {
+            this.onNoClick();
+            this.openSnackBar(`Equipo "${this.name}" actualizado`);
+          }
+        },
+        () => {
+          this.openSnackBar(`Error al actualizar equipo "${this.name}"`);
+        }
+      );
+  }
 
   onNoClick() {
     this._dialogRef.close();
@@ -104,21 +120,5 @@ editEquipo(equipo:EquipoComputo){
     this._snackBar.open(message, 'X', {
       duration: 3000,
     });
-  }
-
-  ngOnInit(): void {}
-
-  ngAfterViewInit(): void {
-    if (this.data) {
-      this.form.patchValue({
-        name: this.data.nombre,
-        status: this.data.status,
-      });
-    }
-  }
-
-  ngOnDestroy(): void {
-    this.onDestroy.next();
-    this.onDestroy.unsubscribe();
   }
 }

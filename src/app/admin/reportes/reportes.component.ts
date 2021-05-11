@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MODELS } from '@models/Models';
-import { Registro } from '@models/registro.model';
-import { RegRecElec } from '@models/regRecElec.model';
+import { RegBiblioteca } from '@models/regBiblioteca.model';
+import { RegEquipos } from '@models/regEquipos';
 import { BibliotecaApiService } from '@services/biblioteca-api.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -33,12 +33,12 @@ export class ReportesComponent implements OnInit {
     });
   }
   getRegistrosBiblioteca() {
-    this.getRegistro(MODELS.REGISTROS)
+    this.getRegistro(MODELS.REG_BIBLIOTECA)
       .pipe(takeUntil(this.onDestroy))
-      .subscribe((data: Registro[]) => {
+      .subscribe((data: RegBiblioteca[]) => {
         console.log(data);
         if (data) {
-          this.getUsuarios(data[0].id, 'idRegistro', MODELS.REG_USUARIOS)
+          this.getUsuarios(data[0].id, 'idRegistro', MODELS.REG_BIBLIOTECA)
             .pipe(takeUntil(this.onDestroy))
             .subscribe((data: []) => {
               if (data) {
@@ -50,15 +50,15 @@ export class ReportesComponent implements OnInit {
   }
 
   getRegistrosEquipos() {
-    this.getRegistro(MODELS.EQUIPOS_COMPUTO)
+    this.getRegistro(MODELS.EQUIPOS)
       .pipe(takeUntil(this.onDestroy))
-      .subscribe((data: RegRecElec[]) => {
+      .subscribe((data: RegEquipos[]) => {
         console.log(data);
         if (data) {
           this.getUsuarios(
             data[0].id,
             'idRegRecElec',
-            MODELS.REG_REC_ELEC_USUARIOS
+            MODELS.US_EQUIPOS
           )
             .pipe(takeUntil(this.onDestroy))
             .subscribe((data: []) => {
@@ -73,13 +73,13 @@ export class ReportesComponent implements OnInit {
   getRegistrosCubiculos() {
     this.getRegistro(MODELS.REG_CUBICULOS)
       .pipe(takeUntil(this.onDestroy))
-      .subscribe((data: RegRecElec[]) => {
+      .subscribe((data: RegEquipos[]) => {
         console.log(data);
         if (data) {
           this.getUsuarios(
             data[0].id,
             'idRegistroCubiculo',
-            MODELS.REG_CUBICULOS_USUARIOS
+            MODELS.US_CUBICULOS
           )
             .pipe(takeUntil(this.onDestroy))
             .subscribe((data: []) => {
