@@ -1,0 +1,31 @@
+::ng-deep .custom-snack-success {
+  background-color: #28a745;
+}
+::ng-deep .custom-snack-error {
+  background-color: #dc3545;
+}
+::ng-deep .custom-snack-warning {
+  background-color: #ffc107;
+}
+::ng-deep .custom-snack-info {
+  background-color: #17a2b8;
+}
+.custom-snack-container {
+  color: white;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .custom-snack-left {
+    display: flex;
+    gap: 16px;
+    .custom-snack-icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .custom-snack-message {
+      display: flex;
+    }
+  }
+}

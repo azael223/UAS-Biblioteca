@@ -11,8 +11,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Cubiculo } from '@models/cubiculo.model';
 import { Equipo } from '@models/equipo.model';
-import { MODELS } from '@models/Models';
-import { BibliotecaApiService } from '@services/biblioteca-api.service';
+import { MODELS } from '@models/Types';
+import { ApiService } from '@services/api.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -35,7 +35,7 @@ enum types {
   styleUrls: ['./user-registry-view.component.scss'],
 })
 export class UserRegistryViewComponent implements OnInit, OnDestroy {
-  constructor(private _api: BibliotecaApiService) {}
+  constructor(private _api: ApiService) {}
 
   public onDestroy = new Subject<any>();
 
@@ -49,15 +49,14 @@ export class UserRegistryViewComponent implements OnInit, OnDestroy {
   @Input('users') set _users(users: User[]) {
     this.users = new MatTableDataSource<User>(users);
     this.users.paginator = this.paginator;
+    console.log(users);
   }
   @Input('type') set _type(type: keyof typeof types) {
     this.type = type;
     if (type === 'equipos') {
       this.displayedColumns = ['pos', 'name', 'equipo', 'check'];
-      this.getEquipos();
     } else if (type === 'cubiculos') {
       this.displayedColumns = ['pos', 'name', 'cubiculo', 'check'];
-      this.getCubiculos();
     } else {
       this.displayedColumns = ['pos', 'name', 'check'];
     }
@@ -77,45 +76,5 @@ export class UserRegistryViewComponent implements OnInit, OnDestroy {
       user.terminadoEn = true;
       this.getSelected.emit(user);
     }
-  }
-
-  getCubiculo(idCubiculo: number) {
-    let cubiculoName = idCubiculo.toString();
-    this.cubiculos.some((cubiculo) => {
-      if (cubiculo.id === idCubiculo) {
-        cubiculoName = cubiculo.nombre;
-        return true;
-      }
-    });
-    return cubiculoName;
-  }
-
-  getEquipo(idEquipo: number) {
-    let equipoName = idEquipo.toString();
-    this.equipos.some((equipo) => {
-      if (equipo.id === idEquipo) {
-        equipoName = equipo.nombre;
-        return true;
-      }
-    });
-    return equipoName;
-  }
-
-  getCubiculos() {
-    return this._api
-      .getObjects(MODELS.CUBICULOS)
-      .pipe(takeUntil(this.onDestroy))
-      .subscribe((cubiculos: Cubiculo[]) => {
-        this.cubiculos = cubiculos;
-      });
-  }
-
-  getEquipos() {
-    return this._api
-      .getObjects(MODELS.EQUIPOS)
-      .pipe(takeUntil(this.onDestroy))
-      .subscribe((equipos: Equipo[]) => {
-        this.equipos = equipos;
-      });
   }
 }

@@ -1,0 +1,16 @@
+<div class="custom-snack-container">
+  <div class="custom-snack-left">
+    <div class="custom-snack-icon">
+      <mat-icon>{{ type[data.type].icon }}</mat-icon>
+    </div>
+    <div class="custom-snack-message">
+      {{ data.message }}
+    </div>
+  </div>
+
+  <div class="custom-snack-button">
+    <button mat-icon-button (click)="close()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</div>

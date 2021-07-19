@@ -12,13 +12,14 @@
     "importHelpers": true,
     "target": "es2015",
     "paths": {
-      "@models/*":["app/models/*"],
-      "@services/*":["app/services/*"]
+      "@models/*": ["app/core/models/*"],
+      "@services/*": ["app/core/services/*"],
+      "@guards/*": ["app/core/guards/*"],
+      "@modules/*": ["app/modules/*"],
+      "@libs/*": ["app/core/libs/*"],
+      "@components/*": ["app/shared/components/*"]
     },
     "module": "es2020",
-    "lib": [
-      "es2018",
-      "dom"
-    ]
+    "lib": ["es2018", "dom"]
   }
 }

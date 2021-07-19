@@ -1,0 +1,43 @@
+<div class="custom-modal-container h-100 animate__animated animate__fadeIn">
+  <div class="custom-modal-header">
+    <span class="custom-modal-title">
+      REGISTRO USUARIOS BIBLIOTECA # {{dataIn.id}}
+    </span>
+    <mat-icon class="custom-modal-close" (click)="onNoClick()">close</mat-icon>
+
+  </div>
+  <div class="custom-card animate__animated animate__fadeIn">
+    <div
+      *ngIf="!loaded"
+      class="h-100 w-100 d-flex align-items-center justify-content-center"
+    >
+      <mat-spinner></mat-spinner>
+    </div>
+    <ng-container *ngIf="loaded">
+      <div
+        *ngIf="!usuarios || (usuarios && usuarios.length <= 0)"
+        class="h-100 w-100 d-flex align-items-center justify-content-center"
+      >
+        <h1>No se encontraron usuarios</h1>
+      </div>
+      <ng-container *ngIf="usuarios && usuarios.length > 0">
+          <app-registro-view
+          class="h-100"
+            #table
+            [index]="index * pages"
+            [data]="usuarios"
+            [columns]="displayedUser"
+          ></app-registro-view>
+
+        <mat-paginator
+          class="custom-paginator"
+          [length]="totalPages"
+          [pageSize]="pages"
+          [pageSizeOptions]="PAGES"
+          (page)="pagesChange($event)"
+        ></mat-paginator>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>
+

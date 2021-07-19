@@ -11,13 +11,13 @@
     <ng-container *ngIf="type === 'equipos'" matColumnDef="equipo">
       <th mat-header-cell *matHeaderCellDef>Equipo</th>
       <td mat-cell *matCellDef="let user">
-        {{ getEquipo(user.idEquipoComputo) }}
+        {{ user.equipo.nombre || "" }}
       </td>
     </ng-container>
     <ng-container *ngIf="type === 'cubiculos'" matColumnDef="cubiculo">
       <th mat-header-cell *matHeaderCellDef>Cubiculo</th>
       <td mat-cell *matCellDef="let user">
-        {{ getCubiculo(user.idCubiculo) }}
+        {{ user.cubiculo.nombre }}
       </td>
     </ng-container>
     <ng-container matColumnDef="check">
