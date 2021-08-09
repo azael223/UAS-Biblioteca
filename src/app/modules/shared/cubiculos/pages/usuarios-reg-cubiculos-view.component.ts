@@ -43,9 +43,7 @@ export class UsuariosRegCubiculosViewComponent
       .afterClosed()
       .pipe(takeUntil(this.onDestroy))
       .subscribe((result) => {
-        if (result) {
-          this.loadData();
-        }
+        if (result) this.loadData();
       });
   }
 
@@ -55,8 +53,21 @@ export class UsuariosRegCubiculosViewComponent
     this.loadData();
   }
 
+  get error() {
+    if (!this.registro) return 'No se encontró un registro activo.';
+    if (
+      !this.usuarios ||
+      !this.usuarios ||
+      (this.usuarios && this.usuarios.length <= 0)
+    )
+      return 'No hay usuarios registrados.';
+  }
+
   loadData() {
+    this.registro = null;
+    this.usuarios = [];
     let registros$ = this._api.getObjects(this.model, {
+      where: { status: 'A', regStatus: 'A' },
       order: 'creadoEn DESC',
       limit: 1,
       include: [

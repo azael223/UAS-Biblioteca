@@ -51,8 +51,13 @@
     </div>
   </div>
   <div class="custom-modal-actions">
-    <button  class="custom-button-secondary" type="submit">
-      GUARDAR
-    </button>
+    <div (click)="changeStatus()" type="button" class="custom-check">
+      <mat-icon *ngIf="status === 'I'">radio_button_unchecked</mat-icon>
+      <mat-icon *ngIf="status === 'A'" class="check-radio"
+        >check_circle</mat-icon
+      >
+      ACTIVO
+    </div>
+    <button class="custom-button-secondary" type="submit">GUARDAR</button>
   </div>
 </form>

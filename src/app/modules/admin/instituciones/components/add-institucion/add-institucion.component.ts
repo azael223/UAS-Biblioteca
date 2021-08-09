@@ -110,7 +110,7 @@ export class AddInstitucionComponent
             .subscribe(
               (res) => {
                 this._alerts.success('Carreras creadas con éxito.');
-                this.onNoClick();
+                this.onNoClick(true);
               },
               (err) => {
                 this._alerts.error('Error al crear carreras.');
@@ -151,7 +151,7 @@ export class AddInstitucionComponent
             .subscribe(
               (res: any[]) => {
                 this._alerts.success('Carreras actualizadas con éxito.');
-                this.onNoClick();
+                this.onNoClick(true);
               },
               (error) => {
                 this._alerts.error('Error al actualizar Carreras.');
@@ -229,7 +229,7 @@ export class AddInstitucionComponent
     });
   }
 
-  onNoClick() {
-    this._dialogRef.close();
+  onNoClick(result?: boolean) {
+    this._dialogRef.close(result);
   }
 }

@@ -97,7 +97,7 @@ export class AddCubiculoComponent implements OnInit, OnDestroy, AfterViewInit {
       );
   }
 
-  onNoClick(hasChanges?: boolean) {
-    this._dialogRef.close(hasChanges);
+  onNoClick(result?: boolean) {
+    this._dialogRef.close(result);
   }
 }

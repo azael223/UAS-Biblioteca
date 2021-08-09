@@ -243,7 +243,7 @@ export class UsuariosRegCubiculosComponent
       );
   }
 
-  onNoClick(hasChanges?: boolean) {
-    this._dialogRef.close(hasChanges);
+  onNoClick(result?: boolean) {
+    this._dialogRef.close(result);
   }
 }

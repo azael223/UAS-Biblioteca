@@ -15,7 +15,7 @@ import { RegCubiculos } from '@models/regCubiculos.model';
 import { ApiService } from '@services/api.service';
 import * as moment from 'moment';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { finalize, takeUntil } from 'rxjs/operators';
 import { AlertsService } from '@services/alerts.service';
 
 @Component({
@@ -41,6 +41,7 @@ export class AddRegistroCubiculoComponent
       Validators.minLength(2),
     ]),
     ur: new FormControl('', [Validators.required, Validators.minLength(2)]),
+    regStatus: new FormControl('A', [Validators.required]),
   });
 
   ngOnInit(): void {
@@ -61,6 +62,14 @@ export class AddRegistroCubiculoComponent
   get ur() {
     return this.form.get('ur').value;
   }
+  get status() {
+    return this.form.get('regStatus').value;
+  }
+
+  changeStatus() {
+    if (this.status === 'A') this.form.get('regStatus').setValue('I');
+    else this.form.get('regStatus').setValue('A');
+  }
 
   openRequest() {
     try {
@@ -76,13 +85,32 @@ export class AddRegistroCubiculoComponent
     }
   }
 
+  updateStatus(id: number) {
+    if (this.status === 'A')
+      this._api
+        .updateObjects({ regStatus: 'I' }, MODELS.REG_CUBICULOS, {
+          id: { neq: id },
+        })
+        .pipe(
+          takeUntil(this.onDestroy),
+          finalize(() => this.onNoClick(true))
+        )
+        .subscribe(
+          (data) => {},
+          () => {
+            this._alerts.warning(`No se pudo activar el registro.`);
+          }
+        );
+    else this.onNoClick(true);
+  }
+
   createObject(object: RegCubiculos) {
     this._api
       .createObject(object, MODELS.REG_CUBICULOS)
       .pipe(takeUntil(this.onDestroy))
       .subscribe(
-        (data) => {
-          this.onNoClick();
+        (data: any) => {
+          this.updateStatus(data.id);
           this._alerts.success(`Registro creado.`);
         },
         () => {
@@ -96,7 +124,7 @@ export class AddRegistroCubiculoComponent
       .pipe(takeUntil(this.onDestroy))
       .subscribe(
         (data) => {
-          this.onNoClick();
+          this.updateStatus(this.data.id);
           this._alerts.success(`Registro actualizado.`);
         },
         () => {
@@ -105,7 +133,7 @@ export class AddRegistroCubiculoComponent
       );
   }
 
-  onNoClick() {
-    this._dialogRef.close();
+  onNoClick(result?: boolean) {
+    this._dialogRef.close(result);
   }
 }

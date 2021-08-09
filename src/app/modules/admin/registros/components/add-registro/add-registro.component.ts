@@ -14,7 +14,7 @@ import { RegBiblioteca } from '@models/regBiblioteca.model';
 import { ApiService } from '@services/api.service';
 import * as moment from 'moment';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { finalize, takeUntil } from 'rxjs/operators';
 import { AlertsService } from '@services/alerts.service';
 
 @Component({
@@ -36,6 +36,7 @@ export class AddRegistroComponent implements OnInit, AfterViewInit, OnDestroy {
     ur: new FormControl('', [Validators.required, Validators.minLength(2)]),
     area: new FormControl('', [Validators.required, Validators.minLength(2)]),
     turno: new FormControl('M', [Validators.required]),
+    regStatus: new FormControl('A', [Validators.required]),
   });
 
   matcher = new ErrorStateMatcher();
@@ -62,7 +63,14 @@ export class AddRegistroComponent implements OnInit, AfterViewInit, OnDestroy {
   get turno() {
     return this.form.get('turno').value;
   }
+  get status() {
+    return this.form.get('regStatus').value;
+  }
 
+  changeStatus() {
+    if (this.status === 'A') this.form.get('regStatus').setValue('I');
+    else this.form.get('regStatus').setValue('A');
+  }
   openRequest() {
     try {
       if (this.form.invalid) throw 'Formulario incorrecto';
@@ -76,13 +84,32 @@ export class AddRegistroComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  updateStatus(id: number) {
+    if (this.status === 'A')
+      this._api
+        .updateObjects({ regStatus: 'I' }, MODELS.REG_BIBLIOTECA, {
+          id: { neq: id },
+        })
+        .pipe(
+          takeUntil(this.onDestroy),
+          finalize(() => this.onNoClick(true))
+        )
+        .subscribe(
+          (data) => {},
+          () => {
+            this._alerts.warning(`No se pudo activar el registro.`);
+          }
+        );
+    else this.onNoClick(true);
+  }
+
   createObject(object: RegBiblioteca) {
     this._api
       .createObject(object, MODELS.REG_BIBLIOTECA)
       .pipe(takeUntil(this.onDestroy))
       .subscribe(
-        (data) => {
-          this.onNoClick();
+        (data: any) => {
+          this.updateStatus(data.id);
           this._alerts.success(`Registro creado.`);
         },
         () => {
@@ -96,7 +123,7 @@ export class AddRegistroComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy))
       .subscribe(
         (data) => {
-          this.onNoClick();
+          this.updateStatus(this.data.id);
           this._alerts.success(`Registro actualizado`);
         },
         () => {
@@ -105,7 +132,7 @@ export class AddRegistroComponent implements OnInit, AfterViewInit, OnDestroy {
       );
   }
 
-  onNoClick() {
-    this._dialogRef.close();
+  onNoClick(result?: boolean) {
+    this._dialogRef.close(result);
   }
 }

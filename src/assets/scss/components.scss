@@ -261,6 +261,7 @@
     display: flex;
     gap: 8px;
     justify-content: flex-end;
+    align-items: center;
   }
 }
 
@@ -483,16 +484,36 @@
     }
   }
 }
-.custom-check{
+.custom-check {
   display: flex;
-  gap: 8px;
+  gap: 2px;
   align-items: center;
   user-select: none;
   font-weight: 500;
-  .custom-radio{
+  padding: 7px 10px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  transition: all 0.3s;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  .check-radio {
+    color: #28a745;
     border-radius: 50%;
   }
 }
+
+.custom-row-active {
+  background-color: #28a745;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+}
+.custom-row-inactive {
+  background-color: #dc3545;
+  @extend .custom-row-active;
+}
+
 .custom-report-table {
   width: 100%;
   border: 1px solid black;

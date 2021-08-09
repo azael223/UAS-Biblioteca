@@ -75,8 +75,8 @@ export class AddEquipoComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy))
       .subscribe(
         (data) => {
+          this.onNoClick(true);
           this._alerts.success(`Equipo "${this.nombre} creado"`);
-          this.onNoClick();
         },
         () => {
           this._alerts.error(`Error al crear el equipo "${this.nombre}."`);
@@ -90,7 +90,7 @@ export class AddEquipoComponent implements OnInit, AfterViewInit, OnDestroy {
       .pipe(takeUntil(this.onDestroy))
       .subscribe(
         (data) => {
-          this.onNoClick();
+          this.onNoClick(true);
           this._alerts.success(`Equipo "${this.nombre}" actualizado.`);
         },
         () => {
@@ -99,7 +99,7 @@ export class AddEquipoComponent implements OnInit, AfterViewInit, OnDestroy {
       );
   }
 
-  onNoClick() {
-    this._dialogRef.close();
+  onNoClick(result?: boolean) {
+    this._dialogRef.close(result);
   }
 }

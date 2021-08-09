@@ -3,7 +3,11 @@
     <div class="custom-header-content">
       <span class="custom-header-title"> Registro Biblioteca </span>
       <div class="custom-header-actions">
-        <button class="custom-button-secondary" (click)="openDialog()">
+        <button
+          [disabled]="registro ? null : true"
+          class="custom-button-secondary"
+          (click)="openDialog()"
+        >
           REGISTRARSE
         </button>
       </div>
@@ -19,10 +23,10 @@
     </div>
     <ng-container *ngIf="loaded">
       <div
-        *ngIf="!usuarios || (usuarios && usuarios.length <= 0)"
+        *ngIf="error"
         class="h-100 w-100 d-flex align-items-center justify-content-center"
       >
-        <h1>No hay usuarios registrados</h1>
+        <h1>{{ error }}</h1>
       </div>
       <ng-container *ngIf="usuarios && usuarios.length > 0">
         <app-user-registry-view

@@ -61,6 +61,8 @@ export class InstitucionesComponent
 
   renderRows(firstLoad?: boolean) {
     this.loaded = false;
+    this.totalPages = 0;
+    this.instituciones = [];
     let count$ = this._api.count(this.model, this.filters);
     let instituciones$ = this._api.getObjects(this.model, {
       where: this.filters,
@@ -137,7 +139,7 @@ export class InstitucionesComponent
       .afterClosed()
       .pipe(takeUntil(this.onDestroy))
       .subscribe((result) => {
-        this.renderRows();
+        if (result) this.renderRows();
       });
   }
 }

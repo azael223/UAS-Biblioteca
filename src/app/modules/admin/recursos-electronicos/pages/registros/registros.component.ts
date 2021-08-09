@@ -33,7 +33,14 @@ import {
 export class RegistrosComponent implements OnInit {
   @ViewChild('table') table: MatTable<any>;
   public registros: RegEquipos[];
-  public displayedColumns = ['pos', 'area', 'turno', 'date', 'options'];
+  public displayedColumns = [
+    'regStatus',
+    'pos',
+    'area',
+    'turno',
+    'date',
+    'options',
+  ];
   private onDestroy = new Subject<any>();
   public loaded = false;
   public turnos = TURNOS;
@@ -127,6 +134,8 @@ export class RegistrosComponent implements OnInit {
 
   renderRows(firstLoad?: boolean) {
     this.loaded = false;
+    this.totalPages = 0;
+    this.registros = [];
     const count$ = this._api.count(this.model, this.filters);
     const registros$ = this._api.getObjects(this.model, {
       where: this.filters,
@@ -289,7 +298,38 @@ export class RegistrosComponent implements OnInit {
       .afterClosed()
       .pipe(takeUntil(this.onDestroy))
       .subscribe((result) => {
-        this.renderRows();
+        if (result) this.renderRows();
       });
+  }
+
+  updateStatus(registro: RegEquipos) {
+    if (registro.regStatus === 'A') {
+      this._alerts.warning(
+        `El registro "${registro.id}" ya se encuentra activo.`
+      );
+      return;
+    }
+    const activar$ = this._api.updateObject(
+      { id: registro.id, regStatus: 'A' },
+      MODELS.REG_EQUIPOS
+    );
+    const desactivarRegistros$ = this._api.updateObjects(
+      { regStatus: 'I' },
+      MODELS.REG_EQUIPOS,
+      {
+        id: { neq: registro.id },
+      }
+    );
+    forkJoin([activar$, desactivarRegistros$])
+      .pipe(takeUntil(this.onDestroy))
+      .subscribe(
+        (data) => {
+          this._alerts.success(`El registro "${registro.id}" ahora es activo.`);
+          this.renderRows();
+        },
+        () => {
+          this._alerts.warning(`No se pudo activar el registro.`);
+        }
+      );
   }
 }

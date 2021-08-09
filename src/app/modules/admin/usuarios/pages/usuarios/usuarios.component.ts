@@ -62,6 +62,8 @@ export class UsuariosComponent implements OnInit, AfterViewInit, OnDestroy {
 
   renderRows(firstLoad?: boolean) {
     this.loaded = false;
+    this.totalPages = 0;
+    this.usuarios = [];
     let usuario = this._auth.getAuth().usuario;
     let admin: any = {};
     if (!usuario.permisos.includes(PERMISOS.ADMIN))

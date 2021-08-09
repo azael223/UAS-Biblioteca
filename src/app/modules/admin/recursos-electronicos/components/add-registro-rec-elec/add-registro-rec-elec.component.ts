@@ -7,7 +7,7 @@ import { MODELS, TURNOS } from '@models/Types';
 import { RegEquipos } from '@models/regEquipos';
 import { ApiService } from '@services/api.service';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { finalize, takeUntil } from 'rxjs/operators';
 import { AlertsService } from '@services/alerts.service';
 
 @Component({
@@ -28,6 +28,7 @@ export class AddRegistroRecElecComponent implements OnInit {
   public form = this._fb.group({
     area: new FormControl('', [Validators.required, Validators.minLength(2)]),
     turno: new FormControl('M', [Validators.required]),
+    regStatus: new FormControl('A', [Validators.required]),
   });
 
   matcher = new ErrorStateMatcher();
@@ -50,6 +51,14 @@ export class AddRegistroRecElecComponent implements OnInit {
   get turno() {
     return this.form.get('turno').value;
   }
+  get status() {
+    return this.form.get('regStatus').value;
+  }
+
+  changeStatus() {
+    if (this.status === 'A') this.form.get('regStatus').setValue('I');
+    else this.form.get('regStatus').setValue('A');
+  }
 
   openRequest() {
     try {
@@ -64,13 +73,32 @@ export class AddRegistroRecElecComponent implements OnInit {
     }
   }
 
+  updateStatus(id: number) {
+    if (this.status === 'A')
+      this._api
+        .updateObjects({ regStatus: 'I' }, MODELS.REG_EQUIPOS, {
+          id: { neq: id },
+        })
+        .pipe(
+          takeUntil(this.onDestroy),
+          finalize(() => this.onNoClick(true))
+        )
+        .subscribe(
+          (data) => {},
+          () => {
+            this._alerts.warning(`No se pudo activar el registro.`);
+          }
+        );
+    else this.onNoClick(true);
+  }
+
   createObject(object: RegEquipos) {
     this._api
       .createObject(object, MODELS.REG_EQUIPOS)
       .pipe(takeUntil(this.onDestroy))
       .subscribe(
-        (data) => {
-          this.onNoClick();
+        (data: any) => {
+          this.updateStatus(data.id);
           this._alerts.success(`Registro creado.`);
         },
         () => {
@@ -83,8 +111,8 @@ export class AddRegistroRecElecComponent implements OnInit {
       .updateObject(object, MODELS.REG_EQUIPOS)
       .pipe(takeUntil(this.onDestroy))
       .subscribe(
-        (data) => {
-          this.onNoClick();
+        (data: any) => {
+          this.updateStatus(this.data.id);
           this._alerts.success(`Registro actualizado.`);
         },
         () => {
@@ -93,7 +121,7 @@ export class AddRegistroRecElecComponent implements OnInit {
       );
   }
 
-  onNoClick() {
-    this._dialogRef.close();
+  onNoClick(result?: boolean) {
+    this._dialogRef.close(result);
   }
 }

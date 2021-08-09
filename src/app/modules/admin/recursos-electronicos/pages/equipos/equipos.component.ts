@@ -62,6 +62,8 @@ export class EquiposComponent implements OnInit, AfterViewInit, OnDestroy {
 
   renderRows(firstLoad?: boolean) {
     this.loaded = false;
+    this.totalPages = 0;
+    this.equipos = [];
     const count$ = this._api.count(this.model, this.filters);
     const equipos$ = this._api.getObjects(this.model, {
       where: this.filters,
@@ -132,7 +134,7 @@ export class EquiposComponent implements OnInit, AfterViewInit, OnDestroy {
       .afterClosed()
       .pipe(takeUntil(this.onDestroy))
       .subscribe((result) => {
-        this.renderRows();
+        if (result) this.renderRows();
       });
   }
 }

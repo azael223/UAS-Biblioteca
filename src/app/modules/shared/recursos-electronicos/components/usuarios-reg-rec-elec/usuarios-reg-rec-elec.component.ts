@@ -250,7 +250,7 @@ export class UsuariosRegRecElecComponent
       );
   }
 
-  onNoClick(hasChanges?: boolean) {
-    this._dialogRef.close(hasChanges);
+  onNoClick(result?: boolean) {
+    this._dialogRef.close(result);
   }
 }

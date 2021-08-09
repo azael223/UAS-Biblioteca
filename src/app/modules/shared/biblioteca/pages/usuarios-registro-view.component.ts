@@ -55,9 +55,7 @@ export class UsuariosRegistroViewComponent
       .afterClosed()
       .pipe(takeUntil(this.onDestroy))
       .subscribe((result) => {
-        if (result) {
-          this.loadData();
-        }
+        if (result) this.loadData();
       });
   }
 
@@ -67,9 +65,21 @@ export class UsuariosRegistroViewComponent
     this.loadData();
   }
 
+  get error() {
+    if (!this.registro) return 'No se encontró un registro activo.';
+    if (
+      !this.usuarios ||
+      !this.usuarios ||
+      (this.usuarios && this.usuarios.length <= 0)
+    )
+      return 'No hay usuarios registrados.';
+  }
+
   loadData() {
+    this.registro = null;
+    this.usuarios = [];
     let registro$ = this._api.getObjects(this.model, {
-      where: { status: 'A' },
+      where: { status: 'A', regStatus: 'A' },
       order: 'creadoEn DESC',
       limit: 1,
       include: ['usBibliotecas'],
@@ -85,7 +95,7 @@ export class UsuariosRegistroViewComponent
             this.registro = res[0];
             this.usuarios = this.registro.usBibliotecas;
           } else {
-            this._alerts.error('No se encontro un registro activo.');
+            this._alerts.warning('No se encontro un registro activo.');
           }
         },
         () => {
