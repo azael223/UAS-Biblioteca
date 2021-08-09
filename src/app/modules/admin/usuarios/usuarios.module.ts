@@ -12,6 +12,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ConfirmDialogModule } from '@components/dialogs/confirm-dialog/confirm-dialog.module';
 import { AddUsuarioModule } from './components/add-usuario/add-usuario.module';
+import { SearchBarModule } from '@components/search-bar/search-bar.module';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [UsuariosComponent],
@@ -27,6 +29,8 @@ import { AddUsuarioModule } from './components/add-usuario/add-usuario.module';
     MatIconModule,
     MatProgressSpinnerModule,
     AddUsuarioModule,
+    SearchBarModule,
+    MatTooltipModule,
   ],
 })
 export class UsuariosModule {}

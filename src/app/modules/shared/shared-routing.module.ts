@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { BibliotecaUsuariosGuard } from 'app/core/guards/biblioteca-usuarios.guard';
-import { CubiculosUsuariosGuard } from 'app/core/guards/cubiculos-usuarios.guard';
-import { RecursosElectronicosUsuariosGuard } from 'app/core/guards/recursos-electronicos-usuarios.guard';
-import { SharedRoutesGuard } from 'app/core/guards/shared-routes.guard';
+import { RoutesGuard } from '@guards/routes.guard';
+import { PERMISOS } from '@models/Types';
 import { SharedComponent } from './shared.component';
 
 const routes: Routes = [
@@ -17,7 +15,8 @@ const routes: Routes = [
           import('./biblioteca/usuarios-registro-view.module').then(
             (m) => m.UsuariosRegistroViewModule
           ),
-        canActivate: [BibliotecaUsuariosGuard],
+        canActivate: [RoutesGuard],
+        data: { permisos: [PERMISOS.US_BIBLIOTECAS] },
       },
       {
         path: 'cubiculos',
@@ -25,7 +24,8 @@ const routes: Routes = [
           import('./cubiculos/usuarios-reg-cubiculos-view.module').then(
             (m) => m.UsuariosRegCubiculosViewModule
           ),
-        canActivate: [CubiculosUsuariosGuard],
+        canActivate: [RoutesGuard],
+        data: { permisos: [PERMISOS.US_CUBICULOS] },
       },
       {
         path: 'recursos-electronicos',
@@ -33,9 +33,10 @@ const routes: Routes = [
           import(
             './recursos-electronicos/usuarios-reg-rec-elec-view.module'
           ).then((m) => m.UsuariosRegRecElecViewModule),
-        canActivate: [RecursosElectronicosUsuariosGuard],
+        canActivate: [RoutesGuard],
+        data: { permisos: [PERMISOS.US_EQUIPOS] },
       },
-      { path: '', redirectTo: '', canActivate: [SharedRoutesGuard] },
+      { path: '', redirectTo: 'biblioteca' },
     ],
   },
 ];

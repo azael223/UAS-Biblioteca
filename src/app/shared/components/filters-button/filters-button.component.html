@@ -1,0 +1,54 @@
+<button
+  [matMenuTriggerFor]="filtersMenu"
+  matRipple
+  class="custom-filter-button"
+>
+  <mat-icon class="filter-icon">{{ config.icon }}</mat-icon>
+  {{ config.text }}
+</button>
+
+<mat-menu #filtersMenu>
+  <div class="custom-filter-menu" (click)="$event.stopPropagation()">
+    <div class="filter-menu-title">
+      <span>FILTROS</span>
+      <mat-icon matRipple (click)="restartFilter()" class="restart-filter"
+        >refresh</mat-icon
+      >
+    </div>
+    <ng-container *ngIf="!dateRange; else dateRangeTemplate"> </ng-container>
+    <ng-container *ngIf="!select; else selectTemplate"> </ng-container>
+  </div>
+</mat-menu>
+
+<ng-template #dateRangeTemplate>
+  <mat-form-field appearance="outline" class="custom-form-field">
+    <mat-label>{{ dateRange.title }}</mat-label>
+    <mat-date-range-input
+      [formGroup]="dateRangeForm"
+      [rangePicker]="dateRangePicker"
+    >
+      <input matStartDate placeholder="Fecha inicial" formControlName="start" />
+      <input matEndDate placeholder="Fecha final" formControlName="end" />
+    </mat-date-range-input>
+    <mat-datepicker-toggle
+      matSuffix
+      [for]="dateRangePicker"
+    ></mat-datepicker-toggle>
+    <mat-date-range-picker #dateRangePicker> </mat-date-range-picker>
+  </mat-form-field>
+</ng-template>
+
+<ng-template #selectTemplate>
+  <mat-form-field appearance="outline" class="custom-form-field">
+    <mat-label>{{ select.title }}</mat-label>
+    <mat-select [formControl]="selectControl">
+      <mat-option [value]="null">Todos</mat-option>
+      <mat-option
+        *ngFor="let item of select.items"
+        [value]="select.value ? item[select.value] : item"
+      >
+        {{ item[select.bind] }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</ng-template>

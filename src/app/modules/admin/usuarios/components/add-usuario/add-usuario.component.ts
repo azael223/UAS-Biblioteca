@@ -8,12 +8,12 @@ import {
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Cubiculo } from '@models/cubiculo.model';
-import { MODELS } from '@models/Types';
+import { MODELS, PERMISOS, PERMISOSDICT } from '@models/Types';
 import { Usuario } from '@models/usuario.model';
 import { AlertsService } from '@services/alerts.service';
 import { ApiService } from '@services/api.service';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { finalize, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-add-usuario',
@@ -26,27 +26,32 @@ export class AddUsuarioComponent implements OnInit, OnDestroy, AfterViewInit {
     private _fb: FormBuilder,
     private _alerts: AlertsService,
     private _dialogRef: MatDialogRef<AddUsuarioComponent>,
-    @Inject(MAT_DIALOG_DATA) public data?: Cubiculo
+    @Inject(MAT_DIALOG_DATA) public data?: Usuario
   ) {}
-
+  public PERMISOS = PERMISOS;
   private onDestroy = new Subject<any>();
-
+  public permisos = [];
+  public permisosDict = PERMISOSDICT;
+  public showPassword = false;
+  public loading = true;
   public form = this._fb.group({
-    username: new FormControl('', [
+    username: new FormControl(null, [
       Validators.required,
       Validators.minLength(5),
     ]),
-    password: new FormControl('', [
+    password: new FormControl(null, [
       Validators.required,
       Validators.minLength(5),
     ]),
-    rol: new FormControl('', [Validators.required]),
+    permisos: new FormControl([]),
   });
 
   ngOnInit(): void {
     if (this.data) {
       this.form.patchValue(this.data);
     }
+    if (!(this.data && this.data.permisos.includes(PERMISOS.ADMIN)))
+      this.getPermisos();
   }
 
   ngAfterViewInit(): void {}
@@ -59,26 +64,29 @@ export class AddUsuarioComponent implements OnInit, OnDestroy, AfterViewInit {
   get username() {
     return this.form.get('username').value;
   }
-
+  get permisosUsuario() {
+    return this.form.get('permisos').value;
+  }
   openRequest() {
-    if (this.form.valid) {
+    try {
+      if (!this.form.get('permisos').value.length)
+        throw 'Asigne al menos 1 permiso.';
+      if (this.form.invalid) throw 'Formulario inválido.';
       const usuario: Usuario = this.form.value;
       if (this.data) {
-        const editUsuario: Usuario = {
-          ...this.data,
-          ...usuario,
-        };
-        delete editUsuario.creadoEn;
-        this.editCubiculo(editUsuario);
+        usuario.id = this.data.id;
+        this.editUsuario(usuario);
       } else {
-        this.createCubiculo(usuario);
+        this.createUsuario(usuario);
       }
+    } catch (error) {
+      this._alerts.error(error);
     }
   }
 
-  createCubiculo(cubiculo: Usuario) {
+  createUsuario(usuario: Usuario) {
     this._api
-      .createObject(cubiculo, MODELS.USUARIOS)
+      .createObject(usuario, MODELS.USUARIOS)
       .pipe(takeUntil(this.onDestroy))
       .subscribe(
         (data) => {
@@ -90,9 +98,9 @@ export class AddUsuarioComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       );
   }
-  editCubiculo(cubiculo: Usuario) {
+  editUsuario(usuario: Usuario) {
     this._api
-      .updateObject(cubiculo, MODELS.USUARIOS)
+      .updateObject(usuario, MODELS.USUARIOS)
       .pipe(takeUntil(this.onDestroy))
       .subscribe(
         (data) => {
@@ -106,7 +114,37 @@ export class AddUsuarioComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       );
   }
+  getPermisos() {
+    this._api
+      .getObjects(MODELS.PERMISOS)
+      .pipe(
+        takeUntil(this.onDestroy),
+        finalize(() => (this.loading = false))
+      )
+      .subscribe(
+        (permisos: string[]) => {
+          this.permisos = permisos;
+        },
+        () => {
+          this._alerts.error(
+            'Error al buscar permisos, verifiquie su conexión.'
+          );
+        }
+      );
+  }
 
+  updatePermiso(permiso: string) {
+    if (this.permisosUsuario.includes(permiso))
+      this.permisosUsuario.splice(
+        this.permisosUsuario.findIndex((usPer) => usPer === permiso),
+        1
+      );
+    else this.permisosUsuario.push(permiso);
+  }
+
+  checkPermiso(permiso: string) {
+    return this.permisosUsuario.includes(permiso);
+  }
   onNoClick(hasChanges?: boolean) {
     this._dialogRef.close(hasChanges);
   }

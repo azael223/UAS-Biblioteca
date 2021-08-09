@@ -49,7 +49,6 @@ export class UserRegistryViewComponent implements OnInit, OnDestroy {
   @Input('users') set _users(users: User[]) {
     this.users = new MatTableDataSource<User>(users);
     this.users.paginator = this.paginator;
-    console.log(users);
   }
   @Input('type') set _type(type: keyof typeof types) {
     this.type = type;

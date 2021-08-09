@@ -96,7 +96,6 @@ export class UsuariosRegRecElecComponent
     this.institucion.valueChanges
       .pipe(takeUntil(this.onDestroy))
       .subscribe((value: Institucion) => {
-        console.log(this.institucion.valid);
         if (this.institucion.valid) this.setCarreras(value.carreras);
         else this.resetCarreras();
       });
@@ -233,7 +232,6 @@ export class UsuariosRegRecElecComponent
   }
 
   createUser(object: UsEquipos) {
-    console.log(object);
     let updateEquipo$ = this._api.updateObject(
       { id: object.equipoId, statusEquipo: 'I' },
       MODELS.EQUIPOS

@@ -7,53 +7,27 @@
     <span>Biblioteca</span>
   </div>
   <div class="custom-navbar-middle">
-    <ng-container *ngIf="rol === roles.ADMIN">
+    <ng-container *ngFor="let route of routes">
       <a
-        *ngIf="
-          rol === roles.ADMIN ||
-          rol === roles.BIBLIOTECA ||
-          rol == roles.BIBLIOTECA_USUARIOS
-        "
+        *ngIf="verifyRol(route.rol)"
         class="custom-button-primary"
         routerLinkActive="custom-navbar-button-active"
-        routerLink="biblioteca"
-        >Biblioteca</a
-      >
-      <a
-        *ngIf="
-          rol === roles.ADMIN ||
-          rol === roles.CUBICULOS ||
-          rol === roles.CUBICULOS_USUARIOS
-        "
-        class="custom-button-primary"
-        routerLinkActive="custom-navbar-button-active"
-        routerLink="cubiculos"
-        >Cubiculos</a
-      >
-      <a
-        *ngIf="
-          rol === roles.ADMIN ||
-          rol === roles.RECURSOS_ELECTRONICOS ||
-          rol === roles.RECURSOS_ELECTRONICOS_USUARIOS
-        "
-        routerLinkActive="custom-navbar-button-active"
-        class="custom-button-primary"
-        routerLink="recursos-electronicos"
-        >Recursos Electronicos</a
+        [routerLink]="route.path"
+        >{{ route.title }}</a
       >
     </ng-container>
   </div>
   <div class="custom-navbar-end">
     <button
+      *ngIf="!moreRoutes()"
       class="custom-button-primary"
-      *ngIf="verifyRol()"
       (click)="logOut()"
     >
       <mat-icon>exit_to_app</mat-icon> Salir
     </button>
     <button
+      *ngIf="moreRoutes()"
       class="custom-button-primary"
-      *ngIf="!verifyRol()"
       (click)="goToAdmin()"
     >
       <mat-icon>home</mat-icon> Regresar

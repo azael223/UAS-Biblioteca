@@ -12,6 +12,11 @@ import { CubiculosRegistroModalModule } from './components/cubiculos-registro-mo
 import { CubiculosComponent } from './pages/cubiculos/cubiculos.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+import { SearchBarModule } from '@components/search-bar/search-bar.module';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { FiltersButtonModule } from '@components/filters-button/filters-button.module';
 
 @NgModule({
   declarations: [MainComponent, RegistrosComponent, CubiculosComponent],
@@ -24,7 +29,12 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     AddRegistroCubiculoModule,
     CubiculosRegistroModalModule,
     MatTableModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatTooltipModule,
+    NgxExtendedPdfViewerModule,
+    SearchBarModule,
+    MatPaginatorModule,
+    FiltersButtonModule,
   ],
 })
 export class CubiculosModule {}

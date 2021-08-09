@@ -1,0 +1,66 @@
+<ng-container *ngIf="!loaded">
+  <div #reporte class="custom-report-container">
+    <div *ngFor="let dataItem of dataFormat; let i = index">
+      <div class="custom-report-title">
+        <div class="custom-report-logo">
+          <img src="assets/images/uas_logo.png" alt="" />
+        </div>
+        <div class="custom-report-titles">
+          <ng-container *ngFor="let title of config.title">
+            <span [class]="title.class || ''">{{ title.value }}</span>
+          </ng-container>
+        </div>
+        <div class="custom-report-logo"></div>
+      </div>
+      <div class="custom-report-info">
+        <ng-container *ngFor="let info of config.info">
+          <div class="custom-report-info-item">
+            <span class="report-info-title">{{ info.title }}:</span>
+            <span class="report-info-value">{{ info.value }}</span>
+          </div>
+        </ng-container>
+      </div>
+      <div class="">
+        <div class="custom-report-table">
+          <div class="custom-report-table-header">
+            <ng-container *ngFor="let column of config.columns">
+              <div
+                class="{{
+                  column.class || ''
+                }} custom-report-table-header-column"
+              >
+                {{ column.header.name }}
+              </div>
+            </ng-container>
+          </div>
+
+          <ng-container *ngFor="let data of dataItem">
+            <div class="custom-report-table-rows">
+              <ng-container *ngFor="let column of config.columns">
+                <div
+                  class="{{ column.class || '' }} custom-report-table-row-cell"
+                >
+                  {{ data[column.prop] }}
+                </div>
+              </ng-container>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+      <div *ngIf="i + 1 < dataFormat.length" class="html2pdf__page-break"></div>
+    </div>
+  </div>
+</ng-container>
+<div class="custom-modal-container" *ngIf="pdf">
+  <div class="custom-modal-header">
+    <span class="custom-modal-title"> </span>
+    <mat-icon class="custom-modal-close" (click)="onNoClick()">close</mat-icon>
+  </div>
+  <ngx-extended-pdf-viewer
+    [src]="pdf"
+    [height]="options.height"
+    useBrowserLocale="true"
+    [textLayer]="true"
+    [filenameForDownload]="config.filename"
+  ></ngx-extended-pdf-viewer>
+</div>

@@ -5,6 +5,7 @@ import {
   RouterStateSnapshot,
   UrlTree,
   Router,
+  CanDeactivate,
 } from '@angular/router';
 import { AuthService } from 'app/core/services/auth.service';
 import { Observable } from 'rxjs';
@@ -22,11 +23,10 @@ export class AuthGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    if (this._auth.getAuth() && this._auth.getAuth().usuario) {
+    if (this._auth.getAuth() && this._auth.getAuth().token) {
       return true;
     } else {
-      this._router.navigateByUrl('login');
-
+      return false;
     }
   }
 }

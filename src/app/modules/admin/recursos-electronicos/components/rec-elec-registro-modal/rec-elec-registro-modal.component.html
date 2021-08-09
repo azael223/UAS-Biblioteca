@@ -21,7 +21,7 @@
       </div>
       <ng-container *ngIf="usuarios && usuarios.length > 0">
         <app-registro-view
-          class="h-100"
+          class="h-100 overflow-auto"
           #table
           [index]="index * pages"
           [data]="usuarios"

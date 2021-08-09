@@ -12,6 +12,11 @@ import { EquiposComponent } from './pages/equipos/equipos.component';
 import { RegistrosComponent } from './pages/registros/registros.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+import { SearchBarModule } from '@components/search-bar/search-bar.module';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { FiltersButtonModule } from '@components/filters-button/filters-button.module';
 
 @NgModule({
   declarations: [
@@ -28,8 +33,12 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     AddRegistroRecElecModule,
     RecElecRegistroModalModule,
     MatTableModule,
-    MatProgressSpinnerModule
-
+    MatProgressSpinnerModule,
+    MatTooltipModule,
+    NgxExtendedPdfViewerModule,
+    SearchBarModule,
+    MatPaginatorModule,
+    FiltersButtonModule,
   ],
 })
 export class RecursosElectronicosModule {}

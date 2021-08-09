@@ -12,6 +12,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { SearchBarModule } from '@components/search-bar/search-bar.module';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [InstitucionesComponent],
@@ -28,6 +30,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatIconModule,
     MatProgressSpinnerModule,
     AddInstitucionModule,
+    SearchBarModule,
+    MatTooltipModule,
   ],
 })
 export class InstitucionesModule {}

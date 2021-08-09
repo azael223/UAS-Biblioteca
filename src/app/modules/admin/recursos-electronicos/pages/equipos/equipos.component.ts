@@ -36,6 +36,7 @@ export class EquiposComponent implements OnInit, AfterViewInit, OnDestroy {
   public PAGES = this._pagination.PAGES;
   public loaded = false;
   private model = MODELS.EQUIPOS;
+  public filters: any = { status: 'A' };
 
   constructor(
     private _api: ApiService,
@@ -44,10 +45,26 @@ export class EquiposComponent implements OnInit, AfterViewInit, OnDestroy {
     private _alerts: AlertsService
   ) {}
 
+  ngOnInit(): void {}
+  ngAfterViewInit(): void {
+    this.renderRows();
+  }
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
+  }
+
+  search(searchParam) {
+    let like = { like: `%${searchParam}%` };
+    this.filters.or = [{ nombre: like }];
+    this.renderRows();
+  }
+
   renderRows(firstLoad?: boolean) {
-    const count$ = this._api.count(this.model, { status: 'A' });
+    this.loaded = false;
+    const count$ = this._api.count(this.model, this.filters);
     const equipos$ = this._api.getObjects(this.model, {
-      where: { status: 'A' },
+      where: this.filters,
       order: 'creadoEn DESC',
       limit: this.pages,
       skip: this.pages * this.index,
@@ -98,19 +115,11 @@ export class EquiposComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  // getIndex(index: number) {
-  //   return (
-  //     this.totalPages -
-  //     (this.index ? this.index : 1) * index -
-  //     this.pages * this.index
-  //   );
-  // }
-
   pagesChange(pageEvent: PageEvent) {
     this._pagination.pagination = pageEvent.pageSize;
     this.pages = pageEvent.pageSize;
     this.index = pageEvent.pageIndex;
-    console.log(pageEvent);
+
     this.renderRows();
   }
   openDialog(data?: Equipo) {
@@ -125,14 +134,5 @@ export class EquiposComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((result) => {
         this.renderRows();
       });
-  }
-
-  ngOnInit(): void {}
-  ngAfterViewInit(): void {
-    this.renderRows();
-  }
-  ngOnDestroy(): void {
-    this.onDestroy.next();
-    this.onDestroy.unsubscribe();
   }
 }

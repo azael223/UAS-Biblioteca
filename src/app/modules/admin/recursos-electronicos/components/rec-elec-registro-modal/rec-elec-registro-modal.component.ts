@@ -85,7 +85,7 @@ export class RecElecRegistroModalComponent
     this._pagination.pagination = pageEvent.pageSize;
     this.pages = pageEvent.pageSize;
     this.index = pageEvent.pageIndex;
-    console.log(pageEvent);
+
     this.renderRows();
   }
 

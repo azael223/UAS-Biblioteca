@@ -14,6 +14,13 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { UsuariosRegistroModalModule } from './components/usuarios-registro-modal/usuarios-registro-modal.module';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { ReporteUsuariosModule } from '@components/reporte-usuarios/reporte-usuarios.module';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { SearchBarModule } from '@components/search-bar/search-bar.module';
+import { FiltersButtonModule } from '@components/filters-button/filters-button.module';
 
 @NgModule({
   declarations: [RegistrosComponent],
@@ -30,6 +37,13 @@ import { UsuariosRegistroModalModule } from './components/usuarios-registro-moda
     MatIconModule,
     MatButtonModule,
     UsuariosRegistroModalModule,
+    MatTooltipModule,
+    ReporteUsuariosModule,
+    NgxExtendedPdfViewerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    SearchBarModule,
+    FiltersButtonModule,
   ],
 })
 export class RegistrosModule {}

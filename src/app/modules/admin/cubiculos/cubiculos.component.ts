@@ -1,6 +1,6 @@
 import { IfStmt } from '@angular/compiler';
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { ROLES } from '@models/Roles.model';
+import { PERMISOS } from '@models/Types';
 import { AuthService } from 'app/core/services/auth.service';
 import { Subject } from 'rxjs';
 
@@ -13,16 +13,14 @@ export class CubiculosComponent implements OnInit, OnDestroy, AfterViewInit {
   private onDestroy = new Subject<any>();
 
   constructor(private _auth: AuthService) {}
-
+  cubiculos = this._auth
+    .getAuth()
+    .usuario.permisos.includes(PERMISOS.CUBICULOS);
+  registros = this._auth
+    .getAuth()
+    .usuario.permisos.includes(PERMISOS.REG_CUBICULOS);
+  admin = this._auth.getAuth().usuario.permisos.includes(PERMISOS.ADMIN)
   ngOnInit(): void {}
-
-  getRole() {
-    if (this._auth.getAuth().usuario.rol === ROLES.ADMIN) {
-      return true;
-    } else {
-      return false;
-    }
-  }
 
   ngAfterViewInit(): void {}
 

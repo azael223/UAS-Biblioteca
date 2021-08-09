@@ -3,6 +3,7 @@
     <div class="custom-header-content">
       <span class="custom-header-title"> Instituciones </span>
       <div class="custom-header-actions">
+        <app-search-bar (onSearch)="search($event)"></app-search-bar>
         <button class="custom-button-secondary" (click)="openDialog()">
           NUEVO
         </button>
@@ -50,6 +51,7 @@
                     type="button"
                     class="custom-icon-button"
                     (click)="openDialog(institucion)"
+                    matTooltip="Editar"
                   >
                     <mat-icon>create</mat-icon>
                   </button>
@@ -57,6 +59,7 @@
                     type="button"
                     class="custom-icon-button"
                     (click)="deleteObject(institucion)"
+                    matTooltip="Eliminar"
                   >
                     <mat-icon>delete</mat-icon>
                   </button>

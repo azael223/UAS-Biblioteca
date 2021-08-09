@@ -22,7 +22,7 @@
       <ng-container *ngIf="usuarios && usuarios.length > 0">
         <app-registro-view
           #table
-          class="h-100"
+          class="h-100 overflow-auto"
           [index]="index * pages"
           [data]="usuarios"
           [columns]="displayedUser"

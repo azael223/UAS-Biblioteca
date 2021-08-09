@@ -12,6 +12,8 @@ export const MODELS = {
   US_BIBLIOTECAS: 'us-bibliotecas',
   US_CUBICULOS: 'us-cubiculos',
   US_EQUIPOS: 'us-equipos',
+
+  PERMISOS: 'permisos',
 };
 
 export enum Models {
@@ -60,4 +62,36 @@ export const GENEROS = {
 export const TIPOS = {
   I: 'Interno',
   E: 'Externo',
+};
+
+export const PERMISOS = {
+  USUARIOS: 'USUARIOS',
+  CUBICULOS: 'CUBICULOS',
+  EQUIPOS: 'EQUIPOS',
+  INSTITUCIONES: 'INSTITUCIONES',
+
+  REG_BIBLIOTECA: 'REG_BIBLIOTECA',
+  REG_CUBICULOS: 'REG_CUBICULOS',
+  REG_EQUIPOS: 'REG_EQUIPOS',
+
+  US_BIBLIOTECAS: 'US_BIBLIOTECA',
+  US_CUBICULOS: 'US_CUBICULOS',
+  US_EQUIPOS: 'US_EQUIPOS',
+  ADMIN: 'ADMIN',
+};
+
+export const PERMISOSDICT = {
+  USUARIOS: 'usuarios',
+  CUBICULOS: 'cubiculos',
+  EQUIPOS: 'equipos',
+  INSTITUCIONES: 'instituciones',
+
+  REG_BIBLIOTECA: 'registros biblioteca',
+  REG_CUBICULOS: 'registros cubiculos',
+  REG_EQUIPOS: 'registros recursos electronicos',
+
+  US_BIBLIOTECA: 'usuarios biblioteca',
+  US_CUBICULOS: 'usuarios cubiculos',
+  US_EQUIPOS: 'usuarios recursos electronicos',
+  ADMIN: 'admin',
 };

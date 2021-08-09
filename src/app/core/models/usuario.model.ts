@@ -5,5 +5,5 @@ export interface Usuario {
   creadoEn?: string;
   actualizadoEn?: string;
   status?: string;
-  rol?: string;
+  permisos?: string[];
 }

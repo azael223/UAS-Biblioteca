@@ -13,7 +13,6 @@ export const AUTH_KEY_AES = 'bI2o20.';
 export interface Auth {
   token?: string;
   usuario?: Usuario;
-  error?: Error;
 }
 
 @Injectable({
@@ -23,23 +22,23 @@ export class AuthService {
   constructor(private _http: HttpClient, private _router: Router) {}
   API_URL = environment.apiUrl;
   logIn(usuario: Usuario): Promise<Auth> {
-    return new Promise<Auth>((res, err) => {
-      const usuarioReq = this._http.post<any>(
-        `${this.API_URL}/${MODELS.USUARIOS}/LogIn`,
+    return new Promise<Auth>((res, rej) => {
+      const usuarioReq$ = this._http.post<any>(
+        `${this.API_URL}/${MODELS.USUARIOS}/login`,
         usuario
       );
-      usuarioReq.subscribe(
+      usuarioReq$.subscribe(
         (auth: Auth) => {
-          if (!auth.error) {
-            const token = AES.encrypt(
-              JSON.stringify(auth),
-              AUTH_KEY_AES
-            ).toString();
-            localStorage.setItem(AUTH_KEY_LS, token);
-          }
+          const token = AES.encrypt(
+            JSON.stringify(auth),
+            AUTH_KEY_AES
+          ).toString();
+          localStorage.setItem(AUTH_KEY_LS, token);
           res(auth);
         },
-        () => {}
+        (error) => {
+          rej(error);
+        }
       );
     });
   }
@@ -51,6 +50,16 @@ export class AuthService {
       return JSON.parse(bytes.toString(enc.Utf8));
     } else {
       this._router.navigateByUrl('login');
+    }
+  }
+
+  getAuthWithoutNav(): Auth {
+    const token = localStorage.getItem(AUTH_KEY_LS);
+    if (token) {
+      const bytes = AES.decrypt(token, AUTH_KEY_AES);
+      return JSON.parse(bytes.toString(enc.Utf8));
+    } else {
+      return undefined;
     }
   }
 

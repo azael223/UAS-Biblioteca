@@ -27,6 +27,7 @@ export class AlertsService {
     let data = { message, type: 'error' };
     this._snackBar.openFromComponent(SnackBarsComponent, {
       ...config,
+      duration: 10000,
       data,
       panelClass: 'custom-snack-error',
     });

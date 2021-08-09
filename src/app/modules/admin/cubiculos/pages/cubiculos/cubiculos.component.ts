@@ -35,6 +35,7 @@ export class CubiculosComponent implements OnInit, OnDestroy, AfterViewInit {
   public PAGES = this._pagination.PAGES;
   public loaded = false;
   private model = MODELS.CUBICULOS;
+  public filters: any = { status: 'A' };
 
   constructor(
     private _api: ApiService,
@@ -43,10 +44,17 @@ export class CubiculosComponent implements OnInit, OnDestroy, AfterViewInit {
     private _pagination: PaginationService
   ) {}
 
+  search(searchParam) {
+    let like = { like: `%${searchParam}%` };
+    this.filters.or = [{ nombre: like }];
+    this.renderRows();
+  }
+
   renderRows(firstLoad?: boolean) {
-    let count$ = this._api.count(this.model, { stauts: 'A' });
+    this.loaded = false;
+    let count$ = this._api.count(this.model, this.filters);
     let cubiculos$ = this._api.getObjects(this.model, {
-      where: { status: 'A' },
+      where: this.filters,
       order: 'creadoEn DESC',
       limit: this.pages,
       skip: this.pages * this.index,
@@ -99,20 +107,10 @@ export class CubiculosComponent implements OnInit, OnDestroy, AfterViewInit {
         }
       });
   }
-
-  // getIndex(index: number) {
-  //   return (
-  //     this.totalPages -
-  //     (this.index ? this.index : 1) * index -
-  //     this.pages * this.index
-  //   );
-  // }
-
   pagesChange(pageEvent: PageEvent) {
     this._pagination.pagination = pageEvent.pageSize;
     this.pages = pageEvent.pageSize;
     this.index = pageEvent.pageIndex;
-    console.log(pageEvent);
     this.renderRows();
   }
 

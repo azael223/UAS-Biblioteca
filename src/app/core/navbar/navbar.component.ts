@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ROLES } from '@models/Roles.model';
+import { IRoute } from '@models/handler/routes.model';
+import { SHARED_ROUTES } from '@models/routes.model';
+import { PERMISOS } from '@models/Types';
 import { AuthService } from 'app/core/services/auth.service';
 
 @Component({
@@ -10,25 +12,30 @@ import { AuthService } from 'app/core/services/auth.service';
 })
 export class NavbarComponent implements OnInit {
   constructor(private _auth: AuthService, private _router: Router) {}
+  public permisos = this._auth.getAuth().usuario.permisos;
 
-  rol = this._auth.getAuth().usuario.rol;
-  roles = ROLES;
+  public routes = SHARED_ROUTES;
+
+  verifyRol(permisos: string[]) {
+    return permisos.some((permiso) =>
+      this.permisos.some((usPermiso) => usPermiso === permiso)
+    );
+  }
+
+  moreRoutes() {
+    let { US_BIBLIOTECAS, US_CUBICULOS, US_EQUIPOS, ...permisos } = PERMISOS;
+    return this.permisos.some((permiso) =>
+      Object.keys(permisos).some((per) => per === permiso)
+    );
+  }
+
   logOut() {
     this._auth.logOut();
   }
-  verifyRol() {
-    if (
-      this.rol === this.roles.CUBICULOS_USUARIOS ||
-      this.rol === this.roles.BIBLIOTECA_USUARIOS ||
-      this.rol === this.roles.RECURSOS_ELECTRONICOS_USUARIOS
-    ) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+
   goToAdmin() {
     this._router.navigateByUrl('/admin');
   }
+
   ngOnInit(): void {}
 }

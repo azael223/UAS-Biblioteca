@@ -88,7 +88,7 @@ export class UsuariosRegistroModalComponent
     this._pagination.pagination = pageEvent.pageSize;
     this.pages = pageEvent.pageSize;
     this.index = pageEvent.pageIndex;
-    console.log(pageEvent);
+
     this.renderRows();
   }
 
@@ -141,7 +141,6 @@ export class UsuariosRegistroModalComponent
                 terminadoEn: formatDate(usuario.terminadoEn, 'medium', 'es-MX'),
               }
           );
-          console.log(this.usuarios);
           if (firstLoad) this.table.renderRows();
         },
         () => {

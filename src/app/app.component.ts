@@ -9,6 +9,5 @@ import { environment } from 'environments/environment';
 export class AppComponent {
   title = 'UAS-Biblioteca';
   constructor(){
-    console.log(environment.apiUrl)
   }
 }

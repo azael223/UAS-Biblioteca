@@ -1,32 +1,22 @@
 <div class="custom-navbar">
   <div class="custom-navbar-title">
     <div class="custom-navbar-icon">
-      <img src="assets/icons/uas_logo_color.svg" alt="UAS Logo">
+      <img src="assets/icons/uas_logo_color.svg" alt="UAS Logo" />
     </div>
     <span>Biblioteca</span>
   </div>
   <div class="custom-navbar-middle">
-    <button
-      class="custom-navbar-menu-button"
-      *ngIf="role === roles.ADMIN"
-      [matMenuTriggerFor]="menu"
-
-    >
-      <mat-icon>{{ route.icon }}</mat-icon>
-      {{ route.title }}
-    </button>
-    <button
-      class="custom-navbar-menu-button"
-      *ngIf="role !== roles.ADMIN"
-      mat-flat-button
-
-    >
+    <button class="custom-navbar-menu-button" [matMenuTriggerFor]="menu">
       <mat-icon>{{ route.icon }}</mat-icon>
       {{ route.title }}
     </button>
   </div>
   <div class="custom-navbar-end">
-    <button class="custom-navbar-button" (click)="goToShared()">
+    <button
+      *ngIf="moreRoutes()"
+      class="custom-navbar-button"
+      (click)="goToShared()"
+    >
       <mat-icon>assignment_ind</mat-icon> Registros
     </button>
     <button class="custom-navbar-button" (click)="logOut()">
@@ -35,10 +25,10 @@
   </div>
 </div>
 
-<mat-menu class="custom-menu" #menu="matMenu">
+<mat-menu class="custom-mat-menu custom-menu" #menu="matMenu">
   <ng-container *ngFor="let route of routes">
     <button
-      class="h-100 btn-nav"
+      class="h-100 custom-navbar-menu-button btn-nav"
       *ngIf="verifyRol(route.rol)"
       [routerLink]="route.path"
       mat-menu-item

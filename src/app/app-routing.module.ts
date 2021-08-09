@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { LoggedGuard } from '@guards/logged.guard';
+import { RoutesGuard } from '@guards/routes.guard';
 import { AuthGuard } from './core/guards/auth.guard';
-import { LoggedGuard } from './core/guards/logged.guard';
-import { MainRoutesGuard } from './core/guards/main-routes.guard';
 
 const routes: Routes = [
   {
@@ -21,12 +21,12 @@ const routes: Routes = [
     path: 'login',
     loadChildren: () =>
       import('@modules/login/login.module').then((m) => m.LoginModule),
+    canActivate: [LoggedGuard],
   },
   {
     path: '**',
     pathMatch: 'full',
-    redirectTo: '',
-    canActivate: [MainRoutesGuard],
+    redirectTo: 'login',
   },
 ];
 

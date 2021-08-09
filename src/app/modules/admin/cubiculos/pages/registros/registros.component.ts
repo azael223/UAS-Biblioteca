@@ -9,7 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTable } from '@angular/material/table';
-import { MODELS } from '@models/Types';
+import { MODELS, TIPOS, TURNOS } from '@models/Types';
 import { RegCubiculos } from '@models/regCubiculos.model';
 import { ApiService } from '@services/api.service';
 import { PaginationService } from 'app/core/services/pagination.service';
@@ -20,6 +20,13 @@ import { finalize, takeUntil } from 'rxjs/operators';
 import { AddRegistroCubiculoComponent } from '../../components/add-registro-cubiculo/add-registro-cubiculo.component';
 import { CubiculosRegistroModalComponent } from '../../components/cubiculos-registro-modal/cubiculos-registro-modal.component';
 import { AlertsService } from '@services/alerts.service';
+import { UsCubiculos } from '@models/usCubiculos.model';
+import { formatDate } from '@angular/common';
+import {
+  ReportConfig,
+  ReporteUsuariosComponent,
+} from '@components/reporte-usuarios/reporte-usuarios.component';
+import { DateRangeFilter } from '@components/filters-button/filters-button.component';
 
 @Component({
   selector: 'app-registro',
@@ -37,22 +44,73 @@ export class RegistrosComponent implements OnInit, AfterViewInit, OnDestroy {
   public pages = this._pagination.pagination;
   public totalPages = 0;
   public PAGES = this._pagination.PAGES;
-
+  public filters: any = { status: 'A' };
+  public creadoEnFilter: DateRangeFilter = {
+    prop: 'creadoEn',
+    title: 'Creado En',
+  };
   constructor(
     private _api: ApiService,
     private _dialog: MatDialog,
     private _alerts: AlertsService,
     private _pagination: PaginationService
   ) {}
+  public config: ReportConfig = {
+    title: [
+      { value: 'UNIVERSIDAD AUTÓNOMA DE SINALOA', class: 'title-1' },
+      {
+        value: 'DIRECCIÓN GENERAL DEL SISTEMA BIBLIOTECARIO',
+        class: 'title-2',
+      },
+      {
+        value: 'USO DE CUBICULOS DE ESTUDIO',
+        class: 'title-3',
+      },
+    ],
+    columns: [
+      { header: { name: 'N' }, prop: 'num', class: 'flex-2' },
+      {
+        header: { name: 'Nombre' },
+        prop: 'nombre',
+        class: 'flex-40',
+      },
+      { header: { name: 'Escuela/carrera' }, prop: 'escuela' },
+      { header: { name: 'Fecha' }, prop: 'fecha', class: 'flex-7' },
+      { header: { name: 'Cubículo' }, prop: 'cubiculo', class: 'flex-7' },
+      { header: { name: 'Entrada' }, prop: 'entrada', class: 'flex-7' },
+      { header: { name: 'Salida' }, prop: 'salida', class: 'flex-7' },
+    ],
+    dataset: [{}],
+    info: [],
+    filename: '',
+  };
 
-  count() {
-    return this._api.count(this.model);
+  ngOnInit(): void {}
+  ngAfterViewInit(): void {
+    this.renderRows();
+  }
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
+  }
+
+  onChangeFilters(filters: any) {
+    delete this.filters.creadoEn;
+    if (filters.creadoEn) this.filters.creadoEn = filters.creadoEn;
+    this.renderRows();
+  }
+
+  search(searchParam) {
+    let like = { like: `%${searchParam}%` };
+    this.filters.or = [{ ur: like }, { biblioteca: like }];
+    this.renderRows();
   }
 
   renderRows(firstLoad?: boolean) {
-    let count$ = this._api.count(this.model, { status: 'A' });
+    this.loaded = false;
+    let count$ = this._api.count(this.model, this.filters);
     let registros$ = this._api.getObjects(this.model, {
-      where: { status: 'A' },
+      where: this.filters,
       order: 'creadoEn DESC',
       limit: this.pages,
       skip: this.pages * this.index,
@@ -105,13 +163,80 @@ export class RegistrosComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       });
   }
-
+  viewDoc(registro: RegCubiculos) {
+    this._api
+      .getObjects(MODELS.REG_CUBICULOS, {
+        limit: 1,
+        where: { id: registro.id },
+        order: 'creadoEn DESC',
+        include: [
+          {
+            relation: 'usCubiculos',
+            scope: {
+              where: { status: 'A' },
+              include: [
+                {
+                  relation: 'carrera',
+                  scope: { include: [{ relation: 'institucion' }] },
+                },
+                { relation: 'cubiculo' },
+              ],
+            },
+          },
+        ],
+      })
+      .subscribe(
+        (res: RegCubiculos[]) => {
+          let registro = res[0];
+          this.config.filename = `cubiculos_${registro.id}_${formatDate(
+            registro.creadoEn,
+            'dd-MM-YYYY',
+            'en-MX'
+          )}`;
+          this.config.info = [
+            { title: 'UR', value: registro.ur },
+            { title: 'Biblioteca', value: registro.biblioteca },
+          ];
+          this.config.dataset = [];
+          if (registro.usCubiculos)
+            this.config.dataset = registro.usCubiculos.map(
+              (us: UsCubiculos, index) =>
+                <any>{
+                  num: index + 1,
+                  nombre: us.nombre,
+                  escuela: `${
+                    us.carrera && us.carrera.institucion
+                      ? us.carrera.institucion.nombre
+                      : ''
+                  } / ${us.carrera ? us.carrera.nombre : ''}`,
+                  fecha: formatDate(us.creadoEn, 'dd/MM/YYYY', 'en-MX'),
+                  cubiculo: us.cubiculo ? us.cubiculo.nombre : '',
+                  entrada: formatDate(us.creadoEn, 'h:mm a', 'es-MX'),
+                  salida: formatDate(us.terminadoEn, 'h:mm a', 'es-MX'),
+                }
+            );
+          this._dialog
+            .open(ReporteUsuariosComponent, {
+              data: this.config,
+              width: '100%',
+              height: '90%',
+            })
+            .afterClosed()
+            .pipe(takeUntil(this.onDestroy));
+        },
+        (error) => {
+          this._alerts.error(
+            'Error al buscar registro, verifique su conexión.'
+          );
+        }
+      );
+  }
 
   view(object: any) {
     const dialog = this._dialog.open(CubiculosRegistroModalComponent, {
       data: object,
       width: '100%',
-      height: '75%',
+      height: '90%',
     });
     dialog
       .afterClosed()
@@ -123,7 +248,6 @@ export class RegistrosComponent implements OnInit, AfterViewInit, OnDestroy {
     this._pagination.pagination = pageEvent.pageSize;
     this.pages = pageEvent.pageSize;
     this.index = pageEvent.pageIndex;
-    console.log(pageEvent);
     this.renderRows();
   }
 
@@ -139,14 +263,5 @@ export class RegistrosComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((result) => {
         this.renderRows();
       });
-  }
-
-  ngOnInit(): void {}
-  ngAfterViewInit(): void {
-    this.renderRows();
-  }
-  ngOnDestroy(): void {
-    this.onDestroy.next();
-    this.onDestroy.unsubscribe();
   }
 }

@@ -7,6 +7,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatRippleModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [AddUsuarioComponent],
@@ -15,11 +17,12 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     FormsModule,
     ReactiveFormsModule,
     MatSnackBarModule,
-    MatInputModule,
     MatIconModule,
     MatInputModule,
     MatButtonModule,
     MatFormFieldModule,
+    MatProgressSpinnerModule,
+    MatRippleModule,
   ],
   exports: [AddUsuarioComponent],
 })

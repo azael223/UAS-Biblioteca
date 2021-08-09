@@ -1,6 +1,7 @@
 <div class="sub-content animate__animated animate__fadeIn">
   <div class="custom-sub-navbar">
     <button
+    *ngIf="registros || admin"
       class="custom-sub-navbar-button"
       routerLink="registros"
       routerLinkActive="custom-sub-navbar-button-active"
@@ -8,6 +9,7 @@
       Registros
     </button>
     <button
+    *ngIf="cubiculos || admin"
       class="custom-sub-navbar-button"
       routerLink="cubiculos"
       routerLinkActive="custom-sub-navbar-button-active"

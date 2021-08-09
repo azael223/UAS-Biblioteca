@@ -4,6 +4,8 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Auth, AuthService } from 'app/core/services/auth.service';
 import { FormLib } from 'app/core/libs/Form.lib';
+import { PERMISOS } from '@models/Types';
+import { AlertsService } from '@services/alerts.service';
 
 @Component({
   selector: 'app-login',
@@ -14,12 +16,9 @@ export class LoginComponent implements OnInit {
   constructor(
     private _fb: FormBuilder,
     private _auth: AuthService,
-    private _router: Router
-  ) {
-    if (_auth.getAuth() && _auth.getAuth().usuario) {
-      this._router.navigateByUrl('admin');
-    }
-  }
+    private _router: Router,
+    private _alerts: AlertsService
+  ) {}
 
   public form = this._fb.group({
     username: new FormControl('', [Validators.required]),
@@ -41,22 +40,29 @@ export class LoginComponent implements OnInit {
   public isLoginInvalid = false;
   public loginError = '';
 
-  login() {
+  async login() {
     FormLib.markFormGroupTouched(this.form);
-    if (this.form.valid) {
-      this._auth.logIn(this.form.value).then((res: Auth) => {
-        if (res && res.usuario) {
-          this._router.navigateByUrl('admin');
-        } else if (res && res.error) {
-          this.loginError = 'Usuario o contraseña incorrectos.';
-          this.isLoginInvalid = true;
-        } else {
-          this.loginError = 'Error en servidor.';
-          this.isLoginInvalid = true;
-        }
-      });
+    try {
+      if (this.form.invalid) throw '';
+      let logged = await this._auth.logIn(this.form.value);
+      this.navigate();
+    } catch (error) {
+      this.isLoginInvalid = true;
+      this._alerts.error(error.error.error.message || error);
     }
   }
-
+  navigate() {
+    let usuario = this._auth.getAuth()
+      ? this._auth.getAuth().usuario
+      : undefined;
+    if (usuario && usuario.permisos) {
+      let { US_BIBLIOTECAS, US_CUBICULOS, US_EQUIPOS, ...permisos } = PERMISOS;
+      let adminaccess = usuario.permisos.some((uspermiso) =>
+        Object.keys(permisos).some((permiso) => permiso === uspermiso)
+      );
+      if (adminaccess) this._router.navigateByUrl('admin');
+      else this._router.navigateByUrl('shared');
+    }
+  }
   ngOnInit(): void {}
 }

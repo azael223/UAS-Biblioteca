@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AdminGuard } from 'app/core/guards/admin.guard';
+import { RoutesGuard } from '@guards/routes.guard';
+import { PERMISOS } from '@models/Types';
 import { EquiposComponent } from './pages/equipos/equipos.component';
 import { RegistrosComponent } from './pages/registros/registros.component';
 import { RecursosElectronicosComponent as MainComponent } from './recursos-electronicos.component';
@@ -13,11 +14,14 @@ const routes: Routes = [
       {
         path: 'equipos',
         component: EquiposComponent,
-        canActivate: [AdminGuard],
+        canActivate: [RoutesGuard],
+        data: { permisos: [PERMISOS.EQUIPOS] },
       },
       {
         path: 'registros',
         component: RegistrosComponent,
+        canActivate: [RoutesGuard],
+        data: { permisos: [PERMISOS.REG_EQUIPOS] },
       },
       { path: '', redirectTo: 'registros' },
     ],

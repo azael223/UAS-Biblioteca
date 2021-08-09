@@ -38,18 +38,32 @@ export class InstitucionesComponent
   public pages = this._pagination.pagination;
   public totalPages = 0;
   public PAGES = this._pagination.PAGES;
-
+  public filters: any = { status: 'A' };
   constructor(
     private _api: ApiService,
     private _dialog: MatDialog,
     private _pagination: PaginationService,
     private _alerts: AlertsService
   ) {}
+  ngOnInit(): void {}
+  ngAfterViewInit(): void {
+    this.renderRows();
+  }
+  ngOnDestroy(): void {
+    this.onDestroy.next();
+    this.onDestroy.unsubscribe();
+  }
+  search(searchParam) {
+    let like = { like: `%${searchParam}%` };
+    this.filters.or = [{ nombre: like }];
+    this.renderRows();
+  }
 
   renderRows(firstLoad?: boolean) {
-    let count$ = this._api.count(this.model);
+    this.loaded = false;
+    let count$ = this._api.count(this.model, this.filters);
     let instituciones$ = this._api.getObjects(this.model, {
-      where: { stauts: 'A' },
+      where: this.filters,
       order: 'creadoEn DESC',
       limit: this.pages,
       skip: this.pages * this.index,
@@ -106,14 +120,6 @@ export class InstitucionesComponent
       });
   }
 
-  // getIndex(index: number) {
-  //   return (
-  //     this.totalPages -
-  //     (this.index ? this.index : 1) * index -
-  //     this.pages * this.index
-  //   );
-  // }
-
   pagesChange(pageEvent: PageEvent) {
     this._pagination.pagination = pageEvent.pageSize;
     this.pages = pageEvent.pageSize;
@@ -133,14 +139,5 @@ export class InstitucionesComponent
       .subscribe((result) => {
         this.renderRows();
       });
-  }
-
-  ngOnInit(): void {}
-  ngAfterViewInit(): void {
-    this.renderRows();
-  }
-  ngOnDestroy(): void {
-    this.onDestroy.next();
-    this.onDestroy.unsubscribe();
   }
 }
