@@ -114,7 +114,7 @@ export class RegistrosComponent implements OnInit, AfterViewInit, OnDestroy {
 
   search(searchParam) {
     let like = { like: `%${searchParam}%` };
-    this.filters.or = [{ ur: like }, { biblioteca: like }];
+    this.filters.or = [{ ur: like }, { area: like }];
     this.renderRows();
   }
 
