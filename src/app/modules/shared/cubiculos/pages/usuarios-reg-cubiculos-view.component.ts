@@ -6,7 +6,7 @@ import { UsCubiculos } from '@models/usCubiculos.model';
 import { ApiService } from '@services/api.service';
 import { User } from '@components/user-registry-view/user-registry-view.component';
 import * as moment from 'moment';
-import { Subject } from 'rxjs';
+import { interval, Subject } from 'rxjs';
 import { finalize, takeUntil } from 'rxjs/operators';
 import { UsuariosRegCubiculosComponent } from '../components/usuarios-reg-cubiculos/usuarios-reg-cubiculos.component';
 import { AlertsService } from '@services/alerts.service';
@@ -26,6 +26,7 @@ export class UsuariosRegCubiculosViewComponent
   public registro: RegCubiculos;
   public usuarios: UsCubiculos[];
   public loaded = false;
+  private interval = 5;
 
   constructor(
     private _api: ApiService,
@@ -51,6 +52,11 @@ export class UsuariosRegCubiculosViewComponent
 
   ngAfterViewInit() {
     this.loadData();
+    interval(this.interval * 60 * 1000)
+      .pipe(takeUntil(this.onDestroy))
+      .subscribe(() => {
+        this.loadData();
+      });
   }
 
   get error() {

@@ -7,7 +7,7 @@ import { UsEquipos } from '@models/usEquipos.model';
 import { ApiService } from '@services/api.service';
 import { User } from '@components/user-registry-view/user-registry-view.component';
 import * as moment from 'moment';
-import { forkJoin, Subject } from 'rxjs';
+import { forkJoin, interval, Subject } from 'rxjs';
 import { finalize, takeUntil } from 'rxjs/operators';
 import { UsuariosRegRecElecComponent } from '../components/usuarios-reg-rec-elec/usuarios-reg-rec-elec.component';
 import { AlertsService } from '@services/alerts.service';
@@ -27,6 +27,7 @@ export class UsuariosRegRecElecViewComponent
   public registro: RegEquipos;
   public usuarios: UsEquipos[] = [];
   public loaded = false;
+  private interval = 5;
 
   constructor(
     private _api: ApiService,
@@ -52,6 +53,11 @@ export class UsuariosRegRecElecViewComponent
 
   ngAfterViewInit() {
     this.loadData();
+    interval(this.interval * 60 * 1000)
+      .pipe(takeUntil(this.onDestroy))
+      .subscribe(() => {
+        this.loadData();
+      });
   }
 
   get error() {

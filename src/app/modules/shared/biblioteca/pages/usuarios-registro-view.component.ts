@@ -11,7 +11,7 @@ import { RegBiblioteca } from '@models/regBiblioteca.model';
 import { UsBiblioteca } from '@models/usBiblioteca.model';
 import { Institucion } from '@models/institucion.model';
 import { ApiService } from '@services/api.service';
-import { forkJoin, Observable, Subject } from 'rxjs';
+import { forkJoin, interval, Observable, Subject } from 'rxjs';
 import { finalize, takeUntil } from 'rxjs/operators';
 import {
   MatDialog,
@@ -38,6 +38,7 @@ export class UsuariosRegistroViewComponent
   public registro: RegBiblioteca;
   public usuarios: UsBiblioteca[];
   public loaded = false;
+  public interval = 5;
 
   constructor(
     private _api: ApiService,
@@ -63,6 +64,11 @@ export class UsuariosRegistroViewComponent
 
   ngAfterViewInit() {
     this.loadData();
+    interval(this.interval * 60 * 1000)
+      .pipe(takeUntil(this.onDestroy))
+      .subscribe(() => {
+        this.loadData();
+      });
   }
 
   get error() {
