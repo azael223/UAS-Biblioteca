@@ -48,7 +48,12 @@ export class LoginComponent implements OnInit {
       this.navigate();
     } catch (error) {
       this.isLoginInvalid = true;
-      this._alerts.error(error.error.error.message || error);
+      let message =
+        error.error && error.error.error
+          ? error.error.error.message
+          : undefined;
+          console.log(error)
+      this._alerts.error(message || 'No se pudo establecer conexión.');
     }
   }
   navigate() {
